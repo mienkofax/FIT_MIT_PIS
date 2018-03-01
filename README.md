@@ -1,5 +1,10 @@
 # PIS project setup
 
+## About project
+
+ * [Lekáreň (34) - zadanie](https://wis.fit.vutbr.cz/FIT/st/cwk.php?title=AIS:Projects-topics&csid=648413&id=11321#L%C3%A9k%C3%A1rna)
+ * [Zadanie projektu do predmetu PIS](https://www.fit.vutbr.cz/study/courses/PIS/private/cviceni/projekt.html)
+
 #### 1. Clone git
 
 ```
