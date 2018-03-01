@@ -1,17 +1,18 @@
 {
 	"name": "nette/sandbox",
-	"description": "The sandbox is a pre-packaged Nette Framework project, basic configured structure for your application.",
-	"homepage": "https://nette.org",
+	"description": "Project for PIS (Pharmacy).",
 	"type": "project",
 	"license": ["BSD-3-Clause", "GPL-2.0", "GPL-3.0"],
 	"authors": [
 		{
-			"name": "David Grudl",
-			"homepage": "https://davidgrudl.com"
+			"name": "Jozef Halaj"
 		},
 		{
-			"name": "Nette Community",
-			"homepage": "https://nette.org/contributors"
+			"name": "Klára Nečasová"
+		},
+		{
+			"name": "Peter Tisovčík",
+			"homepage": "https://mienkofax.eu"
 		}
 	],
 	"require": {
