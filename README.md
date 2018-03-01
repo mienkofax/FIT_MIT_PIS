@@ -1,15 +1,19 @@
-# PIS
+# PIS project setup
 
-## Web server setup
+#### 1. Clone git
 
-1. clone git
+```
+git clone git@github.com:mienkofax/PIS.git
+```
 
-2. make directories `tmp/` and `log/` writable.
+#### 2. Make directories `tmp/` and `log/` writable
+
 ```bash
 sudo chmod -R a+rw tmp log
 ```
 
-3. download libraries
+#### 3. Download nette dependencies
+
 ```bash
 composer install
 ```
@@ -44,9 +48,12 @@ sudo usermod -a -G www-data $USER
 sudo apt-get install composer
 ```
 
-#Other
+## Other
 
 ## Create nette project (unnecessary)
+
+```
 composer create-project nette/sandbox pharmacy
 cd pharmacy
 composer require kdyby/doctrine
+```
