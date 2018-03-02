@@ -20,7 +20,7 @@ sudo chmod -R a+rw tmp log
 #### 3. Download nette dependencies
 
 ```bash
-composer install
+composer update
 ```
 
 #### 4. Configure db
