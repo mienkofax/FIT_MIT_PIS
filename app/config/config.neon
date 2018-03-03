@@ -25,6 +25,7 @@ database:
 
 services:
 	- App\Model\Facades\UserFacade
+	- App\Forms\SignFormFactory
 	router: App\RouterFactory::createRouter
 
 
