@@ -1,2 +1,21 @@
+{define title}Administrace webu{/define}
+{define description}Administrace webu.{/define}
 {block content}
-<h2>{_homepage.header}</h2>
+<ul class="list nav nav-tabs">
+	<li><a data-toggle="tab" href="#sectionA">Domov</a></li>
+</ul>
+
+<div class="tab-content content home">
+	<div id="sectionA" class="tab-pane fade in active">
+		<h2>Projekt do predmetu PIS (Lékárna)</h2>
+
+		<blockquote>
+			Vaším úkolem je vývoj IS lékárny. Lékárna vydává občanům léky jak na předpis, tak za hotové.
+			U léků vydávaných na předpis může část ceny hradit zdravotní pojišťovna. Některé léky se
+			vydávají pouze na předpis. Systém musí umožnit evidenci vydávaných léků, import příspěvků
+			na léky od zdravotních pojišťoven (může se čas od času měnit), musí poskytovat export
+			výkazů pro zdravotní pojišťovny a musí mít vazbu na skladové zásoby (vidět, zda
+			požadovaný lék je na skladě). Léky jsou identifikovány číselným kódem či názvem.
+		</blockquote>
+	</div>
+</div>
