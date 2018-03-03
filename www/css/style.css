@@ -1,50 +1,160 @@
-body {
-	font-size: 15px;
-	line-height: 1.6;
-	color: #333;
-	background: white;
+* {
+	font-family: 'Open Sans', sans-serif;
+}
+h2 {
+	margin-bottom: 20px;
+}
+h4 {
+	margin-top: 20px;
+}
+.top-panel {
+	background: #0e76bc;
+	border-bottom: 5px solid #8dc63f;
+	padding: 10px 0;
+}
+.top-panel a {
+	color: #fff;
+}
+
+.menu-bg {
+	background: #404040;
+	border-radius: 5px;
+}
+
+ul.menu {
+	list-style-type: none;
+	padding: 10px 0;
+	margin-top: 40px;
+}
+ul.menu li a {
+	display: block;
+	color: #fff;
+	padding: 5px 10px;
+}
+
+ul.menu li a:hover {
+	color: #fff;
+}
+
+.space-top {
+	margin-top: 25px;
+	margin-bottom: 60px;
+}
+
+.btn-add {
+	float: right;
+}
+
+.required label { color: maroon }
+
+.none {
+	display: none;
+}
+.sort {
+	display: block;
+	float: right;
+}
+.sort a {
+	display: block;
+	font-size: 11px;
+}
+.sort .glyphicon-chevron-down {
+	top: -5px;
+}
+.title {
+	float: left;
+}
+.content {
+	border: 1px solid #e5e5e5;
+	background: #f7f7f7;
+	border-radius: 5px;
+	padding-bottom: 10px;
+	overflow: hidden;
+	color: #5b5b5b;
+	border-top-left-radius: 0px;
+	border-top-right-radius: 0px;
+	border-top: none !Important;
+	padding: 0 15px 15px 15px;
+}
+
+h4 {
+	color: #8dc63f;
+}
+
+.detail-links p {
+	overflow: auto;
+}
+.detail-links a {
+	float: left;
+}
+.hr {
+	border-top: 1px solid #c8c8c8;
+	margin-top: 25px;
+}
+.sort-icon {
+	top: 3px !important;
+}
+.custom-form input {
+	margin: 5px 8px;
+}
+
+.glyphicon-edit {
+	font-size: 17px;
+	color: green;
+	margin-right: 5px;
+}
+.glyphicon-remove-circle {
+	font-size: 17px;
+	color: red;
+}
+
+.action:hover {
+	text-decoration: none;
+}
+.link:hover {
+	color: #77c708;
+	text-decoration: none;
+}
+
+.table-hover>tbody>tr:hover
+{
+	background: #efefef;
 }
 
 h1 {
-	color: #3484D2;
+	margin: 0px;
+	text-align: center;
+	margin-bottom: 10px;
 }
 
-#ajax-spinner {
-	margin: 15px 0 0 15px;
-	padding: 13px;
-	background: white url('../images/spinner.gif') no-repeat 50% 50%;
-	font-size: 0;
-	z-index: 123456;
-	display: none;
+.home th {
+	text-align: center;
 }
 
-div.flash {
-	color: black;
-	background: #FFF9D7;
-	border: 1px solid #E2C822;
-	padding: 1em;
-	margin: 1em 0;
+.home h3 {
+	text-align: center !important;
+}
+.home .glyphicon-ok-circle {
+	color: green;
+	font-size: 16px;
+}
+.home .glyphicon-remove-circle {
+	color: red;
+	font-size: 16px;
+}
+blockquote {
+	text-align: justify;
+}
+footer {
+	background: #0e76bc;
+	text-align: center;
+	padding: 15px;
+	color: #fff;
+	border-top: 5px solid #8dc63f;
 }
 
-a[href^="#error:"] {
-	background: red;
-	color: white;
-}
-
-form th, form td {
-	vertical-align: top;
-	font-weight: normal;
-}
-
-form th {
-	text-align: right;
-}
-
-form .required label {
-	font-weight: bold;
-}
-
-form .error {
-	color: #D00;
-	font-weight: bold;
+.checkbox.login-remember {
+	float: left;
+	margin-top: -3px;
+	margin-right: 10px;
 }

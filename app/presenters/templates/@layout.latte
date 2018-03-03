@@ -1,28 +1,95 @@
-{**
- * @param string   $basePath web base path
- * @param array    $flashes  flash messages
- *}
 <!DOCTYPE html>
 <html>
 <head>
 	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<title>PIS projekt{ifset title} | {include title|stripHtml}{/ifset}</title>
 
-	<title>{ifset title}{include title|stripHtml} | {/ifset}Nette Sandbox</title>
+	<link rel="icon" href="{$basePath}/images/pharmacy.ico">
 
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="{$basePath}/css/style.css">
-	{block head}{/block}
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+	<link href="{$basePath}/css/style.css" rel="stylesheet" media="screen">
 </head>
 
 <body>
-	<div n:foreach="$flashes as $flash" n:class="flash, $flash->type">{$flash->message}</div>
 
-	{include content}
+<div class="top-panel">
+	<div class="container">
+		<div class="col-sm-7">
+			{if $user->loggedIn}
+				Prihlásený používateľ: <a>{$userEntity->getFullName()} ({$userEntity->email})</a>
+			{/if}
+		</div>
 
-	{block scripts}
-	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+		<div class="col-sm-5 text-right">
+			{if $user->loggedIn}
+				<a n:href="logout!">
+					<span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> Odhlásiť
+				</a>
+			{else}
+				<a n:href="Sign:in">
+					<span class="glyphicon glyphicon-log-in" aria-hidden="true"></span> Prihlásiť
+				</a>
+				<a n:href="Sign:up">
+					<span class="glyphicon glyphicon-user" aria-hidden="true"></span> Registrovať
+				</a>
+			{/if}
+		</div>
+	</div>
+</div>
+
+
+<!-- zobrazenie sprav -->
+{foreach $flashes as $flash}
+	<div class="alert alert-{$flash->type} fade in text-center">
+		<a href="#" class="close" data-dismiss="alert">&times;</a>
+		{$flash->message}
+	</div>
+{/foreach}
+
+<div class="container space-top">
+	<div class="col-md-3">
+		<ul class="menu menu-bg">
+			<li><a n:href="Homepage:default">Domov</a></li>
+		</ul>
+	</div>
+
+	<!-- obsah modulov -->
+	<div class="col-md-9">
+		{include content}
+	</div>
+</div>
+
+{block scripts}
 	<script src="https://nette.github.io/resources/js/netteForms.min.js"></script>
-	<script src="{$basePath}/js/main.js"></script>
-	{/block}
+
+	<script src="{$basePath}/js/bootstrap.min.js"></script>
+
+	<script>
+		// nastavenie prveho tabu, aby bol vzdy aktivny po otvoreni stranky
+		splittedData = $(location).attr('pathname').split('/')[2];
+		$('.detail.nav-tabs li a').click(function() {
+			data = $(this).attr("href");
+			if (typeof(Storage) !== "undefined")
+				localStorage.setItem(splittedData, data);
+		});
+
+		if ($('.detail.nav-tabs').length) {
+			console.log("data");
+			data = localStorage.getItem(splittedData);
+			if (!data)
+				data = "#sectionA";
+
+			$('a[href="'+data+'"]').tab('show');
+		}
+		else {
+			$('a[href="#sectionA"]').tab('show');
+		}
+
+	$(".custom-form")[0].reset();
+	</script>
+{/block}
 </body>
 </html>
