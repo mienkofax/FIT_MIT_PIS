@@ -24,6 +24,7 @@ database:
 
 
 services:
+	- App\Model\Facades\UserFacade
 	router: App\RouterFactory::createRouter
 
 
