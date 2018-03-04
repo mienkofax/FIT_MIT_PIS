@@ -2,33 +2,19 @@
 
 namespace App\Forms;
 
-use App\Model\Facades\UserFacade;
 use Nette\Database\UniqueConstraintViolationException;
 use Nette;
 use Nette\Application\UI\Form;
 use Nette\Security\AuthenticationException;
-use Nette\Security\User;
 use Nette\Utils\ArrayHash;
 
 /**
  * Tovaren pre vytvorenie formulara na prihlasenie a registrovanie.
  * @package App\Forms
  */
-class SignFormFactory
+class SignFormFactory extends BaseFormFactory
 {
 	use Nette\SmartObject;
-
-	/** @var UserFacade Fasada pre pracu s uzivatelmi. */
-	private $userFacade;
-
-	/** @var User Informacie o uzivatelo (jedna sa o Nette triedu). */
-	private $user;
-
-	public function __construct(UserFacade $userFacade, User $user)
-	{
-		$this->userFacade = $userFacade;
-		$this->user = $user;
-	}
 
 	/**
 	 * Vytvorenie formulara pre registrovanie uzivatela.
