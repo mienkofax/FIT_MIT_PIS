@@ -3,7 +3,6 @@
 namespace App\Model\Facades;
 
 use App\Model\Entities\User;
-use Kdyby\Doctrine\EntityManager;
 use Nette;
 use Nette\Database\UniqueConstraintViolationException;
 use Nette\Security\AuthenticationException;
@@ -17,17 +16,9 @@ use Nette\Utils\DateTime;
  * Fasada pre spravu uzivatelov.
  * @package App\Model\Facades
  */
-class UserFacade implements IAuthenticator
+class UserFacade extends BaseFacade implements IAuthenticator
 {
 	use Nette\SmartObject;
-
-	/** @var EntityManager Manager pre pracu s entitami. */
-	private $entityManager;
-
-	function __construct(EntityManager $entityManager)
-	{
-		$this->entityManager = $entityManager;
-	}
 
 	/**
 	 * Vyhladanie uzivatela podla zadaneho ID.
