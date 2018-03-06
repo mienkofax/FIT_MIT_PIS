@@ -29,6 +29,7 @@ services:
 	- App\Model\Facades\UserFacade
 	- App\Forms\MedicineFormFactory
 	- App\Forms\SignFormFactory
+	- App\Forms\SupplierFormFactory
 	router: App\RouterFactory::createRouter
 
 
