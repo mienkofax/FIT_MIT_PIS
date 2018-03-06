@@ -16,10 +16,10 @@ class BaseFormFactory
 	use Nette\SmartObject;
 
 	/** @var UserFacade Fasada pre pracu s uzivatelmi. */
-	private $userFacade;
+	protected $userFacade;
 
 	/** @var User Informacie o uzivatelo (jedna sa o Nette triedu). */
-	private $user;
+	protected $user;
 
 	/**
 	 * Konstruktor s injektovanou triedami pre pracu s uzivatelmi.

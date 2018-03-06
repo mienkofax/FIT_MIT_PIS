@@ -24,7 +24,9 @@ database:
 
 
 services:
+	- App\Model\Facades\MedicineFacade
 	- App\Model\Facades\UserFacade
+	- App\Forms\MedicineFormFactory
 	- App\Forms\SignFormFactory
 	router: App\RouterFactory::createRouter
 

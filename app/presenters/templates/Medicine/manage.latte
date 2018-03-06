@@ -1,0 +1,14 @@
+{define title}Sprava liekov{/define}
+{define description}Výpis všetkých liekov.{/define}
+{block content}
+<ul class="list nav nav-tabs">
+	<li><a data-toggle="tab" href="#sectionA">Zoznam poisťovní</a></li>
+</ul>
+
+<div class="tab-content content">
+	<div id="sectionA" class="tab-pane fade in active">
+		<h2>Zoznam poisťovní</h2>
+
+		<a class="btn btn-primary btn-add" n:href="Medicine:create">Pridať liek</a>
+	</div>
+</div>
