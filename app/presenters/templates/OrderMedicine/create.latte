@@ -1,0 +1,15 @@
+{define title}Vytvorenie objednávky{/define}
+{define description}Vytvorenie objednávky.{/define}
+{block content}
+<ul class="list nav nav-tabs">
+	<li><a data-toggle="tab" href="#sectionA">Vytvorenie novej objednávky</a></li>
+</ul>
+
+<div class="custom-data" style="display: none;">{$db}</div>
+
+<div class="tab-content content">
+	<div id="sectionA" class="tab-pane fade in active">
+		<h2>Vytvorenie novej objednávky</h2>
+		{control createOrderForm}
+	</div>
+</div>

@@ -40,7 +40,6 @@
 	</div>
 </div>
 
-
 <!-- zobrazenie sprav -->
 {foreach $flashes as $flash}
 	<div class="alert alert-{$flash->type} fade in text-center">
@@ -56,6 +55,7 @@
 			<li><a n:href="Medicine:manage">Správa liekov</a></li>
 			<li><a n:href="Supplier:manage">Správa dodávateľov</a></li>
 			<li><a n:href="StockMedicine:manage">Správa skladových zásob</a></li>
+			<li><a n:href="OrderMedicine:manage">Správa objednávok</a></li>
 		</ul>
 	</div>
 
@@ -91,7 +91,54 @@
 			$('a[href="#sectionA"]').tab('show');
 		}
 
-	$(".custom-form")[0].reset();
+		var json = jQuery.parseJSON($(".custom-data").text());
+		$("select").click(function(e){
+			// index aktualneho selectu, generuje form replicator
+			var $itemIndex = $(this).attr("name").match(/\d+/)[0];
+
+			var $medicineID = 'items[' + $itemIndex +'][medicine_id]';
+			var $supplierID = 'items[' + $itemIndex +'][supplier_id]';
+
+			if ($(this).attr("name") == $medicineID) {
+				var $suppliers;
+				for (i = 0; i < json['medicines'].length; i++) {
+					if (json['medicines'][i].id == $(this).val())
+						$suppliers =  json['medicines'][i].suppliers;
+				}
+
+				// vymazanie starych options
+				$('#frm-createOrderForm-items-'+$itemIndex+'-supplier_id').find('option:not(:first)').remove();
+				// vymazanie ceny
+				$('#frm-createOrderForm-items-'+$itemIndex+'-price').val("");
+
+				// naplnenie novymi options
+				for (i = 0; i < $suppliers.length; i++) {
+					var $opt = '<option value="';
+					$opt += $suppliers[i].id;
+					$opt += '">';
+					$opt += $suppliers[i].name;
+					$opt += '</option>'
+
+					// pridanie noveho inputu
+					$('#frm-createOrderForm-items-'+$itemIndex+'-supplier_id').append($opt);
+				}
+			}
+
+			if ($(this).attr("name") == $supplierID) {
+				var $medID = $('#frm-createOrderForm-items-'+$itemIndex+'-medicine_id').val();
+
+				for (k = 0; k < json['medicines'].length; k++) {
+					if (json['medicines'][k].id != $medID)
+						continue;
+
+					for (i = 0; i < json['medicines'].length; i++) {
+						if (json['medicines'][k].suppliers[i].id == $(this).val())
+							$('#frm-createOrderForm-items-'+$itemIndex+'-price').val(
+								json['medicines'][k].suppliers[i].price);
+					}
+				}
+			}
+		});
 	</script>
 {/block}
 </body>
