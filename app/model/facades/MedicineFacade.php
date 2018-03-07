@@ -31,6 +31,31 @@ class MedicineFacade extends BaseFacade
 	}
 
 	/**
+	 * Zistenie poctu liekov.
+	 * @return int pocet liekov
+	 * @throws \Doctrine\ORM\NoResultException
+	 * @throws \Doctrine\ORM\NonUniqueResultException
+	 */
+	public function getMedicinesCount()
+	{
+		return (int)$this->entityManager->createQuery("
+				SELECT COUNT(m.id)
+				FROM App\Model\Entities\Medicine m
+		")->getSingleScalarResult();
+	}
+
+	/**
+	 * Asociativne pole liekov s ich id a nazvami.
+	 * @param $data
+	 * @throws \Exception
+	 */
+	public function getIdsAndName()
+	{
+		return $this->entityManager->getRepository(Medicine::class)
+			->findPairs([], "name", [], "id");
+	}
+
+	/**
 	 * Vytvorenie lieku z udajov, ktore boli vyplne vo formulari.
 	 * @param $data
 	 * @throws \Exception

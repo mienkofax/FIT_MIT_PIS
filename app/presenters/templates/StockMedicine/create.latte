@@ -1,0 +1,26 @@
+{define title}Vytvorenie skladovej zásoby{/define}
+{define description}Vytvorenie skladovej zásoby.{/define}
+{block content}
+<ul class="list nav nav-tabs">
+	<li><a data-toggle="tab" href="#sectionA">Vytvorenie novej skladovej zásoby</a></li>
+</ul>
+
+<div class="tab-content content">
+	<div id="sectionA" class="tab-pane fade in active">
+		<h2>Vytvorenie novej skladovej zásoby</h2>
+		{if $medicineCount == 0}
+			<p class ="missing-items">Zatiaľ nemáte pridané žiadne lieky, prosím pridajte lieky (
+			<a n:href="Medicine:create">Pridať liek</a> ).
+			</p>
+		{/if}
+		{if $supplierCount == 0}
+			<p class ="missing-items">Zatiaľ nemáte pridaných žiadnych dodávateľov, prosím
+				pridajte dodávateľov
+				( <a n:href="Supplier:create">Pridať dodávateľa</a> ).
+			</p>
+		{/if}
+		{if $medicineCount > 0 && $supplierCount > 0}
+			{control createStockMedicineForm}
+		{/if}
+	</div>
+</div>
