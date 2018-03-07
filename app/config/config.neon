@@ -25,6 +25,7 @@ database:
 
 services:
 	- App\Model\Facades\MedicineFacade
+	- App\Model\Facades\StockMedicineFacade
 	- App\Model\Facades\SupplierFacade
 	- App\Model\Facades\UserFacade
 	- App\Forms\MedicineFormFactory
