@@ -49,4 +49,19 @@ class StockMedicineQueryList extends QueryObject
 
 		return $this;
 	}
+
+	/**
+	 * Filter pre vyber skladovych zason na zaklade zadaneho id dodavatela.
+	 * @param $id int Id dodavatela
+	 * @return $this
+	 */
+	public function onlySupplierMedicines($id)
+	{
+		$this->filters[] = function(QueryBuilder $qb) use ($id) {
+			$qb->andWhere("sm.supplier = :supplier")
+				->setParameter("supplier", $id);
+		};
+
+		return $this;
+	}
 }

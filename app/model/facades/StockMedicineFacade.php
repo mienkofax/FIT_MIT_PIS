@@ -32,6 +32,109 @@ class StockMedicineFacade extends BaseFacade
 	}
 
 	/**
+	 * Vyber vsetkych zaznamov.
+	 * @return array
+	 */
+	public function getAll()
+	{
+		$query = new StockMedicineQueryList();
+		return $this->entityManager
+			->getRepository(StockMedicine::class)
+			->fetch($query);
+	}
+
+	/**
+	 * Vrati zoznam liekov, ktore sa nachadzaju v sklade, cize lieky,
+	 * ktore dodavaju dodavatelia.
+	 * @return array Asociativne pole, ktore obsahuje id lieku a nazov lieku.
+	 */
+	public function getMedicinesAsArray()
+	{
+		$medicines = array();
+
+		foreach ($this->getAll() as $stockItem)
+			$medicines[$stockItem->medicine->id] = $stockItem->medicine->name;
+
+		return $medicines;
+	}
+
+	/**
+	 * Vrati zoznam dodavatelov, ktori sa nachadzaju v sklade, cize dodavatelia,
+	 * ktori dodavaju lieky.
+	 * @return array Asociativne pole, ktore obsahuje id dodavatela a nazov dodavatela.
+	 */
+	public function getSuppliersAsArray()
+	{
+		$medicines = array();
+
+		foreach ($this->getAll() as $stockItem)
+			$medicines[$stockItem->supplier->id] = $stockItem->supplier->name;
+
+		return $medicines;
+	}
+
+	/**
+	 * Na zaklade zadaneho id lieku vrati zoznam dodavatelov, ktori
+	 * dany liek dodavaju do lekarne.
+	 * @param $id int ID lieku
+	 * @return array|\Kdyby\Doctrine\ResultSet
+	 */
+	public function getMedicineSupplier($id)
+	{
+		$query = new StockMedicineQueryList();
+		$query->onlyMedicineSupplies($id);
+		return $this->entityManager->getRepository(StockMedicine::class)
+			->fetch($query);
+	}
+
+	/**
+	 * Na zaklade zadaneho id lieku vrati zoznam dodavatelov, ktori
+	 * dany liek dodavaju do lekarne.
+	 * @param $id int ID lieku
+	 * @return array Asociativne pole, ktore obsahuje id dodavatela
+	 * a nazov dodavatela.
+	 */
+	public function getMedicineSupplierAsArray($id)
+	{
+		$medicineSuppliers = array();
+
+		foreach ($this->getMedicineSupplier($id) as $supplier)
+			$medicineSuppliers[$supplier->supplier->id] = $supplier->supplier->name;
+
+		return $medicineSuppliers;
+	}
+
+	/**
+	 * Zaznam o skladovej zasobe na zaklade id lieku a id dodavatela.
+	 * @param $medicine int Id lieku
+	 * @param $supplier int id dodavatela
+	 * @return array|\Kdyby\Doctrine\ResultSet
+	 */
+	public function getSupplierMedicine($medicine, $supplier)
+	{
+		$query = new StockMedicineQueryList();
+		$query->onlyMedicineSupplies($medicine);
+		$query->onlySupplierMedicines($supplier);
+		return $this->entityManager->getRepository(StockMedicine::class)
+			->fetch($query);
+	}
+
+	/**
+	 * Zisti cenu skladovej zasoby na zaklade id.
+	 * @param $medicine int
+	 * @param $supplier int
+	 * @return mixed cena skladovej polozky
+	 */
+	public function getStockItemPrice($medicine, $supplier)
+	{
+		if ($this->getSupplierMedicine($medicine, $supplier)->count() != 1)
+			throw new \InvalidArgumentException("Databáza obsahuje niekoľko zhodných liekov a dodávateľov");
+
+		foreach ($this->getSupplierMedicine($medicine, $supplier) as $item)
+			return $item->price;
+	}
+
+	/**
 	 * Vytvorenie skladovej zasoby.
 	 * @param $values
 	 * @param $medicine
