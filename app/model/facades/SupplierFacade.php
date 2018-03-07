@@ -40,6 +40,20 @@ class SupplierFacade extends BaseFacade
 			->findPairs([], "name", [], "id");
 	}
 
+	/*
+	 * Zistenie poctu dodavatelov.
+	 * @return int pocet dodavatelov
+	 * @throws \Doctrine\ORM\NoResultException
+	 * @throws \Doctrine\ORM\NonUniqueResultException
+	 */
+	public function getSuppliersCount()
+	{
+		return (int) $this->entityManager->createQuery("
+				SELECT COUNT (s.id)
+				FROM App\Model\Entities\Supplier s
+		")->getSingleScalarResult();
+	}
+
 	/**
 	 * Vytvorenie dodavatela z dat zastalych z formulara.
 	 * @param $data

@@ -49,6 +49,18 @@ class StockMedicinePresenter extends BasePresenter
 	}
 
 	/**
+	 * Nastavenie premenych do sablony, ktore obsahuju pocet
+	 * liekov a dodavatelov.
+	 */
+	public function renderCreate()
+	{
+		$this->template->medicineCount =
+			$this->medicineFacade->getMedicinesCount();
+		$this->template->supplierCount =
+			$this->supplierFacade->getSuppliersCount();
+	}
+
+	/**
 	 * Vytvorenie komponenty a vratenie komponenty pre pridanie
 	 * skladovej zasoby.
 	 * @return Form
