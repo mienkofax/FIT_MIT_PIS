@@ -31,6 +31,16 @@ class SupplierFacade extends BaseFacade
 	}
 
 	/**
+	 * Asociativne pole dodavatelov s ich id a nazvami.
+	 * @return array
+	 */
+	public function getIdsAndName()
+	{
+		return $this->entityManager->getRepository(Supplier::class)
+			->findPairs([], "name", [], "id");
+	}
+
+	/**
 	 * Vytvorenie dodavatela z dat zastalych z formulara.
 	 * @param $data
 	 * @throws \Exception
