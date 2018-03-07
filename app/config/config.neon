@@ -30,6 +30,7 @@ services:
 	- App\Model\Facades\SupplierFacade
 	- App\Model\Facades\UserFacade
 	- App\Forms\MedicineFormFactory
+	- App\Forms\OrderMedicineFormFactory
 	- App\Forms\SignFormFactory
 	- App\Forms\StockMedicineFormFactory
 	- App\Forms\SupplierFormFactory
