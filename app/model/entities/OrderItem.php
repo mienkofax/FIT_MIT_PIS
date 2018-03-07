@@ -41,7 +41,7 @@ class OrderItem extends BaseEntity
 
 	/**
 	 * Niekolko poloziek objednavky ma jednu objednavku.
-	 * @ORM\ManyToOne(targetEntity="Order", inversedBy="orderItems")
+	 * @ORM\ManyToOne(targetEntity="OrderMedicine", inversedBy="orderItems")
 	 * @ORM\JoinColumn(name="order_id", referencedColumnName="id")
 	 */
 	protected $order;
