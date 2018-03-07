@@ -30,7 +30,7 @@ class OrderMedicine extends BaseEntity
 	 * Cas vytvorenia.
 	 * @ORM\Column(type="datetime")
 	 */
-	protected $dateTime;
+	protected $createdTime;
 
 	/**
 	 * Jedna objednavka ma niekolko poloziek.
