@@ -3,6 +3,7 @@
 namespace App\Model\Facades;
 
 use App\Model\Entities\Supplier;
+use App\Model\Queries\SupplierListQuery;
 use Nette;
 
 /**
@@ -13,6 +14,21 @@ use Nette;
 class SupplierFacade extends BaseFacade
 {
 	use Nette\SmartObject;
+
+	/**
+	 * Zoznam dodavatelov zoradeny podla stlpca a podla sposobu
+	 * zoradenia.
+	 * @param $column string
+	 * @param $sort string
+	 * @return array
+	 */
+	public function getAllAsArray($column, $sort)
+	{
+		$query = new SupplierListQuery();
+		$query->orderBy($column, $sort);
+
+		return $this->entityManager->fetch($query)->toArray();
+	}
 
 	/**
 	 * Vyhladanie a vratenie dodavatela na zaklade zadaneho id.
