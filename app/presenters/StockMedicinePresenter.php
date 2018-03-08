@@ -60,6 +60,12 @@ class StockMedicinePresenter extends BasePresenter
 			$this->supplierFacade->getSuppliersCount();
 	}
 
+	public function renderManage($column, $sort)
+	{
+		$this->template->stockItems =
+			$this->stockMedicineFacade->getAllAsArray($column, $sort);
+	}
+
 	/**
 	 * Vytvorenie komponenty a vratenie komponenty pre pridanie
 	 * skladovej zasoby.

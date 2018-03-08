@@ -44,6 +44,21 @@ class StockMedicineFacade extends BaseFacade
 	}
 
 	/**
+	 * Zoznam skladovych zasob zoradeny podla stlpca a podla sposobu
+	 * zoradenia.
+	 * @param $column string
+	 * @param $sort string
+	 * @return array
+	 */
+	public function getAllAsArray($column, $sort)
+	{
+		$query = new StockMedicineQueryList();
+		$query->orderBy($column, $sort);
+
+		return $this->entityManager->fetch($query);
+	}
+
+	/**
 	 * Vrati zoznam liekov, ktore sa nachadzaju v sklade, cize lieky,
 	 * ktore dodavaju dodavatelia.
 	 * @return array Asociativne pole, ktore obsahuje id lieku a nazov lieku.

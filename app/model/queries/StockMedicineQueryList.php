@@ -2,8 +2,6 @@
 
 namespace App\Model\Queries;
 
-use App\Model\Entities\Article;
-use App\Model\Entities\ArticleCategory;
 use App\Model\Entities\StockMedicine;
 use Doctrine\ORM\QueryBuilder;
 use Kdyby;
@@ -15,6 +13,8 @@ use Kdyby\Doctrine\QueryObject;
  */
 class StockMedicineQueryList extends QueryObject
 {
+	const SUPPORTED_COLUMNS = array("medicine", "supplier", "count", "price");
+
 	/** @var array Pole filtrov, ktore sa nasledne aplikuju na dotaz */
 	private $filters = array();
 
@@ -61,6 +61,28 @@ class StockMedicineQueryList extends QueryObject
 			$qb->andWhere("sm.supplier = :supplier")
 				->setParameter("supplier", $id);
 		};
+
+		return $this;
+	}
+
+	/**
+	 * Metoda pre zoradenie na zaklade zadaneho stlpca a sposobu zoradenia.
+	 * @param string $column nazov stlpca
+	 * @param string $order typ zoradenie ASC|DESC
+	 * @return $this
+	 */
+	public function orderBy($column = "count", $order = "asc")
+	{
+		if ($order != "asc" && $order != "desc")
+			$order = "asc";
+
+		if (!in_array($column, self::SUPPORTED_COLUMNS))
+			$column = "count";
+
+		$this->filters[] =
+			function (QueryBuilder $qb) use ($order, $column) {
+				$qb->addOrderBy("sm." . $column, $order);
+			};
 
 		return $this;
 	}
