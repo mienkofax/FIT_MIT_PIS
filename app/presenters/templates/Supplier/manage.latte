@@ -9,6 +9,56 @@
 	<div id="sectionA" class="tab-pane fade in active">
 		<h2>Zoznam dodávateľov</h2>
 
+		<table class="table table-hover">
+			<thread>
+				<tr>
+					<th>
+						Kód
+						<a n:href="Supplier:manage id, asc">
+							<span class="glyphicon glyphicon-chevron-up sort-icon" aria-hidden="true"></span>
+						</a>
+						<a n:href="Supplier:manage id, desc">
+							<span class="glyphicon glyphicon-chevron-down sort-icon" aria-hidden="true"></span>
+						</a>
+					</th>
+					<th>
+						Názov
+						<a n:href="Supplier:manage name, asc">
+							<span class="glyphicon glyphicon-chevron-up sort-icon" aria-hidden="true"></span>
+						</a>
+						<a n:href="Supplier:manage name, desc">
+							<span class="glyphicon glyphicon-chevron-down sort-icon" aria-hidden="true"></span>
+						</a>
+					</th>
+					<th>
+						Mesto
+						<a n:href="Supplier:manage city, asc">
+							<span class="glyphicon glyphicon-chevron-up sort-icon" aria-hidden="true"></span>
+						</a>
+						<a n:href="Supplier:manage city, desc">
+							<span class="glyphicon glyphicon-chevron-down sort-icon" aria-hidden="true"></span>
+						</a>
+					</th>
+					<th>Adresa</th>
+				</tr>
+			</thread>
+			<tr n:foreach="$suppliers as $item">
+
+				<td>
+					{$item->id}
+				</td>
+				<td>
+					{$item->name}
+				</td>
+				<td>
+					{$item->city}
+				</td>
+				<td>
+					{$item->street}, {$item->houseNumber}
+				</td>
+			</tr>
+		</table>
+
 		<a class="btn btn-primary btn-add" n:href="Supplier:create">Pridať dodávateľa</a>
 	</div>
 </div>
