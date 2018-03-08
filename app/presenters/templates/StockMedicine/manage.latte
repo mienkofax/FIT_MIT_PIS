@@ -9,6 +9,64 @@
 	<div id="sectionA" class="tab-pane fade in active">
 		<h2>Zoznam skladových zásob</h2>
 
+		<table class="table table-hover">
+			<thread>
+				<tr>
+					<th>
+						Liek
+						<a n:href="StockMedicine:manage medicine, asc">
+							<span class="glyphicon glyphicon-chevron-up sort-icon" aria-hidden="true"></span>
+						</a>
+						<a n:href="StockMedicine:manage medicine, desc">
+							<span class="glyphicon glyphicon-chevron-down sort-icon" aria-hidden="true"></span>
+						</a>
+					</th>
+					<th>
+						Dodávateľ
+						<a n:href="StockMedicine:manage supplier, asc">
+							<span class="glyphicon glyphicon-chevron-up sort-icon" aria-hidden="true"></span>
+						</a>
+						<a n:href="StockMedicine:manage supplier, desc">
+							<span class="glyphicon glyphicon-chevron-down sort-icon" aria-hidden="true"></span>
+						</a>
+					</th>
+					<th>
+						Cena
+						<a n:href="StockMedicine:manage price, asc">
+							<span class="glyphicon glyphicon-chevron-up sort-icon" aria-hidden="true"></span>
+						</a>
+						<a n:href="StockMedicine:manage price, desc">
+							<span class="glyphicon glyphicon-chevron-down sort-icon" aria-hidden="true"></span>
+						</a>
+					</th>
+					<th>
+						Počet
+						<a n:href="StockMedicine:manage count, asc">
+							<span class="glyphicon glyphicon-chevron-up sort-icon" aria-hidden="true"></span>
+						</a>
+						<a n:href="StockMedicine:manage count, desc">
+							<span class="glyphicon glyphicon-chevron-down sort-icon" aria-hidden="true"></span>
+						</a>
+					</th>
+				</tr>
+			</thread>
+			<tr n:foreach="$stockItems as $item">
+				{dump $item->medicine}
+				<td>
+					{$item->medicine->name}
+				</td>
+				<td>
+					{$item->supplier->name}
+				</td>
+				<td>
+					{$item->price}
+				</td>
+				<td>
+					{$item->count}
+				</td>
+			</tr>
+		</table>
+
 		<a class="btn btn-primary btn-add" n:href="StockMedicine:create">Pridať skladovú zásoby</a>
 	</div>
 </div>
