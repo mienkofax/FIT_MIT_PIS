@@ -2,8 +2,6 @@
 
 namespace App\Model\Queries;
 
-use App\Model\Entities\Article;
-use App\Model\Entities\ArticleCategory;
 use App\Model\Entities\StockMedicine;
 use Doctrine\ORM\QueryBuilder;
 use Kdyby;
