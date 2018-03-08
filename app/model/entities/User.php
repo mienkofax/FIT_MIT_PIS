@@ -2,6 +2,7 @@
 
 namespace App\Model\Entities;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Kdyby\Doctrine\Entities\BaseEntity;
 
@@ -74,6 +75,22 @@ class User extends BaseEntity
 	protected $role;
 
 	/**
+	 * Jeden uzivatel moze vytvorit niekolko objednavok.
+	 * @ORM\OneToMany(targetEntity="OrderMedicine", mappedBy="user")
+	 */
+	protected $orders;
+
+	/**
+	 * Konstruktor pre inicializaciu vstahu medzi uzivatelom a objednavkov.
+	 * Jeden uzivatel moze mat niekolko objednavok.
+	 */
+	public function __construct()
+	{
+		parent::__construct();
+		$this->orders = new ArrayCollection();
+	}
+
+	/**
 	 * Overenie, ci dany uzivatel ma rolu administratora.
 	 * @return bool true ak je administrator, inak false
 	 */
@@ -98,5 +115,15 @@ class User extends BaseEntity
 	public function getFullName()
 	{
 		return $this->name . " " . $this->surname;
+	}
+
+	/**
+	 * Pridanie objednavky k uzivalovi.
+	 * @param OrderItem $order
+	 */
+	public function addOrder(OrderItem $order)
+	{
+		$this->orders[] = $order;
+		$order->user = $this;
 	}
 }

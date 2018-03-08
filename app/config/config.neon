@@ -25,10 +25,12 @@ database:
 
 services:
 	- App\Model\Facades\MedicineFacade
+	- App\Model\Facades\OrderMedicineFacade
 	- App\Model\Facades\StockMedicineFacade
 	- App\Model\Facades\SupplierFacade
 	- App\Model\Facades\UserFacade
 	- App\Forms\MedicineFormFactory
+	- App\Forms\OrderMedicineFormFactory
 	- App\Forms\SignFormFactory
 	- App\Forms\StockMedicineFormFactory
 	- App\Forms\SupplierFormFactory
@@ -40,6 +42,8 @@ extensions:
 	events: Kdyby\Events\DI\EventsExtension
 	annotations: Kdyby\Annotations\DI\AnnotationsExtension
 	doctrine: Kdyby\Doctrine\DI\OrmExtension
+	replicator: Kdyby\Replicator\DI\ReplicatorExtension
+
 
 
 doctrine:

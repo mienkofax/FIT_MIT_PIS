@@ -5,6 +5,7 @@ namespace App\Forms;
 use App\Model\Facades\UserFacade;
 use Nette;
 use Nette\Security\User;
+use Nette\Forms\Controls\SubmitButton;
 
 /**
  * Zakladny tovaren pre vsetky ostatne tovarne na formulare.
@@ -30,5 +31,24 @@ class BaseFormFactory
 	{
 		$this->userFacade = $userFacade;
 		$this->user = $user;
+	}
+
+	/**
+	 * Duplikovanie elementov vo formulari pomocou Kdyby.
+	 * @param SubmitButton $button
+	 */
+	public function addElementClicked(SubmitButton $button)
+	{
+		$button->parent->createOne();
+	}
+
+	/**
+	 * Odstranenie duplikovanych elementov vo formulari pomocou Kdyby.
+	 * @param SubmitButton $button
+	 */
+	public function removeElementClicked(SubmitButton $button)
+	{
+		$users = $button->parent->parent;
+		$users->remove($button->parent, true);
 	}
 }

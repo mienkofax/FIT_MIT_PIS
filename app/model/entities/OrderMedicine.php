@@ -10,7 +10,7 @@ use Kdyby\Doctrine\Entities\BaseEntity;
  * Entita reprezentujuca objednavku a informacie o nej.
  * @ORM\Entity
  */
-class Order extends BaseEntity
+class OrderMedicine extends BaseEntity
 {
 	/**
 	 * ID objednavky.
@@ -30,7 +30,7 @@ class Order extends BaseEntity
 	 * Cas vytvorenia.
 	 * @ORM\Column(type="datetime")
 	 */
-	protected $dateTime;
+	protected $createdTime;
 
 	/**
 	 * Jedna objednavka ma niekolko poloziek.
