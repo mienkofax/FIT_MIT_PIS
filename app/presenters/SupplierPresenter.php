@@ -49,4 +49,15 @@ class SupplierPresenter extends BasePresenter
 
 		return $form;
 	}
+
+	/**
+	 * Nastavenie premennej do sablony.
+	 * @param $column string
+	 * @param $sort string
+	 */
+	public function renderManage($column, $sort)
+	{
+		$this->template->suppliers =
+			$this->supplierFacade->getAllAsArray($column, $sort);
+	}
 }
