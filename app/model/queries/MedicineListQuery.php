@@ -23,8 +23,13 @@ class MedicineListQuery extends QueryObject
 	 */
 	protected function doCreateQuery(Queryable $repository)
 	{
-		return $repository->createQueryBuilder()
+		$qb = $repository->createQueryBuilder()
 			->addSelect("m")
 			->from(Medicine::class, "m");
+
+		foreach ($this->filters as $filter)
+		    $filter($qb);
+
+		return $qb;
 	}
 }
