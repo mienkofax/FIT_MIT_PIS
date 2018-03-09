@@ -68,6 +68,21 @@ class MedicineFacade extends BaseFacade
 			->fetch($query);
 	}
 
+    /**
+     * Zoznam liekov zoradeny podla stlpca a podla sposobu
+     * zoradenia.
+     * @param $column string
+     * @param $sort string
+     * @return array
+     */
+    public function getAllAsArray($column, $sort)
+    {
+        $query = new MedicineListQuery();
+        $query->orderBy($column, $sort);
+
+        return $this->entityManager->fetch($query)->toArray();
+    }
+
 	/**
 	 * Metoda prevedie skladove zasoby do JSON formatu.
 	 * @return string
