@@ -171,4 +171,18 @@ class StockMedicineFacade extends BaseFacade
 		$this->entityManager->persist($stockMedicine);
 		$this->entityManager->flush();
 	}
+
+	public function editStockMedicine($values, $stockMedicine, $medicine, $supplier)
+	{
+		$stockMedicine->count = $values->count;
+		$stockMedicine->price = $values->price;
+
+		$stockMedicine->medicine = $medicine;
+		$medicine->addStockMedicine($stockMedicine);
+
+		$stockMedicine->supplier = $supplier;
+		$supplier->addStockMedicine($stockMedicine);
+
+		$this->entityManager->flush();
+	}
 }
