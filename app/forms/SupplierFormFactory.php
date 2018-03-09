@@ -34,11 +34,7 @@ class SupplierFormFactory extends BaseFormFactory
 		$this->supplierFacade = $supplierFacade;
 	}
 
-	/**
-	 * Vytvorenie formulara pre vlozenie dodavatela.
-	 * @return Form
-	 */
-	public function createCreateSupplierForm()
+	private function createForm()
 	{
 		$form = new Form();
 		$form->addText("name", "Meno")
@@ -53,12 +49,23 @@ class SupplierFormFactory extends BaseFormFactory
 		$form->addText("house", "Číslo domu")
 			->setRequired("Musí byť zadané číslo domu.");
 
+		return UtilForm::toBootstrapForm($form);
+	}
+
+	/**
+	 * Vytvorenie formulara pre vlozenie dodavatela.
+	 * @return Form
+	 */
+	public function createCreateSupplierForm()
+	{
+		$form = $this->createForm();
+
 		$form->addSubmit("create", "Vytvoriť dodávateľa")
 			->setAttribute('class', 'btn-primary');
 
 		$form->onSuccess[] = array($this, "createSupplierSubmitted");
 
-		return UtilForm::toBootstrapForm($form);
+		return $form;
 	}
 
 	/**
