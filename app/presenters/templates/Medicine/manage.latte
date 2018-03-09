@@ -2,12 +2,73 @@
 {define description}Výpis všetkých liekov.{/define}
 {block content}
 <ul class="list nav nav-tabs">
-	<li><a data-toggle="tab" href="#sectionA">Zoznam poisťovní</a></li>
+	<li><a data-toggle="tab" href="#sectionA">Zoznam liekov</a></li>
 </ul>
 
 <div class="tab-content content">
 	<div id="sectionA" class="tab-pane fade in active">
-		<h2>Zoznam poisťovní</h2>
+		<h2>Zoznam liekov</h2>
+
+		<table class="table table-hover">
+			<thread>
+				<tr>
+					<th>
+						Kód
+						<a n:href="Medicine:manage id, asc">
+							<span class="glyphicon glyphicon-chevron-up sort-icon" aria-hidden="true"></span>
+						</a>
+						<a n:href="Medicine:manage id, desc">
+							<span class="glyphicon glyphicon-chevron-down sort-icon" aria-hidden="true"></span>
+						</a>
+					</th>
+					<th>
+						Názov
+						<a n:href="Medicine:manage name, asc">
+							<span class="glyphicon glyphicon-chevron-up sort-icon" aria-hidden="true"></span>
+						</a>
+						<a n:href="Medicine:manage name, desc">
+							<span class="glyphicon glyphicon-chevron-down sort-icon" aria-hidden="true"></span>
+						</a>
+					</th>
+					<th>
+						Typ
+						<a n:href="Medicine:manage type, asc">
+							<span class="glyphicon glyphicon-chevron-up sort-icon" aria-hidden="true"></span>
+						</a>
+						<a n:href="Medicine:manage type, desc">
+							<span class="glyphicon glyphicon-chevron-down sort-icon" aria-hidden="true"></span>
+						</a>
+					</th>
+					<th>
+						Príspevok
+						<a n:href="Medicine:manage contribution, asc">
+							<span class="glyphicon glyphicon-chevron-up sort-icon" aria-hidden="true"></span>
+						</a>
+						<a n:href="Medicine:manage contribution, desc">
+							<span class="glyphicon glyphicon-chevron-down sort-icon" aria-hidden="true"></span>
+						</a>
+					</th>
+				</tr>
+			</thread>
+			<tr n:foreach="$medicines as $medicine">
+				<td>
+					{$medicine->id}
+				</td>
+				<td>
+					{$medicine->name}
+				</td>
+				<td>
+					{if $medicine->type == 0}
+						bez predpisu
+					{else}
+						na predpis
+					{/if}
+				</td>
+				<td>
+					{$medicine->contribution} CZK
+				</td>
+			</tr>
+		</table>
 
 		<a class="btn btn-primary btn-add" n:href="Medicine:create">Pridať liek</a>
 	</div>
