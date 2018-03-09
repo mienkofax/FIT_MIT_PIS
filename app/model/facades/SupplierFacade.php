@@ -87,4 +87,14 @@ class SupplierFacade extends BaseFacade
 		$this->entityManager->flush();
 
 	}
+
+	public function editSupplier($data, Supplier $supplier)
+	{
+		$supplier->name = $data->name;
+		$supplier->city = $data->city;
+		$supplier->street = $data->street;
+		$supplier->houseNumber = $data->house;
+
+		$this->entityManager->flush();
+	}
 }
