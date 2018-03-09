@@ -52,12 +52,7 @@ class StockMedicineFormFactory extends BaseFormFactory
 		$this->supplierFacade = $supplierFacade;
 	}
 
-	/**
-	 * Vytvorenie formulara pre vlozenie skladovej zasoby.
-	 * @return Form
-	 * @throws \Exception
-	 */
-	public function createCreateStockMedicine()
+	private function createForm()
 	{
 		$form = new Form();
 
@@ -81,6 +76,18 @@ class StockMedicineFormFactory extends BaseFormFactory
 			->setAttribute("class", "form-control")
 			->setPrompt("Zoznam dodávateľov")
 			->setRequired("Musí byť zadaný dodávateľ.");
+
+		return $form;
+	}
+
+	/**
+	 * Vytvorenie formulara pre vlozenie skladovej zasoby.
+	 * @return Form
+	 * @throws \Exception
+	 */
+	public function createCreateStockMedicine()
+	{
+		$form = $this->createForm();
 
 		$form->addSubmit("stockMedicineCreate", "Pridať skladovú zásobu")
 			->setAttribute('class', 'btn-primary');
