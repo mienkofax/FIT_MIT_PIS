@@ -18,6 +18,8 @@ class SupplierPresenter extends BasePresenter
 	/** @var SupplierFormFactory */
 	private $formFactory;
 
+	private $searchedSupplier;
+
 	/**
 	 * Konstruktor s injektovanymi triedami pre pracu s dodavatelmi.
 	 * @param SupplierFacade $supplierFacade
@@ -55,9 +57,43 @@ class SupplierPresenter extends BasePresenter
 	 * @param $column string
 	 * @param $sort string
 	 */
+	public function createComponentEditSupplierForm()
+	{
+		$form = $this->formFactory->createEditSupplierForm();
+		$form->onSuccess[] = function (Form $form) {
+			$tmp = $form->getPresenter();
+			$tmp->flashMessage("Dodávateľ bol úspešne upravený.");
+			$tmp->redirect("this");
+		};
+
+		return $form;
+	}
+
 	public function renderManage($column, $sort)
 	{
 		$this->template->suppliers =
 			$this->supplierFacade->getAllAsArray($column, $sort);
+	}
+
+	public function renderEdit()
+	{
+		$this->template->supplier = $this->searchedSupplier;
+	}
+
+	public function actionEdit($id = NULL)
+	{
+		$this->searchedSupplier = $tmp = $this->supplierFacade->getSupplier($id);
+		if (is_null($tmp))
+			return;
+
+		$this["editSupplierForm"]->setDefaults(
+			array(
+				"supplierId" => $id,
+				"name" => $tmp->name,
+				"city" => $tmp->city,
+				"street" => $tmp->street,
+				"house" => $tmp->houseNumber
+			)
+		);
 	}
 }
