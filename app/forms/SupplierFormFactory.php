@@ -34,11 +34,7 @@ class SupplierFormFactory extends BaseFormFactory
 		$this->supplierFacade = $supplierFacade;
 	}
 
-	/**
-	 * Vytvorenie formulara pre vlozenie dodavatela.
-	 * @return Form
-	 */
-	public function createCreateSupplierForm()
+	private function createForm()
 	{
 		$form = new Form();
 		$form->addText("name", "Meno")
@@ -53,12 +49,40 @@ class SupplierFormFactory extends BaseFormFactory
 		$form->addText("house", "Číslo domu")
 			->setRequired("Musí byť zadané číslo domu.");
 
+		return UtilForm::toBootstrapForm($form);
+	}
+
+	/**
+	 * Vytvorenie formulara pre vlozenie dodavatela.
+	 * @return Form
+	 */
+	public function createCreateSupplierForm()
+	{
+		$form = $this->createForm();
+
 		$form->addSubmit("create", "Vytvoriť dodávateľa")
 			->setAttribute('class', 'btn-primary');
 
 		$form->onSuccess[] = array($this, "createSupplierSubmitted");
 
-		return UtilForm::toBootstrapForm($form);
+		return $form;
+	}
+
+	/**
+	 * Formular pre editaciu dodavatelov.
+	 * @return Form
+	 */
+	public function createEditSupplierForm()
+	{
+		$form = $this->createForm();
+
+		$form->addSubmit("create", "Editovať dodávateľa")
+			->setAttribute('class', 'btn-primary');
+
+		$form->addHidden("supplierId");
+		$form->onSuccess[] = array($this, "editSupplierSubmitted");
+
+		return $form;
 	}
 
 	/**
@@ -72,6 +96,20 @@ class SupplierFormFactory extends BaseFormFactory
 	{
 		try {
 			$this->supplierFacade->createSupplier($values);
+		}
+		catch (UniqueConstraintViolationException $ex) {
+			$form->addError("Zadaný dodávateľ už existuje.");
+		}
+	}
+
+	public function editSupplierSubmitted($form, $values)
+	{
+		$supplier = $this->supplierFacade->getSupplier($values->supplierId);
+		if (is_null($supplier))
+			throw new \InvalidArgumentException("Dodávateľ neexistuje.");
+
+		try {
+			$this->supplierFacade->editSupplier($values, $supplier);
 		}
 		catch (UniqueConstraintViolationException $ex) {
 			$form->addError("Zadaný dodávateľ už existuje.");

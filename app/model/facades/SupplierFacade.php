@@ -87,4 +87,24 @@ class SupplierFacade extends BaseFacade
 		$this->entityManager->flush();
 
 	}
+
+	public function editSupplier($data, Supplier $supplier)
+	{
+		$supplier->name = $data->name;
+		$supplier->city = $data->city;
+		$supplier->street = $data->street;
+		$supplier->houseNumber = $data->house;
+
+		$this->entityManager->flush();
+	}
+
+	public function deleteSupplier($id = NULL)
+	{
+		$supplier = NULL;
+		if (is_null($id) || is_null($supplier = $this->getSupplier($id)))
+			throw new \InvalidArgumentException("Dodávateľ neexistuje.");
+
+		$this->entityManager->remove($supplier);
+		$this->entityManager->flush();
+	}
 }
