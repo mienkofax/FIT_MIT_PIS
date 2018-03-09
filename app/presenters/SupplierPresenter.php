@@ -96,4 +96,21 @@ class SupplierPresenter extends BasePresenter
 			)
 		);
 	}
+
+	public function handleRemoveSupplier($id)
+	{
+		try {
+			$this->supplierFacade->deleteSupplier($id);
+			$this->flashMessage("Dodávateľ bol odstránený.");
+		}
+		catch (\InvalidArgumentException $ex) {
+			$this->flashMessage($ex->getMessage());
+		}
+		catch (\Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException $ex) {
+			$this->flashMessage("Dodávateľ obsahuje skladové zásoby,
+			pred jeho odstránením zmažte skladové zásoby.", "danger");
+		}
+
+		$this->redirect("Supplier:manage");
+	}
 }
