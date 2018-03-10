@@ -76,6 +76,20 @@ class MedicineFormFactory extends BaseFormFactory
 		return $form;
 	}
 
+	public function createEditMedicineForm()
+	{
+		$form = $this->createForm();
+
+		$form->addSubmit("create", "Editovať liek")
+			->setAttribute('class', 'btn-primary');
+
+		$form->addHidden("id");
+
+		$form->onSuccess[] = array($this, "editMedicineSubmitted");
+
+		return $form;
+	}
+
 	/**
 	 * Operacia, ktora sa zavola po stlaceni tlacidla na vytvorenie
 	 * lieku.
@@ -89,6 +103,20 @@ class MedicineFormFactory extends BaseFormFactory
 		}
 		catch (UniqueConstraintViolationException $ex) {
 			$form->addError("Liek so zadaným kódom už existuje.");
+		}
+	}
+
+	public function editMedicineSubmitted(Form $form, ArrayHash $values)
+	{
+		$medicine = $this->medicineFacade->getMedicine($values->id);
+		if (is_null($medicine))
+			throw new \InvalidArgumentException("Liek neexistuje.");
+
+		try {
+			$this->medicineFacade->editMedicine($values, $medicine);
+		}
+		catch (UniqueConstraintViolationException $ex) {
+			$form->addError("Zadaný liek existuje.");
 		}
 	}
 }
