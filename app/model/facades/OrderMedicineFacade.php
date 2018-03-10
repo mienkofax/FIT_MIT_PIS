@@ -4,6 +4,7 @@ namespace App\Model\Facades;
 
 use App\Model\Entities\OrderItem;
 use App\Model\Entities\OrderMedicine;
+use Kdyby\Doctrine\EntityManager;
 use Nette;
 use Nette\Utils\DateTime;
 
@@ -15,6 +16,21 @@ use Nette\Utils\DateTime;
 class OrderMedicineFacade extends BaseFacade
 {
 	use Nette\SmartObject;
+
+	/**
+	 * @var MedicineFacade
+	 */
+	private $medicineFacade;
+
+	public function __construct(
+		EntityManager $entityManager,
+		MedicineFacade $medicineFacade
+
+		)
+	{
+		parent::__construct($entityManager);
+		$this->medicineFacade = $medicineFacade;
+	}
 
 	/**
 	 * Vyhladanie a vratenie objednavky lieku na zaklade zadaneho id.
@@ -53,7 +69,12 @@ class OrderMedicineFacade extends BaseFacade
 			$stockItem = new OrderItem();
 			$stockItem->price = $item['price'];
 			$stockItem->count = $item['count'];
-			$stockItem->contribution = 42;
+
+			$medicine = $this->medicineFacade
+				->getMedicine($item['medicine_id']);
+
+			$stockItem->contribution = $medicine->contribution;
+			$stockItem->medicines = $medicine;
 
 			$order->addOrderItem($stockItem);
 			$this->entityManager->persist($stockItem);
