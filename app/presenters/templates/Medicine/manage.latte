@@ -14,10 +14,10 @@
 				<tr>
 					<th>
 						Kód
-						<a n:href="Medicine:manage id, asc">
+						<a n:href="Medicine:manage idSukl, asc">
 							<span class="glyphicon glyphicon-chevron-up sort-icon" aria-hidden="true"></span>
 						</a>
-						<a n:href="Medicine:manage id, desc">
+						<a n:href="Medicine:manage idSukl, desc">
 							<span class="glyphicon glyphicon-chevron-down sort-icon" aria-hidden="true"></span>
 						</a>
 					</th>
@@ -53,7 +53,7 @@
 			</thread>
 			<tr n:foreach="$medicines as $medicine">
 				<td>
-					{$medicine->id}
+					{$medicine->idSukl}
 				</td>
 				<td>
 					{$medicine->name}

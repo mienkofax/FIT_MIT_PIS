@@ -68,6 +68,9 @@ class MedicineFormFactory extends BaseFormFactory
 	{
 		$form = $this->createForm();
 
+		$form->addText("id_sukl", "Kód lieku")
+			->setRequired();
+
 		$form->addSubmit("create", "Vložiť liek")
 			->setAttribute('class', 'btn-primary');
 
@@ -79,6 +82,10 @@ class MedicineFormFactory extends BaseFormFactory
 	public function createEditMedicineForm()
 	{
 		$form = $this->createForm();
+
+		$form->addText("id_sukl", "Kód lieku")
+			->setDisabled()
+			->setRequired();
 
 		$form->addSubmit("create", "Editovať liek")
 			->setAttribute('class', 'btn-primary');

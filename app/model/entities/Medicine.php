@@ -21,6 +21,12 @@ class Medicine extends BaseEntity
 	protected $id;
 
 	/**
+	 * Id lieku podla SUKL.
+	 * @ORM\Column(type="string", unique=true)
+	 */
+	protected $idSukl;
+
+	/**
 	 * Nazov lieku.
 	 * @ORM\Column(type="string")
 	 */

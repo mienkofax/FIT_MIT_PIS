@@ -128,6 +128,7 @@ class MedicineFacade extends BaseFacade
 	public function createMedicine($data)
 	{
 		$medicine = new Medicine();
+		$medicine->idSukl = $data->id_sukl;
 		$medicine->name = $data->name;
 		$medicine->description = $data->description;
 		$medicine->type = $data->type;
