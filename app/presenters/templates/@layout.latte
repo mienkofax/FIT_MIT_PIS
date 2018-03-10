@@ -105,16 +105,22 @@
 			var $supplierID = 'items[' + $itemIndex +'][supplier_id]';
 
 			if ($(this).attr("name") == $medicineID) {
+				// vymazanie ceny lieku
+				$('#frm-createOrderForm-items-'+$itemIndex+'-price').val("");
+
 				var $suppliers;
 				for (i = 0; i < json['medicines'].length; i++) {
-					if (json['medicines'][i].id == $(this).val())
-						$suppliers =  json['medicines'][i].suppliers;
+					if (json['medicines'][i].id != $(this).val())
+						continue;
+
+					$suppliers = json['medicines'][i].suppliers;
+					$('#frm-createOrderForm-items-'+$itemIndex+'-price').val(json['medicines'][i].price);
 				}
 
 				// vymazanie starych options
 				$('#frm-createOrderForm-items-'+$itemIndex+'-supplier_id').find('option:not(:first)').remove();
 				// vymazanie ceny
-				$('#frm-createOrderForm-items-'+$itemIndex+'-price').val("");
+				$('#frm-createOrderForm-items-'+$itemIndex+'-in_stock').val("");
 
 				// naplnenie novymi options
 				for (i = 0; i < $suppliers.length; i++) {
@@ -138,8 +144,8 @@
 
 					for (i = 0; i < json['medicines'].length; i++) {
 						if (json['medicines'][k].suppliers[i].id == $(this).val())
-							$('#frm-createOrderForm-items-'+$itemIndex+'-price').val(
-								json['medicines'][k].suppliers[i].price);
+							$('#frm-createOrderForm-items-'+$itemIndex+'-in_stock').val(
+								json['medicines'][k].suppliers[i].count);
 					}
 				}
 			}

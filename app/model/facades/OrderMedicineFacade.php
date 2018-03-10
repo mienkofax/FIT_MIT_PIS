@@ -23,14 +23,23 @@ class OrderMedicineFacade extends BaseFacade
 	 */
 	private $medicineFacade;
 
+	/** @var SupplierFacade */
+	private $supplierFacade;
+
+	/** @var StockMedicineFacade */
+	private $stockMedicineFacade;
+
 	public function __construct(
 		EntityManager $entityManager,
-		MedicineFacade $medicineFacade
-
+		MedicineFacade $medicineFacade,
+		SupplierFacade $supplierFacade,
+		StockMedicineFacade $stockMedicineFacade
 		)
 	{
 		parent::__construct($entityManager);
 		$this->medicineFacade = $medicineFacade;
+		$this->supplierFacade = $supplierFacade;
+		$this->stockMedicineFacade = $stockMedicineFacade;
 	}
 
 	/**
@@ -75,18 +84,43 @@ class OrderMedicineFacade extends BaseFacade
 		$this->entityManager->persist($order);
 
 		foreach ($data['items'] as $key => $item) {
-			$stockItem = new OrderItem();
-			$stockItem->price = $item['price'];
-			$stockItem->count = $item['count'];
+			$id = array(
+				"medicine" => $this->medicineFacade
+					->getMedicine($item['medicine_id']),
+				"supplier" => $this->supplierFacade
+					->getSupplier($item['supplier_id']));
 
+			$stockItem = $this->stockMedicineFacade->getStockMedicine($id);
+
+			if ($stockItem->count < $item['count']) {
+				throw new \InvalidArgumentException(
+					"Bolo zadaných viacej kusov ako je na sklade."
+				);
+			}
+		}
+
+		foreach ($data['items'] as $key => $item) {
 			$medicine = $this->medicineFacade
 				->getMedicine($item['medicine_id']);
 
-			$stockItem->contribution = $medicine->contribution;
-			$stockItem->medicines = $medicine;
+			$supplier = $this->supplierFacade
+				->getSupplier($item['supplier_id']);
 
-			$order->addOrderItem($stockItem);
-			$this->entityManager->persist($stockItem);
+			$id = array("medicine" => $medicine->id, "supplier" => $supplier->id);
+			$stockItem = $this->stockMedicineFacade->getStockMedicine($id);
+
+			$orderItem = new OrderItem();
+			$orderItem->count = $item['count'];
+			$orderItem->price = $medicine->price;
+			$order->totalPrice += $medicine->price * $item['count'];
+			$stockItem->count -= $item['count'];
+
+			$orderItem->contribution = $medicine->contribution;
+			$orderItem->medicines = $medicine;
+			$orderItem->suppliers = $supplier;
+
+			$order->addOrderItem($orderItem);
+			$this->entityManager->persist($orderItem);
 		}
 
 		$this->entityManager->flush();

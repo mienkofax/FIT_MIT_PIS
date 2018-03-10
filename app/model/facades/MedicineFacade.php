@@ -98,6 +98,7 @@ class MedicineFacade extends BaseFacade
 
 			$data .= "{";
 			$data .= '"id":' . $med->id . ",";
+			$data .= '"price":' . $med->price . ",";
 			$data .= '"name":"' . $med->name . '",';
 
 			$data .= '"suppliers": [';
