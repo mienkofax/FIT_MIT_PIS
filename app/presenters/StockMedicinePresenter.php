@@ -26,6 +26,8 @@ class StockMedicinePresenter extends BasePresenter
 	/** @var StockMedicineFormFactory */
 	private $formFactory;
 
+	private $searchedStockMedicine;
+
 	/**
 	 * Konstruktor s injektovanymi triedami pre pracu so skladovymi
 	 * zasobami.
@@ -66,6 +68,32 @@ class StockMedicinePresenter extends BasePresenter
 			$this->stockMedicineFacade->getAllAsArray($column, $sort);
 	}
 
+	public function renderEdit()
+	{
+		$this->template->stockItem = $this->searchedStockMedicine;
+	}
+
+	public function actionEdit($medicineId = NULL, $supplierId = NULL)
+	{
+		$id = array("medicine" => $medicineId, "supplier" => $supplierId);
+		$this->searchedStockMedicine = $tmp =
+			$this->stockMedicineFacade->getStockMedicine($id);
+
+		if (is_null($tmp))
+			return;
+
+		$this["editStockMedicineForm"]->setDefaults(
+			array(
+				"medicineId" => $medicineId,
+				"supplierId" => $supplierId,
+				"count" => $tmp->count,
+				"medicine" => $tmp->medicine->id,
+				"supplier" => $tmp->supplier->id,
+				"price" => $tmp->price
+			)
+		);
+	}
+
 	/**
 	 * Vytvorenie komponenty a vratenie komponenty pre pridanie
 	 * skladovej zasoby.
@@ -79,6 +107,17 @@ class StockMedicinePresenter extends BasePresenter
 			$tmp = $form->getPresenter();
 			$tmp->flashMessage("Úspešné vytvorenie skladovej zásoby.");
 			$tmp->redirect("this");
+		};
+
+		return $form;
+	}
+	public function createComponentEditStockMedicineForm()
+	{
+		$form = $this->formFactory->createEditStockMedicine();
+		$form->onSuccess[] = function (Form $form) {
+			$tmp = $form->getPresenter();
+			$tmp->flashMessage("Skladová zásoba bola úspešne upravená.");
+			$tmp->redirect("StockMedicine:manage");
 		};
 
 		return $form;
