@@ -158,6 +158,11 @@ class StockMedicineFacade extends BaseFacade
 	 */
 	public function createStockMedicine($values, $medicine, $supplier)
 	{
+		if ($medicine->price < $values->price) {
+			throw new \InvalidArgumentException(
+				"Cena lieku od dodávateľa musí byť menšia ako predajná cena");
+		}
+
 		$stockMedicine = new StockMedicine();
 		$stockMedicine->count = $values->count;
 		$stockMedicine->price = $values->price;
@@ -174,6 +179,11 @@ class StockMedicineFacade extends BaseFacade
 
 	public function editStockMedicine($values, $stockMedicine, $medicine, $supplier)
 	{
+		if ($medicine->price < $values->price) {
+			throw new \InvalidArgumentException(
+				"Cena lieku od dodávateľa musí byť menšia ako predajná cena");
+		}
+
 		$stockMedicine->count = $values->count;
 		$stockMedicine->price = $values->price;
 

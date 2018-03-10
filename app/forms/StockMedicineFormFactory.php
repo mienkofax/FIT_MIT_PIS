@@ -59,10 +59,12 @@ class StockMedicineFormFactory extends BaseFormFactory
 		$form->addText("count", "Počet liekov")
 			->addRule(Form::INTEGER, "Počeť liekov musí byť číslo.")
 			->addRule(Form::MIN, "Počeť liekov musí byť kladné.", 0)
+			->setAttribute("class", "form-control")
 			->setRequired("Musí byť zadaný počet liekov.");
 
-		$form->addText("price", "Cena lieku")
+		$form->addText("price", "Nákupná cena lieku")
 			->addRule(Form::FLOAT, "Cena lieku musí byť číslo")
+			->setAttribute("class", "form-control")
 			->setRequired("Musí byť zadaná cena lieku.");
 
 		$form->addSelect("medicine", "Liek")
@@ -89,8 +91,14 @@ class StockMedicineFormFactory extends BaseFormFactory
 	{
 		$form = $this->createForm();
 
+		$form->addText("medicine_price", "Predajná cena lieku")
+			->addRule(Form::FLOAT, "Predajná cena lieku musí byť číslo.")
+			->setAttribute("class", "form-control")
+			->setRequired()
+			->setDisabled();
+
 		$form->addSubmit("stockMedicineCreate", "Pridať skladovú zásobu")
-			->setAttribute('class', 'btn-primary');
+			->setAttribute('class', 'btn-primary btn');
 
 		$form->onSuccess[] = array($this, "createStockMedicineSubmitted");
 
@@ -101,8 +109,14 @@ class StockMedicineFormFactory extends BaseFormFactory
 	{
 		$form = $this->createForm();
 
+		$form->addText("medicine_price", "Predajná cena lieku")
+			->addRule(Form::FLOAT, "Predajná cena lieku musí byť číslo.")
+			->setAttribute("class", "form-control")
+			->setRequired()
+			->setDisabled();
+
 		$form->addSubmit("stockMedicineCreate", "Upraviť skladovú zásobu")
-			->setAttribute('class', 'btn-primary');
+			->setAttribute('class', 'btn-primary btn');
 
 		$form->addHidden("medicineId");
 		$form->addHidden("supplierId");
@@ -139,6 +153,9 @@ class StockMedicineFormFactory extends BaseFormFactory
 		catch (UniqueConstraintViolationException $ex) {
 			$form->addError("Záznam s týmto liekom už existuje.");
 		}
+		catch (\InvalidArgumentException $ex) {
+			$form->addError($ex->getMessage());
+		}
 	}
 
 	public function editStockMedicineSubmitted(Form $form, ArrayHash $value)
@@ -162,6 +179,9 @@ class StockMedicineFormFactory extends BaseFormFactory
 		}
 		catch (UniqueConstraintViolationException $ex) {
 			$form->addError("Záznam s týmto liekom už existuje.");
+		}
+		catch (\InvalidArgumentException $ex) {
+			$form->addError($ex->getMessage());
 		}
 
 

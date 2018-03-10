@@ -31,7 +31,10 @@
 						</a>
 					</th>
 					<th>
-						Cena
+						Predajná cena
+					</th>
+					<th>
+						Nákupná cena
 						<a n:href="StockMedicine:manage price, asc">
 							<span class="glyphicon glyphicon-chevron-up sort-icon" aria-hidden="true"></span>
 						</a>
@@ -60,7 +63,10 @@
 					{$item->supplier->name}
 				</td>
 				<td>
-					{$item->price}
+					{$item->medicine->price} CZK
+				</td>
+				<td>
+					{$item->price} CZK
 				</td>
 				<td>
 					{$item->count}

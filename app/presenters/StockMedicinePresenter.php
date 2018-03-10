@@ -89,6 +89,7 @@ class StockMedicinePresenter extends BasePresenter
 				"count" => $tmp->count,
 				"medicine" => $tmp->medicine->id,
 				"supplier" => $tmp->supplier->id,
+				"medicine_price" => $tmp->medicine->price,
 				"price" => $tmp->price
 			)
 		);
@@ -139,5 +140,23 @@ class StockMedicinePresenter extends BasePresenter
 		}
 
 		$this->redirect("StockMedicine:manage");
+	}
+
+	public function handleChange($medicine, $type)
+	{
+		if (is_null($medicine) || $medicine == "")
+			return;
+
+		if ($type == "create") {
+			$this["createStockMedicineForm"]["medicine_price"]
+				->setValue($this->medicineFacade->getMedicine($medicine)->price);
+		}
+		else if ($type == "edit") {
+			$this["editStockMedicineForm"]["medicine_price"]
+				->setValue($this->medicineFacade->getMedicine($medicine)->price);
+		}
+
+		$this->redrawControl("wrapper");
+		$this->redrawControl("secondSnippet");
 	}
 }
