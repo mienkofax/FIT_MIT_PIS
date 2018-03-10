@@ -42,16 +42,9 @@ class MedicineFormFactory extends BaseFormFactory
 		$this->medicineFacade = $medicineFacade;
 	}
 
-	/**
-	 * Vytvorenie formulara pre vlozenie lieku.
-	 * @return Form Formular s moznostou vytvorenia lieku.
-	 */
-	public function createCreateMedicine()
+	public function createForm()
 	{
 		$form = new Form;
-		$form->addText("id", "Kód lieku")
-			->setRequired("Musí byť zadaný kód lieku.")
-			->addRule(Form::INTEGER, "Položka %label musí byť číslo.");
 
 		$form->addText("name", "Názov lieku")
 			->setRequired("Musí byť zadaný názov lieku.");
@@ -64,12 +57,37 @@ class MedicineFormFactory extends BaseFormFactory
 			->setAttribute('class', 'form-control')
 			->setRequired("Musí byť zadaný typ lieku.");
 
+		return UtilForm::toBootstrapForm($form);
+	}
+
+	/**
+	 * Vytvorenie formulara pre vlozenie lieku.
+	 * @return Form Formular s moznostou vytvorenia lieku.
+	 */
+	public function createCreateMedicine()
+	{
+		$form = $this->createForm();
+
 		$form->addSubmit("create", "Vložiť liek")
 			->setAttribute('class', 'btn-primary');
 
 		$form->onSuccess[] = array($this, "createMedicineSubmitted");
 
-		return UtilForm::toBootstrapForm($form);
+		return $form;
+	}
+
+	public function createEditMedicineForm()
+	{
+		$form = $this->createForm();
+
+		$form->addSubmit("create", "Editovať liek")
+			->setAttribute('class', 'btn-primary');
+
+		$form->addHidden("id");
+
+		$form->onSuccess[] = array($this, "editMedicineSubmitted");
+
+		return $form;
 	}
 
 	/**
@@ -85,6 +103,20 @@ class MedicineFormFactory extends BaseFormFactory
 		}
 		catch (UniqueConstraintViolationException $ex) {
 			$form->addError("Liek so zadaným kódom už existuje.");
+		}
+	}
+
+	public function editMedicineSubmitted(Form $form, ArrayHash $values)
+	{
+		$medicine = $this->medicineFacade->getMedicine($values->id);
+		if (is_null($medicine))
+			throw new \InvalidArgumentException("Liek neexistuje.");
+
+		try {
+			$this->medicineFacade->editMedicine($values, $medicine);
+		}
+		catch (UniqueConstraintViolationException $ex) {
+			$form->addError("Zadaný liek existuje.");
 		}
 	}
 }

@@ -128,12 +128,30 @@ class MedicineFacade extends BaseFacade
 	public function createMedicine($data)
 	{
 		$medicine = new Medicine();
-		$medicine->id = $data->id;
 		$medicine->name = $data->name;
 		$medicine->description = $data->description;
 		$medicine->type = $data->type;
 
 		$this->entityManager->persist($medicine);
+		$this->entityManager->flush();
+	}
+
+	public function editMedicine($data, Medicine $medicine)
+	{
+		$medicine->name = $data->name;
+		$medicine->description = $data->description;
+		$medicine->type = $data->type;
+
+		$this->entityManager->flush();
+	}
+
+	public function deleteMedicine($id = NULL)
+	{
+		$medicine = NULL;
+		if (is_null($id) || is_null($medicine = $this->getMedicine($id)))
+			throw new \InvalidArgumentException("Liek neexistuje.");
+
+		$this->entityManager->remove($medicine);
 		$this->entityManager->flush();
 	}
 }

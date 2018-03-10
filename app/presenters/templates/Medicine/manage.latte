@@ -48,6 +48,7 @@
 							<span class="glyphicon glyphicon-chevron-down sort-icon" aria-hidden="true"></span>
 						</a>
 					</th>
+					<th></th>
 				</tr>
 			</thread>
 			<tr n:foreach="$medicines as $medicine">
@@ -66,6 +67,14 @@
 				</td>
 				<td>
 					{$medicine->contribution} CZK
+				</td>
+				<td class="text-center">
+					<a class="action" n:href="Medicine:edit $medicine->id">
+						<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+					</a>
+					<a class="action" n:href="removeMedicine! $medicine->id">
+						<span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>
+					</a>
 				</td>
 			</tr>
 		</table>
