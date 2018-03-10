@@ -55,6 +55,12 @@ class OrderMedicinePresenter extends BasePresenter
 		$this->template->db = $this->medicineFacade->toJSON();
 	}
 
+	public function renderManage($column, $sort)
+	{
+		$this->template->orders =
+			$this->orderFacade->getAllAsArray($column, $sort);
+	}
+
 	/**
 	 * Vytvorenie komponenty a vratenie komponenty pre pridanie objednavky,
 	 * @return Form
