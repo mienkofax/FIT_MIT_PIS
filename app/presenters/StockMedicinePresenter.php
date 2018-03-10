@@ -122,4 +122,22 @@ class StockMedicinePresenter extends BasePresenter
 
 		return $form;
 	}
+
+	public function handleRemoveStockMedicine($medicineId, $supplierId)
+	{
+		$id = array("medicine" => $medicineId, "supplier" => $supplierId);
+
+		try {
+			$this->stockMedicineFacade->deleteStockMedicine($id);
+			$this->flashMessage("Skladová zásoba bola odstránená.");
+		}
+		catch (\InvalidArgumentException $ex) {
+			$this->flashMessage($ex->getMessage());
+		}
+		catch (\Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException $ex) {
+			$this->flashMessage("Skladová zásoba má závislosti.");
+		}
+
+		$this->redirect("StockMedicine:manage");
+	}
 }
