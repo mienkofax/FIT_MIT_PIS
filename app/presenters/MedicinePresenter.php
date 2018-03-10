@@ -97,4 +97,21 @@ class MedicinePresenter extends BasePresenter
 			)
 		);
 	}
+
+	public function handleRemoveMedicine($id)
+	{
+		try {
+			$this->medicineFacade->deleteMedicine($id);
+			$this->flashMessage("Liek bol odstránený.");
+		}
+		catch (\InvalidArgumentException $ex) {
+			$this->flashMessage($ex->getMessage());
+		}
+		catch (\Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException $ex) {
+			$this->flashMessage("Liek obsahuje skladové zásoby,
+			pred jeho odstránením zmažte skladové zásoby.", "danger");
+		}
+
+		$this->redirect("Medicine:manage");
+	}
 }
