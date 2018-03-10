@@ -21,6 +21,8 @@ class MedicinePresenter extends BasePresenter
 	 */
 	private $formFactory;
 
+	private $searchedMedicine;
+
 	/**
 	 * Konstruktor s injektovanymi triedami pre pracu s liekmi.
 	 * @param MedicineFacade $medicineFacade
@@ -52,6 +54,18 @@ class MedicinePresenter extends BasePresenter
 		return $form;
 	}
 
+	public function createComponentEditMedicineForm()
+	{
+		$form = $this->formFactory->createEditMedicineForm();
+		$form->onSuccess[] = function (Form $form) {
+			$tmp = $form->getPresenter();
+			$tmp->flashMessage("Liek bol úspešne upravený.");
+			$tmp->redirect("this");
+		};
+
+		return $form;
+	}
+
     /**
      * Nastavenie premennej do sablony.
      * @param $column string
@@ -62,4 +76,25 @@ class MedicinePresenter extends BasePresenter
         $this->template->medicines =
             $this->medicineFacade->getAllAsArray($column, $sort);
     }
+
+	public function renderEdit()
+	{
+		$this->template->medicine = $this->searchedMedicine;
+	}
+
+	public function actionEdit($id = NULL)
+	{
+		$this->searchedMedicine = $tmp = $this->medicineFacade->getMedicine($id);
+		if (is_null($tmp))
+			return;
+
+		$this["editMedicineForm"]->setDefaults(
+			array(
+				"id" => $id,
+				"name" => $tmp->name,
+				"description" => $tmp->description,
+				"type" => (int) $tmp->type
+			)
+		);
+	}
 }
