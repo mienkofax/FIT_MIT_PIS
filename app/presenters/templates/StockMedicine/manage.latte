@@ -48,6 +48,7 @@
 							<span class="glyphicon glyphicon-chevron-down sort-icon" aria-hidden="true"></span>
 						</a>
 					</th>
+					<th></th>
 				</tr>
 			</thread>
 			<tr n:foreach="$stockItems as $item">
@@ -63,6 +64,14 @@
 				</td>
 				<td>
 					{$item->count}
+				</td>
+				<td>
+					<a class="action" n:href="StockMedicine:edit $item->medicine->id, $item->supplier->id">
+						<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+					</a>
+					<a class="action" n:href="removeStockMedicine! $item->medicine->id, $item->supplier->id">
+						<span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>
+					</a>
 				</td>
 			</tr>
 		</table>

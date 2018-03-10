@@ -52,12 +52,7 @@ class StockMedicineFormFactory extends BaseFormFactory
 		$this->supplierFacade = $supplierFacade;
 	}
 
-	/**
-	 * Vytvorenie formulara pre vlozenie skladovej zasoby.
-	 * @return Form
-	 * @throws \Exception
-	 */
-	public function createCreateStockMedicine()
+	private function createForm()
 	{
 		$form = new Form();
 
@@ -82,10 +77,37 @@ class StockMedicineFormFactory extends BaseFormFactory
 			->setPrompt("Zoznam dodávateľov")
 			->setRequired("Musí byť zadaný dodávateľ.");
 
+		return $form;
+	}
+
+	/**
+	 * Vytvorenie formulara pre vlozenie skladovej zasoby.
+	 * @return Form
+	 * @throws \Exception
+	 */
+	public function createCreateStockMedicine()
+	{
+		$form = $this->createForm();
+
 		$form->addSubmit("stockMedicineCreate", "Pridať skladovú zásobu")
 			->setAttribute('class', 'btn-primary');
 
 		$form->onSuccess[] = array($this, "createStockMedicineSubmitted");
+
+		return UtilForm::toBootstrapForm($form);
+	}
+
+	public function createEditStockMedicine()
+	{
+		$form = $this->createForm();
+
+		$form->addSubmit("stockMedicineCreate", "Upraviť skladovú zásobu")
+			->setAttribute('class', 'btn-primary');
+
+		$form->addHidden("medicineId");
+		$form->addHidden("supplierId");
+
+		$form->onSuccess[] = array($this, "editStockMedicineSubmitted");
 
 		return UtilForm::toBootstrapForm($form);
 	}
@@ -117,5 +139,31 @@ class StockMedicineFormFactory extends BaseFormFactory
 		catch (UniqueConstraintViolationException $ex) {
 			$form->addError("Záznam s týmto liekom už existuje.");
 		}
+	}
+
+	public function editStockMedicineSubmitted(Form $form, ArrayHash $value)
+	{
+		$medicine = $this->medicineFacade->getMedicine($value->medicine);
+		if (is_null($medicine))
+			throw new InvalidArgumentException("Požadovaný liek neexistuje.");
+
+		$supplier = $this->supplierFacade->getSupplier($value->supplier);
+		if (is_null($supplier))
+			throw new InvalidArgumentException("Požadovaný dodávateľ neexistuje");
+
+		$id = array("medicine" => $value->medicineId, "supplier" => $value->supplierId);
+		$stockMedicine = $this->stockMedicineFacade->getStockMedicine($id);
+		if (is_null($stockMedicine))
+			throw new InvalidArgumentException("Požadovaná skladová zásoba neexistuje");
+
+		try {
+			$this->stockMedicineFacade
+				->editStockMedicine($value, $stockMedicine, $medicine, $supplier);
+		}
+		catch (UniqueConstraintViolationException $ex) {
+			$form->addError("Záznam s týmto liekom už existuje.");
+		}
+
+
 	}
 }
