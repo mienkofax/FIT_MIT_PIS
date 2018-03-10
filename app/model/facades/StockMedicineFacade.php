@@ -206,4 +206,10 @@ class StockMedicineFacade extends BaseFacade
 		$this->entityManager->remove($stockItem);
 		$this->entityManager->flush();
 	}
+
+	public function addToStock($data, StockMedicine $stockMedicine)
+	{
+		$stockMedicine->count += $data['count'];
+		$this->entityManager->flush();
+	}
 }

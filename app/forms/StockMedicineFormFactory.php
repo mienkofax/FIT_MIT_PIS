@@ -126,6 +126,34 @@ class StockMedicineFormFactory extends BaseFormFactory
 		return UtilForm::toBootstrapForm($form);
 	}
 
+	public function createAddToStock()
+	{
+		$form = new Form();
+
+		$form->addSelect("medicine_id", "Liek")
+			->setItems($this->stockMedicineFacade->getMedicinesAsArray())
+			->setAttribute("class", "form-control")
+			->setPrompt("Zoznam liekov")
+			->setRequired();
+
+		$form->addSelect("supplier_id", "Dodávateľ")
+			->setAttribute("class", "form-control")
+			->setPrompt("Zoznam liekov");
+
+		$form->addText("count", "Počet liekov")
+			->addRule(Form::INTEGER, "Počeť liekov musí byť číslo.")
+			->addRule(Form::MIN, "Počeť liekov musí byť kladné.", 0)
+			->setAttribute("class", "form-control")
+			->setRequired("Musí byť zadaný počet liekov.");
+
+		$form->addSubmit("stockMedicineCreate", "Naskladniť")
+			->setAttribute('class', 'btn-primary btn');
+
+		$form->onSuccess[] = array($this, "addToStockSubmitted");
+
+		return UtilForm::toBootstrapForm($form);
+	}
+
 	/**
 	 * Operacia, ktora sa zavola po stlaceni tlacidla na vytvorenie
 	 * skladovej zasboby.
@@ -185,5 +213,17 @@ class StockMedicineFormFactory extends BaseFormFactory
 		}
 
 
+	}
+
+	public function addToStockSubmitted(Form $form, ArrayHash $value)
+	{
+		$data = $form->getHttpData();
+		$id = array("medicine" => $data["medicine_id"], "supplier" => $data["supplier_id"]);
+
+		$stockMedicine = $this->stockMedicineFacade->getStockMedicine($id);
+		if (is_null($stockMedicine))
+			throw new InvalidArgumentException("Požadovaná skladová zásoba neexistuje");
+
+		$this->stockMedicineFacade->addToStock($data, $stockMedicine);
 	}
 }

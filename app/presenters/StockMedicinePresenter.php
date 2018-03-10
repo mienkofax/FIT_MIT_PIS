@@ -124,6 +124,18 @@ class StockMedicinePresenter extends BasePresenter
 		return $form;
 	}
 
+	public function createComponentAddToStockForm()
+	{
+		$form = $this->formFactory->createAddToStock();
+		$form->onSuccess[] = function (Form $form) {
+			$tmp = $form->getPresenter();
+			$tmp->flashMessage("Naskladnenie bolo úspešné.");
+			$tmp->redirect("StockMedicine:manage");
+		};
+
+		return $form;
+	}
+
 	public function handleRemoveStockMedicine($medicineId, $supplierId)
 	{
 		$id = array("medicine" => $medicineId, "supplier" => $supplierId);
@@ -159,4 +171,23 @@ class StockMedicinePresenter extends BasePresenter
 		$this->redrawControl("wrapper");
 		$this->redrawControl("secondSnippet");
 	}
+
+	public function handleAddToStockChange($medicine)
+	{
+		if ($medicine) {
+			$items = $this->stockMedicineFacade->getMedicineSupplierAsArray($medicine);
+
+			$this["addToStockForm"]['supplier_id']
+				->setPrompt("Zoznam dodávateľov")
+				->setItems($items);
+		}
+		else {
+			$this["addToStockForm"]['supplier_id']
+				->setPrompt("Zoznam dodávateľov")
+				->setItems([]);
+		}
+
+		$this->redrawControl("wrapper");
+		$this->redrawControl("secondSnippet");
+		}
 }
