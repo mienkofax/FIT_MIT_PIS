@@ -4,6 +4,7 @@ namespace App\Model\Facades;
 
 use App\Model\Entities\OrderItem;
 use App\Model\Entities\OrderMedicine;
+use App\Model\Queries\OrderMedicineListQuery;
 use Kdyby\Doctrine\EntityManager;
 use Nette;
 use Nette\Utils\DateTime;
@@ -46,6 +47,14 @@ class OrderMedicineFacade extends BaseFacade
 			return $this->entityManager->find(OrderItem::class, $id);
 
 		return NULL;
+	}
+
+	public function getAllAsArray($column, $sort)
+	{
+		$query = new OrderMedicineListQuery();
+		$query->orderBy($column, $sort);
+
+		return $this->entityManager->fetch($query)->toArray();
 	}
 
 	/**

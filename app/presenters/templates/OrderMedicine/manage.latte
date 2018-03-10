@@ -9,6 +9,63 @@
 	<div id="sectionA" class="tab-pane fade in active">
 		<h2>Zoznam objednávok</h2>
 
+		<table class="table table-hover">
+			<thread>
+				<tr>
+					<th>Dátum vytvorenia
+						<a n:href="OrderMedicine:manage createdTime, asc">
+							<span class="glyphicon glyphicon-chevron-up sort-icon" aria-hidden="true"></span>
+						</a>
+						<a n:href="OrderMedicine:manage createdTime, desc">
+							<span class="glyphicon glyphicon-chevron-down sort-icon" aria-hidden="true"></span>
+						</a>
+					</th>
+					<th>
+						Číslo objednávky
+						<a n:href="OrderMedicine:manage id, asc">
+							<span class="glyphicon glyphicon-chevron-up sort-icon" aria-hidden="true"></span>
+						</a>
+						<a n:href="OrderMedicine:manage id, desc">
+							<span class="glyphicon glyphicon-chevron-down sort-icon" aria-hidden="true"></span>
+						</a>
+					</th>
+					<th>
+						Predavač
+						<a n:href="OrderMedicine:manage user, asc">
+							<span class="glyphicon glyphicon-chevron-up sort-icon" aria-hidden="true"></span>
+						</a>
+						<a n:href="OrderMedicine:manage user, desc">
+							<span class="glyphicon glyphicon-chevron-down sort-icon" aria-hidden="true"></span>
+						</a>
+					</th>
+					<th>
+						Celková cena
+						<a n:href="OrderMedicine:manage totalPrice, asc">
+							<span class="glyphicon glyphicon-chevron-up sort-icon" aria-hidden="true"></span>
+						</a>
+						<a n:href="OrderMedicine:manage totalPrice, desc">
+							<span class="glyphicon glyphicon-chevron-down sort-icon" aria-hidden="true"></span>
+						</a>
+					</th>
+
+				</tr>
+			</thread>
+			<tr n:foreach="$orders as $item">
+				<td>
+					{$item->createdTime|date: "d.m.Y - H:i:s"}
+				</td>
+				<td>
+					{$item->id}
+				</td>
+				<td>
+					{$item->user->name}
+				</td>
+				<td>
+					{$item->totalPrice}
+				</td>
+			</tr>
+		</table>
+
 		<a class="btn btn-primary btn-add" n:href="OrderMedicine:create">Pridať objednávku</a>
 	</div>
 </div>
