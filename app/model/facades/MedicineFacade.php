@@ -144,4 +144,14 @@ class MedicineFacade extends BaseFacade
 
 		$this->entityManager->flush();
 	}
+
+	public function deleteMedicine($id = NULL)
+	{
+		$medicine = NULL;
+		if (is_null($id) || is_null($medicine = $this->getMedicine($id)))
+			throw new \InvalidArgumentException("Liek neexistuje.");
+
+		$this->entityManager->remove($medicine);
+		$this->entityManager->flush();
+	}
 }
