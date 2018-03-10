@@ -185,4 +185,15 @@ class StockMedicineFacade extends BaseFacade
 
 		$this->entityManager->flush();
 	}
+
+	public function deleteStockMedicine($id = NULL)
+	{
+		$stockItem= NULL;
+
+		if (is_null($id) | is_null($stockItem = $this->getStockMedicine($id)))
+			throw new \InvalidArgumentException("Skladová zásoba neexistuje.");
+
+		$this->entityManager->remove($stockItem);
+		$this->entityManager->flush();
+	}
 }
