@@ -53,6 +53,10 @@ class MedicineFormFactory extends BaseFormFactory
 			->setAttribute('class', 'form-control')
 			->setRequired("Musí byť zadaný popis lieku");
 
+		$form->addText("price", "Predajná cena lieku")
+			->addRule(Form::FLOAT, "Cena musí byť číslo.")
+			->setRequired("Musí byť zadaná predajná cena lieku.");
+
 		$form->addSelect("type", "Typ lieku", self::TYPE_MEDICINE)
 			->setAttribute('class', 'form-control')
 			->setRequired("Musí byť zadaný typ lieku.");

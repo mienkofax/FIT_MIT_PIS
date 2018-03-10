@@ -52,6 +52,12 @@ class Medicine extends BaseEntity
 	protected $contribution;
 
 	/**
+	 * Predajna cena lieku.
+	 * @ORM\Column(type="float")
+	 */
+	protected $price;
+
+	/**
 	 * Jeden liek je v niekolkych skladovych zasobach.
 	 * @ORM\OneToMany(targetEntity="StockMedicine", mappedBy="medicine")
 	 */

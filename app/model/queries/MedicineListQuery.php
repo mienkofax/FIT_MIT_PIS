@@ -14,7 +14,7 @@ use Kdyby\Persistence\Queryable;
  */
 class MedicineListQuery extends QueryObject
 {
-    const SUPPORTED_COLUMNS = array("idSukl", "name", "type", "contribution");
+    const SUPPORTED_COLUMNS = array("idSukl", "name", "type", "contribution", "price");
 
 	/** @var array Pole filtrov, ktore sa nasledne aplikuju na dotaz */
 	private $filters = array();

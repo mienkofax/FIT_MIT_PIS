@@ -48,6 +48,15 @@
 							<span class="glyphicon glyphicon-chevron-down sort-icon" aria-hidden="true"></span>
 						</a>
 					</th>
+					<th>
+						Predajná cena
+						<a n:href="Medicine:manage price, asc">
+							<span class="glyphicon glyphicon-chevron-up sort-icon" aria-hidden="true"></span>
+						</a>
+						<a n:href="Medicine:manage price, desc">
+							<span class="glyphicon glyphicon-chevron-down sort-icon" aria-hidden="true"></span>
+						</a>
+					</th>
 					<th></th>
 				</tr>
 			</thread>
@@ -67,6 +76,9 @@
 				</td>
 				<td>
 					{$medicine->contribution} CZK
+				</td>
+				<td>
+					{$medicine->price} CZK
 				</td>
 				<td class="text-center">
 					<a class="action" n:href="Medicine:edit $medicine->id">

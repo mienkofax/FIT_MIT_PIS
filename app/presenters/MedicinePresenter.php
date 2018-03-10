@@ -94,7 +94,8 @@ class MedicinePresenter extends BasePresenter
 				"id_sukl" => $tmp->idSukl,
 				"name" => $tmp->name,
 				"description" => $tmp->description,
-				"type" => (int) $tmp->type
+				"type" => (int) $tmp->type,
+				"price" => $tmp->price
 			)
 		);
 	}

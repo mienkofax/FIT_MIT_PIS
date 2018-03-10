@@ -132,6 +132,7 @@ class MedicineFacade extends BaseFacade
 		$medicine->name = $data->name;
 		$medicine->description = $data->description;
 		$medicine->type = $data->type;
+		$medicine->price = $data->price;
 
 		$this->entityManager->persist($medicine);
 		$this->entityManager->flush();
@@ -142,6 +143,7 @@ class MedicineFacade extends BaseFacade
 		$medicine->name = $data->name;
 		$medicine->description = $data->description;
 		$medicine->type = $data->type;
+		$medicine->price = $data->price;
 
 		$this->entityManager->flush();
 	}
