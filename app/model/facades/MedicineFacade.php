@@ -135,4 +135,13 @@ class MedicineFacade extends BaseFacade
 		$this->entityManager->persist($medicine);
 		$this->entityManager->flush();
 	}
+
+	public function editMedicine($data, Medicine $medicine)
+	{
+		$medicine->name = $data->name;
+		$medicine->description = $data->description;
+		$medicine->type = $data->type;
+
+		$this->entityManager->flush();
+	}
 }
