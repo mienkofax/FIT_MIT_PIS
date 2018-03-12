@@ -3,6 +3,7 @@
 namespace App\Presenters;
 
 use App\Forms\MedicineFormFactory;
+use App\Forms\UtilForm;
 use App\Model\Facades\MedicineFacade;
 use Nette\Application\UI\Form;
 
@@ -61,6 +62,18 @@ class MedicinePresenter extends BasePresenter
 			$tmp = $form->getPresenter();
 			$tmp->flashMessage("Liek bol úspešne upravený.");
 			$tmp->redirect("this");
+		};
+
+		return $form;
+	}
+
+	public function createComponentImportContributionsForm()
+	{
+		$form = $this->formFactory->createImportContributionsForm();
+		$form->onSuccess[] = function (Form $form) {
+			$tmp = $form->getPresenter();
+			$tmp->flashMessage("Príspevky na lieky boli úspešne importované.");
+			$tmp->redirect("Medicine:manage");
 		};
 
 		return $form;
