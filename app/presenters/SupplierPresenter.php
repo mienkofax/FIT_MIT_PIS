@@ -80,6 +80,19 @@ class SupplierPresenter extends BasePresenter
 		$this->template->supplier = $this->searchedSupplier;
 	}
 
+	public function renderDetail($id = NULL)
+	{
+		if (is_null($id))
+			return;
+
+		$supplier = $this->supplierFacade->getSupplier($id);
+
+		if (is_null($supplier))
+			return;
+
+		$this->template->supplier = $supplier;
+	}
+
 	public function actionEdit($id = NULL)
 	{
 		$this->searchedSupplier = $tmp = $this->supplierFacade->getSupplier($id);

@@ -24,6 +24,7 @@ class RouterFactory
 		$router[] = new Route('medicine/manage[/<column>][/<sort>]', 'Medicine:manage');
 
 		$router[] = new Route('supplier/edit[/<id>]', 'Supplier:edit');
+		$router[] = new Route('supplier/detail[/<id>]', 'Supplier:detail');
 		$router[] = new Route('supplier/manage[/<do>][/<id>]', 'Supplier:manage');
 		$router[] = new Route('supplier/manage[/<column>][/<sort>]', 'Supplier:manage');
 

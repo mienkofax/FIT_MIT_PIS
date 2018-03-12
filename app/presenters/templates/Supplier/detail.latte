@@ -1,0 +1,26 @@
+{define title}Detail dodávateľa {$supplier->name}{/define}
+{define description}Detail dodávateľa {$supplier->name}.{/define}
+{block content}
+<ul class="detail nav nav-tabs">
+	<li><a data-toggle="tab" href="#sectionA">Detail dodávateľa {$supplier->name}</a></li>
+</ul>
+
+<div class="tab-content content">
+	<div id="sectionA" class="tab-pane fade in active">
+		<h2>Detail dodávateľa {$supplier->name}</h2>
+		<h4>Základné informácie</h4>
+
+		{dump $supplier}
+
+		<p><strong>Názov dodávateľa:</strong> {$supplier->name}</p>
+		<p>
+			<strong>Adresa dodávateľa:</strong>
+			{$supplier->street} {$supplier->houseNumber},
+			{$supplier->city}
+			</p>
+
+		<a class="btn btn-primary" n:href="Supplier:edit $supplier->id">
+			Upraviť dodávateľa
+		</a>
+	</div>
+</div<
