@@ -79,16 +79,21 @@ class MedicinePresenter extends BasePresenter
 		return $form;
 	}
 
-    /**
-     * Nastavenie premennej do sablony.
-     * @param $column string
-     * @param $sort string
-     */
-    public function renderManage($column, $sort)
-    {
-        $this->template->medicines =
-            $this->medicineFacade->getAllAsArray($column, $sort);
-    }
+	/**
+	 * Nastavenie premennej do sablony.
+	 * @param $column string
+	 * @param $sort string
+	 */
+	public function renderManage($column, $sort)
+	{
+		$this->template->medicines =
+			$this->medicineFacade->getAllAsArray($column, $sort);
+
+		$this->template->medicinesWithPrescription =
+			$this->medicineFacade->getAllWithPrescriptionAsArray(true, $column, $sort);
+		$this->template->medicinesWithoutPrescription =
+			$this->medicineFacade->getAllWithPrescriptionAsArray(false, $column, $sort);
+	}
 
 	public function renderEdit()
 	{
