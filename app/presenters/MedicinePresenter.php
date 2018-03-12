@@ -61,7 +61,7 @@ class MedicinePresenter extends BasePresenter
 		$form->onSuccess[] = function (Form $form) {
 			$tmp = $form->getPresenter();
 			$tmp->flashMessage("Liek bol úspešne upravený.");
-			$tmp->redirect("this");
+			$tmp->redirect("Medicine:detail", $this["editMedicineForm"]['id']->getValue());
 		};
 
 		return $form;

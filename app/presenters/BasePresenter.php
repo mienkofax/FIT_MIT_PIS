@@ -54,6 +54,7 @@ abstract class BasePresenter extends Presenter
 	{
 		parent::beforeRender();
 		$this->template->userEntity = $this->userEntity;
+		$this->template->manager = $this->getUser()->isInRole('manager');
 	}
 
 	/**

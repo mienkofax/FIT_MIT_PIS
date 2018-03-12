@@ -65,7 +65,7 @@ class UserPresenter extends BasePresenter
 		$form->onSuccess[] = function (Form $form) {
 			$tmp = $form->getPresenter();
 			$tmp->flashMessage("Užívateľ bol úspešne upravený.");
-			$tmp->redirect("User:manage");
+			$tmp->redirect("User:profil", $this["editUserForm"]['userId']->getValue());
 		};
 
 		return $form;

@@ -81,17 +81,21 @@
 					{$medicine->price} CZK
 				</td>
 				<td class="text-center">
+					{if $manager}
 					<a class="action" n:href="Medicine:edit $medicine->id">
 						<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
 					</a>
 					<a class="action" n:href="removeMedicine! $medicine->id">
 						<span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>
 					</a>
+					{/if}
 				</td>
 			</tr>
 		</table>
 
+		{if $manager}
 		<a class="btn btn-primary" n:href="Medicine:import">Importovať príspevky na lieky</a>
 		<a class="btn btn-primary btn-add" n:href="Medicine:create">Pridať liek</a>
+		{/if}
 	</div>
 </div>

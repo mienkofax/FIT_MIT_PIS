@@ -58,16 +58,20 @@
 					{$item->street}, {$item->houseNumber}
 				</td>
 				<td class="text-center">
+					{if $manager}
 					<a class="action" n:href="Supplier:edit $item->id">
 						<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
 					</a>
 					<a class="action" n:href="removeSupplier! $item->id">
 						<span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>
 					</a>
+					{/if}
 				</td>
 			</tr>
 		</table>
 
+		{if $manager}
 		<a class="btn btn-primary btn-add" n:href="Supplier:create">Pridať dodávateľa</a>
+		{/if}
 	</div>
 </div>
