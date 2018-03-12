@@ -32,6 +32,11 @@ class RouterFactory
 
 		$router[] = new Route('order-medicine/manage[/<column>][/<sort>]', 'OrderMedicine:manage');
 
+		$router[] = new Route('user/manage[/<do>][/<id>]', 'User:manage');
+		$router[] = new Route('user/edit[/<id>]', 'User:edit');
+		$router[] = new Route('user/profil[/<id>]', 'User:profil');
+		$router[] = new Route('user/manage[/<column>][/<sort>]', 'User:manage');
+
 		$router[] = new route('<presenter>/<action>', 'Homepage:default');
 		return $router;
 	}
