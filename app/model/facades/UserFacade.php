@@ -102,6 +102,16 @@ class UserFacade extends BaseFacade implements IAuthenticator
 			$this->entityManager->flush();
 		}
 
-		return new Identity($user->id);
+		$role = NULL;
+		switch ($user->role) {
+			case USER::ROLE_SELLER:
+				$role = "seller";
+				break;
+			case USER::ROLE_MANAGER:
+				$role = "manager";
+				break;
+		}
+
+		return new Identity($user->id, $role);
 	}
 }

@@ -22,7 +22,7 @@
 			<thread>
 				<tr>
 					<th>
-						Kód položky
+						Kód lieku
 					</th>
 					<th>
 						Názov lieku
@@ -34,19 +34,19 @@
 			</thread>
 			<tr n:foreach="$order->orderItems as $item">
 				<td>
-					{$item->id}
+					{$item->medicines->idSukl}
 				</td>
 				<td>
 					<a n:href="Medicine:detail $item->medicines->id">{$item->medicines->name}</a>
 				</td>
 				<td>
-					{$item->price}
+					{$item->price} CZK
 				</td>
 				<td>
 					{$item->count}
 				</td>
 				<td>
-					{$item->count * $item->price}
+					{$item->count * $item->price} CZK
 				</td>
 			</tr>
 		</table>

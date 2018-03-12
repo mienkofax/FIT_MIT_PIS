@@ -61,7 +61,7 @@ class MedicinePresenter extends BasePresenter
 		$form->onSuccess[] = function (Form $form) {
 			$tmp = $form->getPresenter();
 			$tmp->flashMessage("Liek bol úspešne upravený.");
-			$tmp->redirect("this");
+			$tmp->redirect("Medicine:detail", $this["editMedicineForm"]['id']->getValue());
 		};
 
 		return $form;
@@ -136,8 +136,7 @@ class MedicinePresenter extends BasePresenter
 			$this->flashMessage($ex->getMessage());
 		}
 		catch (\Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException $ex) {
-			$this->flashMessage("Liek obsahuje skladové zásoby,
-			pred jeho odstránením zmažte skladové zásoby.", "danger");
+			$this->flashMessage("Pred odstránením lieku je potrebné zmazať závislosti.", "danger");
 		}
 
 		$this->redirect("Medicine:manage");

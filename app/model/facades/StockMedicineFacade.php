@@ -160,7 +160,7 @@ class StockMedicineFacade extends BaseFacade
 	{
 		if ($medicine->price < $values->price) {
 			throw new \InvalidArgumentException(
-				"Cena lieku od dodávateľa musí byť menšia ako predajná cena");
+				"Nákupná cena lieku od dodávateľa musí byť menšia ako predajná cena");
 		}
 
 		$stockMedicine = new StockMedicine();
@@ -181,7 +181,7 @@ class StockMedicineFacade extends BaseFacade
 	{
 		if ($medicine->price < $values->price) {
 			throw new \InvalidArgumentException(
-				"Cena lieku od dodávateľa musí byť menšia ako predajná cena");
+				"Nákupná cena lieku od dodávateľa musí byť menšia ako predajná cena");
 		}
 
 		$stockMedicine->count = $values->count;

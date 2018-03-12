@@ -72,17 +72,21 @@
 					{$item->count}
 				</td>
 				<td>
+					{if $manager}
 					<a class="action" n:href="StockMedicine:edit $item->medicine->id, $item->supplier->id">
 						<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
 					</a>
 					<a class="action" n:href="removeStockMedicine! $item->medicine->id, $item->supplier->id">
 						<span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>
 					</a>
+					{/if}
 				</td>
 			</tr>
 		</table>
 
 		<a class="btn btn-primary" n:href="StockMedicine:addToStock">Naskladniť</a>
+		{if $manager}
 		<a class="btn btn-primary btn-add" n:href="StockMedicine:create">Pridať skladovú zásoby</a>
+		{/if}
 	</div>
 </div>

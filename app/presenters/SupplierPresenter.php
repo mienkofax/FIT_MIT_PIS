@@ -63,7 +63,7 @@ class SupplierPresenter extends BasePresenter
 		$form->onSuccess[] = function (Form $form) {
 			$tmp = $form->getPresenter();
 			$tmp->flashMessage("Dodávateľ bol úspešne upravený.");
-			$tmp->redirect("this");
+			$tmp->redirect("Supplier:detail", $this["editSupplierForm"]['supplierId']->getValue());
 		};
 
 		return $form;
