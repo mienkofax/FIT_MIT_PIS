@@ -75,6 +75,9 @@ class StockMedicinePresenter extends BasePresenter
 
 	public function actionEdit($medicineId = NULL, $supplierId = NULL)
 	{
+		if (is_null($medicineId) || is_null($supplierId))
+			return;
+
 		$id = array("medicine" => $medicineId, "supplier" => $supplierId);
 		$this->searchedStockMedicine = $tmp =
 			$this->stockMedicineFacade->getStockMedicine($id);
