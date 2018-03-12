@@ -57,9 +57,25 @@ class UserFacade extends BaseFacade implements IAuthenticator
 		$user->password = Passwords::hash($values->password);
 		$user->registrationDate = new DateTime();
 		$user->lastLogin = new DateTime();
-		$user->role = User::ROLE_USER;
+		$user->role = $values->role;
 
 		$this->entityManager->persist($user);
+		$this->entityManager->flush();
+	}
+
+	public function editUser($values, $user)
+	{
+		$user->name = $values->name;
+		$user->surname = $values->surname;
+		$user->email = $values->email;
+		$user->role = $values->role;
+
+		$this->entityManager->flush();
+	}
+
+	public function changeUserPassword($values, $user)
+	{
+		$user->password = Passwords::hash($values->password);
 		$this->entityManager->flush();
 	}
 
