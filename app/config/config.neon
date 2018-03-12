@@ -34,8 +34,9 @@ services:
 	- App\Forms\SignFormFactory
 	- App\Forms\StockMedicineFormFactory
 	- App\Forms\SupplierFormFactory
-	- App\Forms\UserFormFactory
 	router: App\RouterFactory::createRouter
+	autenticator: App\Forms\UserFormFactory
+	authorizator: App\AccessListFactory
 
 
 extensions:
