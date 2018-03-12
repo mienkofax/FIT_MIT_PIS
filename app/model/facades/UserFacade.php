@@ -3,6 +3,7 @@
 namespace App\Model\Facades;
 
 use App\Model\Entities\User;
+use App\Model\Queries\UserListQuery;
 use Nette;
 use Nette\Database\UniqueConstraintViolationException;
 use Nette\Security\AuthenticationException;
@@ -19,6 +20,14 @@ use Nette\Utils\DateTime;
 class UserFacade extends BaseFacade implements IAuthenticator
 {
 	use Nette\SmartObject;
+
+	public function getAllAsArray($column, $sort)
+	{
+		$query = new UserListQuery();
+		$query->orderBy($column, $sort);
+
+		return $this->entityManager->fetch($query)->toArray();
+	}
 
 	/**
 	 * Vyhladanie uzivatela podla zadaneho ID.
