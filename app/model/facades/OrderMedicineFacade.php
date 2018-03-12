@@ -53,7 +53,7 @@ class OrderMedicineFacade extends BaseFacade
 	public function getOrderMedicine($id)
 	{
 		if (isset($id))
-			return $this->entityManager->find(OrderItem::class, $id);
+			return $this->entityManager->find(OrderMedicine::class, $id);
 
 		return NULL;
 	}

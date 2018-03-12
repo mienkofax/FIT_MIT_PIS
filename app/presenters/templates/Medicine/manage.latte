@@ -65,7 +65,7 @@
 					{$medicine->idSukl}
 				</td>
 				<td>
-					{$medicine->name}
+					<a n:href="Medicine:detail $medicine->id">{$medicine->name}</a>
 				</td>
 				<td>
 					{if $medicine->type == 0}

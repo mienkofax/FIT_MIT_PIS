@@ -1,0 +1,55 @@
+{define title}Detail objednávky {$order->id}{/define}
+{define description}Detail objednávky {$medicine->id}.{/define}
+{block content}
+<ul class="detail nav nav-tabs">
+	<li><a data-toggle="tab" href="#sectionA">Detail objednávky {$order->id}</a></li>
+</ul>
+
+<div class="tab-content content">
+	<div id="sectionA" class="tab-pane fade in active">
+		<h2>Detail objednávky {$order->id}</h2>
+		<h4>Základné informácie</h4>
+
+		{dump $order}
+
+		<p><strong>Číslo objednávky:</strong> {$order->id}</p>
+		<p><strong>Celková cena objednávky:</strong> {$order->totalPrice}</p>
+		<p><strong>Objednávka vytvorená:</strong> {$order->createdTime|date: "d.m.Y - H:i:s"}</p>
+
+		<h4>Zoznam objednaných liekov</h4>
+
+		<table class="table table-hover">
+			<thread>
+				<tr>
+					<th>
+						Kód položky
+					</th>
+					<th>
+						Názov lieku
+					</th>
+					<th>Jednotková cena lieku</th>
+					<th>Počet kusov</th>
+					<th>Cena</th>
+				</tr>
+			</thread>
+			<tr n:foreach="$order->orderItems as $item">
+				<td>
+					{$item->id}
+				</td>
+				<td>
+					<a n:href="Medicine:detail $item->medicines->id">{$item->medicines->name}</a>
+				</td>
+				<td>
+					{$item->price}
+				</td>
+				<td>
+					{$item->count}
+				</td>
+				<td>
+					{$item->count * $item->price}
+				</td>
+			</tr>
+		</table>
+
+	</div>
+</div>
