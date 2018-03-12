@@ -59,10 +59,12 @@ class StockMedicineFormFactory extends BaseFormFactory
 		$form->addText("count", "Počet liekov")
 			->addRule(Form::INTEGER, "Počeť liekov musí byť číslo.")
 			->addRule(Form::MIN, "Počeť liekov musí byť kladné.", 0)
+			->setAttribute("class", "form-control")
 			->setRequired("Musí byť zadaný počet liekov.");
 
-		$form->addText("price", "Cena lieku")
+		$form->addText("price", "Nákupná cena lieku")
 			->addRule(Form::FLOAT, "Cena lieku musí byť číslo")
+			->setAttribute("class", "form-control")
 			->setRequired("Musí byť zadaná cena lieku.");
 
 		$form->addSelect("medicine", "Liek")
@@ -89,8 +91,14 @@ class StockMedicineFormFactory extends BaseFormFactory
 	{
 		$form = $this->createForm();
 
+		$form->addText("medicine_price", "Predajná cena lieku")
+			->addRule(Form::FLOAT, "Predajná cena lieku musí byť číslo.")
+			->setAttribute("class", "form-control")
+			->setRequired()
+			->setDisabled();
+
 		$form->addSubmit("stockMedicineCreate", "Pridať skladovú zásobu")
-			->setAttribute('class', 'btn-primary');
+			->setAttribute('class', 'btn-primary btn');
 
 		$form->onSuccess[] = array($this, "createStockMedicineSubmitted");
 
@@ -101,13 +109,47 @@ class StockMedicineFormFactory extends BaseFormFactory
 	{
 		$form = $this->createForm();
 
+		$form->addText("medicine_price", "Predajná cena lieku")
+			->addRule(Form::FLOAT, "Predajná cena lieku musí byť číslo.")
+			->setAttribute("class", "form-control")
+			->setRequired()
+			->setDisabled();
+
 		$form->addSubmit("stockMedicineCreate", "Upraviť skladovú zásobu")
-			->setAttribute('class', 'btn-primary');
+			->setAttribute('class', 'btn-primary btn');
 
 		$form->addHidden("medicineId");
 		$form->addHidden("supplierId");
 
 		$form->onSuccess[] = array($this, "editStockMedicineSubmitted");
+
+		return UtilForm::toBootstrapForm($form);
+	}
+
+	public function createAddToStock()
+	{
+		$form = new Form();
+
+		$form->addSelect("medicine_id", "Liek")
+			->setItems($this->stockMedicineFacade->getMedicinesAsArray())
+			->setAttribute("class", "form-control")
+			->setPrompt("Zoznam liekov")
+			->setRequired();
+
+		$form->addSelect("supplier_id", "Dodávateľ")
+			->setAttribute("class", "form-control")
+			->setPrompt("Zoznam liekov");
+
+		$form->addText("count", "Počet liekov")
+			->addRule(Form::INTEGER, "Počeť liekov musí byť číslo.")
+			->addRule(Form::MIN, "Počeť liekov musí byť kladné.", 0)
+			->setAttribute("class", "form-control")
+			->setRequired("Musí byť zadaný počet liekov.");
+
+		$form->addSubmit("stockMedicineCreate", "Naskladniť")
+			->setAttribute('class', 'btn-primary btn');
+
+		$form->onSuccess[] = array($this, "addToStockSubmitted");
 
 		return UtilForm::toBootstrapForm($form);
 	}
@@ -139,6 +181,9 @@ class StockMedicineFormFactory extends BaseFormFactory
 		catch (UniqueConstraintViolationException $ex) {
 			$form->addError("Záznam s týmto liekom už existuje.");
 		}
+		catch (\InvalidArgumentException $ex) {
+			$form->addError($ex->getMessage());
+		}
 	}
 
 	public function editStockMedicineSubmitted(Form $form, ArrayHash $value)
@@ -163,7 +208,22 @@ class StockMedicineFormFactory extends BaseFormFactory
 		catch (UniqueConstraintViolationException $ex) {
 			$form->addError("Záznam s týmto liekom už existuje.");
 		}
+		catch (\InvalidArgumentException $ex) {
+			$form->addError($ex->getMessage());
+		}
 
 
+	}
+
+	public function addToStockSubmitted(Form $form, ArrayHash $value)
+	{
+		$data = $form->getHttpData();
+		$id = array("medicine" => $data["medicine_id"], "supplier" => $data["supplier_id"]);
+
+		$stockMedicine = $this->stockMedicineFacade->getStockMedicine($id);
+		if (is_null($stockMedicine))
+			throw new InvalidArgumentException("Požadovaná skladová zásoba neexistuje");
+
+		$this->stockMedicineFacade->addToStock($data, $stockMedicine);
 	}
 }

@@ -53,6 +53,10 @@ class MedicineFormFactory extends BaseFormFactory
 			->setAttribute('class', 'form-control')
 			->setRequired("Musí byť zadaný popis lieku");
 
+		$form->addText("price", "Predajná cena lieku")
+			->addRule(Form::FLOAT, "Cena musí byť číslo.")
+			->setRequired("Musí byť zadaná predajná cena lieku.");
+
 		$form->addSelect("type", "Typ lieku", self::TYPE_MEDICINE)
 			->setAttribute('class', 'form-control')
 			->setRequired("Musí byť zadaný typ lieku.");
@@ -68,6 +72,9 @@ class MedicineFormFactory extends BaseFormFactory
 	{
 		$form = $this->createForm();
 
+		$form->addText("id_sukl", "Kód lieku")
+			->setRequired();
+
 		$form->addSubmit("create", "Vložiť liek")
 			->setAttribute('class', 'btn-primary');
 
@@ -79,6 +86,10 @@ class MedicineFormFactory extends BaseFormFactory
 	public function createEditMedicineForm()
 	{
 		$form = $this->createForm();
+
+		$form->addText("id_sukl", "Kód lieku")
+			->setDisabled()
+			->setRequired();
 
 		$form->addSubmit("create", "Editovať liek")
 			->setAttribute('class', 'btn-primary');

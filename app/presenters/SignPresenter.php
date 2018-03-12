@@ -19,22 +19,6 @@ class SignPresenter extends BasePresenter
 	public $formFactory;
 
 	/**
-	 * Vytvorenie a vratenie registracneho formulara.
-	 * @return Form komponenta s registracnym formularom
-	 */
-	protected function createComponentSignUpForm()
-	{
-		$form = $this->formFactory->createSignUp();
-		$form->onSuccess[] = function (Form $form) {
-			$tmp = $form ->getPresenter();
-			$tmp->flashMessage("Užívateľ bol úspešne vytvorený.");
-			$tmp->redirect("this");
-		};
-
-		return $form;
-	}
-
-	/**
 	 * Vytvorenie a vratenie prihlasovacieho formulara.
 	 * @return Form komponenta sprihlasovacim formularom
 	 */
@@ -48,16 +32,6 @@ class SignPresenter extends BasePresenter
 		};
 
 		return $form;
-	}
-
-	/**
-	 * Presmerovanie uzivatela na domovsku stranku po registrovani.
-	 * @throws \Nette\Application\AbortException
-	 */
-	public function actionUp()
-	{
-		if ($this->getUser()->isLoggedIn())
-			$this->redirect("Homepage:default");
 	}
 
 	/**

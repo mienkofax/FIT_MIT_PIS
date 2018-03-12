@@ -71,8 +71,8 @@ class OrderMedicineFormFactory extends BaseFormFactory
 					->setItems($this->stockMedicine->getSuppliersAsArray())
 					->setPrompt("Zoznam dodávateľov");
 
-				$item->addText("price", "Cena lieku")
-					->setRequired();
+				$item->addText("price", "Predajná cena lieku")
+					->setDisabled();
 
 				$item->addText("in_stock", "Na skade")
 					->setDisabled();
@@ -120,6 +120,9 @@ class OrderMedicineFormFactory extends BaseFormFactory
 		}
 		catch (UniqueConstraintViolationException $ex) {
 			$button->getForm()->addError("Objednávka už existuje.");
+		}
+		catch (\InvalidArgumentException $ex) {
+			$button->getForm()->addError($ex->getMessage());
 		}
 	}
 }

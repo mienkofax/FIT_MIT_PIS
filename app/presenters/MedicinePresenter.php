@@ -90,10 +90,12 @@ class MedicinePresenter extends BasePresenter
 
 		$this["editMedicineForm"]->setDefaults(
 			array(
-				"id" => $id,
+				"id" => $tmp->id,
+				"id_sukl" => $tmp->idSukl,
 				"name" => $tmp->name,
 				"description" => $tmp->description,
-				"type" => (int) $tmp->type
+				"type" => (int) $tmp->type,
+				"price" => $tmp->price
 			)
 		);
 	}

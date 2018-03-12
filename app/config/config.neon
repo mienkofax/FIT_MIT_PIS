@@ -34,6 +34,7 @@ services:
 	- App\Forms\SignFormFactory
 	- App\Forms\StockMedicineFormFactory
 	- App\Forms\SupplierFormFactory
+	- App\Forms\UserFormFactory
 	router: App\RouterFactory::createRouter
 
 

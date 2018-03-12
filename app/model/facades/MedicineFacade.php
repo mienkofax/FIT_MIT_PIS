@@ -98,6 +98,7 @@ class MedicineFacade extends BaseFacade
 
 			$data .= "{";
 			$data .= '"id":' . $med->id . ",";
+			$data .= '"price":' . $med->price . ",";
 			$data .= '"name":"' . $med->name . '",';
 
 			$data .= '"suppliers": [';
@@ -128,9 +129,11 @@ class MedicineFacade extends BaseFacade
 	public function createMedicine($data)
 	{
 		$medicine = new Medicine();
+		$medicine->idSukl = $data->id_sukl;
 		$medicine->name = $data->name;
 		$medicine->description = $data->description;
 		$medicine->type = $data->type;
+		$medicine->price = $data->price;
 
 		$this->entityManager->persist($medicine);
 		$this->entityManager->flush();
@@ -141,6 +144,7 @@ class MedicineFacade extends BaseFacade
 		$medicine->name = $data->name;
 		$medicine->description = $data->description;
 		$medicine->type = $data->type;
+		$medicine->price = $data->price;
 
 		$this->entityManager->flush();
 	}

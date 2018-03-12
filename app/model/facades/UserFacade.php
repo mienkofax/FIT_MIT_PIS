@@ -3,6 +3,7 @@
 namespace App\Model\Facades;
 
 use App\Model\Entities\User;
+use App\Model\Queries\UserListQuery;
 use Nette;
 use Nette\Database\UniqueConstraintViolationException;
 use Nette\Security\AuthenticationException;
@@ -19,6 +20,14 @@ use Nette\Utils\DateTime;
 class UserFacade extends BaseFacade implements IAuthenticator
 {
 	use Nette\SmartObject;
+
+	public function getAllAsArray($column, $sort)
+	{
+		$query = new UserListQuery();
+		$query->orderBy($column, $sort);
+
+		return $this->entityManager->fetch($query)->toArray();
+	}
 
 	/**
 	 * Vyhladanie uzivatela podla zadaneho ID.
@@ -40,13 +49,6 @@ class UserFacade extends BaseFacade implements IAuthenticator
 	 */
 	public function registerUser($values)
 	{
-		// kontrola, ci uz niekto nema zaregistrovany dany email
-		$count = $this->entityManager->getRepository(User::class)
-			->countBy(array("email" => $values->email));
-
-		if ($count >= 1)
-			throw new UniqueConstraintViolationException("Zadaný email je už registrovaný.");
-
 		// ulozenie dat do db
 		$user = new User();
 		$user->name = $values->name;
@@ -55,9 +57,25 @@ class UserFacade extends BaseFacade implements IAuthenticator
 		$user->password = Passwords::hash($values->password);
 		$user->registrationDate = new DateTime();
 		$user->lastLogin = new DateTime();
-		$user->role = User::ROLE_USER;
+		$user->role = $values->role;
 
 		$this->entityManager->persist($user);
+		$this->entityManager->flush();
+	}
+
+	public function editUser($values, $user)
+	{
+		$user->name = $values->name;
+		$user->surname = $values->surname;
+		$user->email = $values->email;
+		$user->role = $values->role;
+
+		$this->entityManager->flush();
+	}
+
+	public function changeUserPassword($values, $user)
+	{
+		$user->password = Passwords::hash($values->password);
 		$this->entityManager->flush();
 	}
 

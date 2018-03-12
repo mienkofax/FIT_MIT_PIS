@@ -13,10 +13,8 @@ use Kdyby\Doctrine\Entities\BaseEntity;
 class User extends BaseEntity
 {
 	/** Uzivatelske role. */
-	const ROLE_GUEST = 1;
-	const ROLE_USER = 2;
-	const ROLE_MANAGER = 3;
-	const ROLE_ADMIN = 4;
+	const ROLE_SELLER = 0;
+	const ROLE_MANAGER = 1;
 
 	/** Maximalna dlzka prihlasovacieho mena */
 	const NAME_MAX_LENGTH = 15;
@@ -46,7 +44,7 @@ class User extends BaseEntity
 
 	/**
 	 * Email pouzivatela.
-	 * @ORM\Column(type="string")
+	 * @ORM\Column(type="string", unique=true)
 	 */
 	protected $email;
 
@@ -91,21 +89,17 @@ class User extends BaseEntity
 	}
 
 	/**
-	 * Overenie, ci dany uzivatel ma rolu administratora.
-	 * @return bool true ak je administrator, inak false
-	 */
-	public function isAdmin()
-	{
-		return $this->role === self::ROLE_ADMIN;
-	}
-
-	/**
 	 * Overenie, ci dany uzivatel ma rolu manazera.
 	 * @return bool true ak je manazer, inak false
 	 */
 	public function isManager()
 	{
 		return $this->role === self::ROLE_MANAGER;
+	}
+
+	public function isSeller()
+	{
+		return $this->role === self::ROLE_SELLER;
 	}
 
 	/**

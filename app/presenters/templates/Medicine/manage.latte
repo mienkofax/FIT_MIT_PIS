@@ -14,10 +14,10 @@
 				<tr>
 					<th>
 						Kód
-						<a n:href="Medicine:manage id, asc">
+						<a n:href="Medicine:manage idSukl, asc">
 							<span class="glyphicon glyphicon-chevron-up sort-icon" aria-hidden="true"></span>
 						</a>
-						<a n:href="Medicine:manage id, desc">
+						<a n:href="Medicine:manage idSukl, desc">
 							<span class="glyphicon glyphicon-chevron-down sort-icon" aria-hidden="true"></span>
 						</a>
 					</th>
@@ -48,12 +48,21 @@
 							<span class="glyphicon glyphicon-chevron-down sort-icon" aria-hidden="true"></span>
 						</a>
 					</th>
+					<th>
+						Predajná cena
+						<a n:href="Medicine:manage price, asc">
+							<span class="glyphicon glyphicon-chevron-up sort-icon" aria-hidden="true"></span>
+						</a>
+						<a n:href="Medicine:manage price, desc">
+							<span class="glyphicon glyphicon-chevron-down sort-icon" aria-hidden="true"></span>
+						</a>
+					</th>
 					<th></th>
 				</tr>
 			</thread>
 			<tr n:foreach="$medicines as $medicine">
 				<td>
-					{$medicine->id}
+					{$medicine->idSukl}
 				</td>
 				<td>
 					{$medicine->name}
@@ -67,6 +76,9 @@
 				</td>
 				<td>
 					{$medicine->contribution} CZK
+				</td>
+				<td>
+					{$medicine->price} CZK
 				</td>
 				<td class="text-center">
 					<a class="action" n:href="Medicine:edit $medicine->id">

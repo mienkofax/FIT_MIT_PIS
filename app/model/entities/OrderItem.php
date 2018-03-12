@@ -54,4 +54,14 @@ class OrderItem extends BaseEntity
 	 * @ORM\JoinColumn(name="medicine_id", referencedColumnName="id")
 	 */
 	protected $medicines;
+
+	/**
+	 * Dodatocne informacie o dodavatelovi, ktore nemusia byt ulozene
+	 * v tejto casti.
+	 *
+	 * Viacerymi polozkami moze byt odkazovany jeden dodavatel.
+	 * @ORM\ManyToOne(targetEntity="Supplier")
+	 * @ORM\JoinColumn(name="supplier_id", referencedColumnName="id")
+	 */
+	protected $suppliers;
 }

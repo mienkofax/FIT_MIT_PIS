@@ -20,7 +20,103 @@
 			</p>
 		{/if}
 		{if $medicineCount > 0 && $supplierCount > 0}
-			{control createStockMedicineForm}
+		{snippetArea wrapper}
+		{form createStockMedicineForm}
+			{foreach $form->ownErrors as $error}
+			<div class="alert alert-danger fade in text-center">
+				<a href="#" class="close" data-dismiss="alert">&times;</a>
+				{$error}
+			</div>
+			{/foreach}
+
+			<div class="form-group required">
+				<div class="col-xs-4 text-right">
+					{label medicine /}
+				</div>
+				<div class="col-xs-6">
+					{input medicine}
+				</div>
+			</div>
+
+			<div class="form-group required">
+				<div class="col-xs-4 text-right">
+					{label supplier /}
+				</div>
+				<div class="col-xs-6">
+					{input supplier}
+				</div>
+			</div>
+
+			<div class="form-group required">
+				<div class="col-xs-4 text-right">
+					{label medicine_price /}
+				</div>
+				<div class="col-xs-6">
+					{snippet secondSnippet}
+						{input medicine_price}
+					{/snippet}
+				</div>
+			</div>
+
+			<div class="form-group required">
+				<div class="col-xs-4 text-right">
+					{label price /}
+				</div>
+				<div class="col-xs-6">
+					{input price}
+				</div>
+			</div>
+
+			<div class="form-group required">
+				<div class="col-xs-4 text-right">
+					{label count /}
+				</div>
+				<div class="col-xs-6">
+					{input count}
+				</div>
+			</div>
+
+			<div class="form-group required">
+				<div class="col-xs-4 text-right">
+				</div>
+				<div class="col-xs-6">
+					{input stockMedicineCreate}
+				</div>
+			</div>
+		{/form}
+		{/snippetArea}
+
+		{include jsCallback, input => medicine, link => change}
+
+		{define jsCallback}
+			<script>
+				$('#frm-createStockMedicineForm-medicine').off('change').on('change', function () {
+					if ($(this).val() == "") {
+						$('#frm-createStockMedicineForm-medicine_price').val("");
+						return;
+					}
+
+					$.nette.ajax({
+						type: 'GET',
+						url: {link {$link}!},
+						data: {
+							'medicine': $(this).val(),
+							'type': "create"
+						}
+					});
+				});
+
+				if ($('#frm-createStockMedicineForm-medicine').val() !== "") {
+					$.nette.ajax({
+						type: 'GET',
+						url: {link {$link}!},
+						data: {
+							'medicine': $('#frm-createStockMedicineForm-medicine').val(),
+							'type': "create"
+						}
+					});
+				}
+			</script>
+		{/define}
 		{/if}
 	</div>
-</div>

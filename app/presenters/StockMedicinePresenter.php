@@ -75,6 +75,9 @@ class StockMedicinePresenter extends BasePresenter
 
 	public function actionEdit($medicineId = NULL, $supplierId = NULL)
 	{
+		if (is_null($medicineId) || is_null($supplierId))
+			return;
+
 		$id = array("medicine" => $medicineId, "supplier" => $supplierId);
 		$this->searchedStockMedicine = $tmp =
 			$this->stockMedicineFacade->getStockMedicine($id);
@@ -89,6 +92,7 @@ class StockMedicinePresenter extends BasePresenter
 				"count" => $tmp->count,
 				"medicine" => $tmp->medicine->id,
 				"supplier" => $tmp->supplier->id,
+				"medicine_price" => $tmp->medicine->price,
 				"price" => $tmp->price
 			)
 		);
@@ -123,6 +127,18 @@ class StockMedicinePresenter extends BasePresenter
 		return $form;
 	}
 
+	public function createComponentAddToStockForm()
+	{
+		$form = $this->formFactory->createAddToStock();
+		$form->onSuccess[] = function (Form $form) {
+			$tmp = $form->getPresenter();
+			$tmp->flashMessage("Naskladnenie bolo úspešné.");
+			$tmp->redirect("StockMedicine:manage");
+		};
+
+		return $form;
+	}
+
 	public function handleRemoveStockMedicine($medicineId, $supplierId)
 	{
 		$id = array("medicine" => $medicineId, "supplier" => $supplierId);
@@ -140,4 +156,41 @@ class StockMedicinePresenter extends BasePresenter
 
 		$this->redirect("StockMedicine:manage");
 	}
+
+	public function handleChange($medicine, $type)
+	{
+		if (is_null($medicine) || $medicine == "")
+			return;
+
+		if ($type == "create") {
+			$this["createStockMedicineForm"]["medicine_price"]
+				->setValue($this->medicineFacade->getMedicine($medicine)->price);
+		}
+		else if ($type == "edit") {
+			$this["editStockMedicineForm"]["medicine_price"]
+				->setValue($this->medicineFacade->getMedicine($medicine)->price);
+		}
+
+		$this->redrawControl("wrapper");
+		$this->redrawControl("secondSnippet");
+	}
+
+	public function handleAddToStockChange($medicine)
+	{
+		if ($medicine) {
+			$items = $this->stockMedicineFacade->getMedicineSupplierAsArray($medicine);
+
+			$this["addToStockForm"]['supplier_id']
+				->setPrompt("Zoznam dodávateľov")
+				->setItems($items);
+		}
+		else {
+			$this["addToStockForm"]['supplier_id']
+				->setPrompt("Zoznam dodávateľov")
+				->setItems([]);
+		}
+
+		$this->redrawControl("wrapper");
+		$this->redrawControl("secondSnippet");
+		}
 }

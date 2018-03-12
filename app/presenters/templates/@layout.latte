@@ -8,6 +8,7 @@
 	<link rel="icon" href="{$basePath}/images/pharmacy.ico">
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script src="{$basePath}/js/nette.ajax.js"></script>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
 	<link href="{$basePath}/css/style.css" rel="stylesheet" media="screen">
@@ -18,8 +19,11 @@
 <div class="top-panel">
 	<div class="container">
 		<div class="col-sm-7">
-			{if $user->loggedIn}
-				Prihlásený používateľ: <a>{$userEntity->getFullName()} ({$userEntity->email})</a>
+			{if $user->loggedIn }
+				<a n:href="User:profil $userEntity->id">
+					<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+					<b>Profil užívateľa:</b>
+					 {$userEntity->getFullName()}</a>
 			{/if}
 		</div>
 
@@ -31,9 +35,6 @@
 			{else}
 				<a n:href="Sign:in">
 					<span class="glyphicon glyphicon-log-in" aria-hidden="true"></span> Prihlásiť
-				</a>
-				<a n:href="Sign:up">
-					<span class="glyphicon glyphicon-user" aria-hidden="true"></span> Registrovať
 				</a>
 			{/if}
 		</div>
@@ -56,6 +57,7 @@
 			<li><a n:href="Supplier:manage">Správa dodávateľov</a></li>
 			<li><a n:href="StockMedicine:manage">Správa skladových zásob</a></li>
 			<li><a n:href="OrderMedicine:manage">Správa objednávok</a></li>
+			<li><a n:href="User:manage">Správa užívateľov</a></li>
 		</ul>
 	</div>
 
@@ -71,6 +73,10 @@
 	<script src="{$basePath}/js/bootstrap.min.js"></script>
 
 	<script>
+		$(function () {
+			$.nette.init();
+		});
+
 		// nastavenie prveho tabu, aby bol vzdy aktivny po otvoreni stranky
 		splittedData = $(location).attr('pathname').split('/')[2];
 		$('.detail.nav-tabs li a').click(function() {
@@ -100,16 +106,22 @@
 			var $supplierID = 'items[' + $itemIndex +'][supplier_id]';
 
 			if ($(this).attr("name") == $medicineID) {
+				// vymazanie ceny lieku
+				$('#frm-createOrderForm-items-'+$itemIndex+'-price').val("");
+
 				var $suppliers;
 				for (i = 0; i < json['medicines'].length; i++) {
-					if (json['medicines'][i].id == $(this).val())
-						$suppliers =  json['medicines'][i].suppliers;
+					if (json['medicines'][i].id != $(this).val())
+						continue;
+
+					$suppliers = json['medicines'][i].suppliers;
+					$('#frm-createOrderForm-items-'+$itemIndex+'-price').val(json['medicines'][i].price);
 				}
 
 				// vymazanie starych options
 				$('#frm-createOrderForm-items-'+$itemIndex+'-supplier_id').find('option:not(:first)').remove();
 				// vymazanie ceny
-				$('#frm-createOrderForm-items-'+$itemIndex+'-price').val("");
+				$('#frm-createOrderForm-items-'+$itemIndex+'-in_stock').val("");
 
 				// naplnenie novymi options
 				for (i = 0; i < $suppliers.length; i++) {
@@ -133,8 +145,8 @@
 
 					for (i = 0; i < json['medicines'].length; i++) {
 						if (json['medicines'][k].suppliers[i].id == $(this).val())
-							$('#frm-createOrderForm-items-'+$itemIndex+'-price').val(
-								json['medicines'][k].suppliers[i].price);
+							$('#frm-createOrderForm-items-'+$itemIndex+'-in_stock').val(
+								json['medicines'][k].suppliers[i].count);
 					}
 				}
 			}

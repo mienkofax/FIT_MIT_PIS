@@ -21,6 +21,12 @@ class Medicine extends BaseEntity
 	protected $id;
 
 	/**
+	 * Id lieku podla SUKL.
+	 * @ORM\Column(type="string", unique=true)
+	 */
+	protected $idSukl;
+
+	/**
 	 * Nazov lieku.
 	 * @ORM\Column(type="string")
 	 */
@@ -44,6 +50,12 @@ class Medicine extends BaseEntity
 	 * @ORM\Column(type="float")
 	 */
 	protected $contribution;
+
+	/**
+	 * Predajna cena lieku.
+	 * @ORM\Column(type="float")
+	 */
+	protected $price;
 
 	/**
 	 * Jeden liek je v niekolkych skladovych zasobach.
