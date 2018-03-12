@@ -1,0 +1,27 @@
+{define title}Detail užívateľa{/define}
+{define description}Detail užívateľa.{/define}
+{block content}
+<ul class="detail nav nav-tabs">
+	<li><a data-toggle="tab" href="#sectionA">Detail užívateľa</a></li>
+</ul>
+
+<div class="tab-content content">
+	<div id="sectionA" class="tab-pane fade in active">
+		<h2>Detail užívateľa</h2>
+		<h4>Základné informácie</h4>
+
+		<p><strong>Číslo užívateľa:</strong> {$userData->id}</p>
+		<p><strong>Meno:</strong> {$userData->name}</p>
+		<p><strong>Priezvisko:</strong> {$userData->surname}</p>
+		<p><strong>E-mail:</strong> {$userData->email}</p>
+		<p><strong>Dátum registrovania:</strong> {$userData->registrationDate|date: "d.m.Y - H:i:s"}</p>
+		<p><strong>Rola:</strong> {if $userData->role}Manažér{else}Predavač{/if}</p>
+
+		<a class="btn btn-primary" n:href="User:edit $userData->id">
+			Upraviť profil
+		</a>
+		<a class="btn btn-primary" n:href="User:changePassword $userData->id">
+			Zmeniť heslo
+		</a>
+	</div>
+</div<

@@ -1,0 +1,71 @@
+{define title}Správa užívateľov{/define}
+{define description}Výpis všetkých užívateľov.{/define}
+{block content}
+<ul class="list nav nav-tabs">
+	<li><a data-toggle="tab" href="#sectionA">Zoznam užívateľov</a></li>
+</ul>
+
+<div class="tab-content content">
+	<div id="sectionA" class="tab-pane fade in active">
+		<h2>Zoznam užívateľov</h2>
+
+		<table class="table table-hover">
+			<thread>
+				<tr>
+					<th>
+						Priezvisko a meno
+						<a n:href="User:manage surname, asc">
+							<span class="glyphicon glyphicon-chevron-up sort-icon" aria-hidden="true"></span>
+						</a>
+						<a n:href="User:manage surname, desc">
+							<span class="glyphicon glyphicon-chevron-down sort-icon" aria-hidden="true"></span>
+						</a>
+					</th>
+					<th>
+						Oprávnenie
+						<a n:href="User:manage role, asc">
+							<span class="glyphicon glyphicon-chevron-up sort-icon" aria-hidden="true"></span>
+						</a>
+						<a n:href="User:manage role, desc">
+							<span class="glyphicon glyphicon-chevron-down sort-icon" aria-hidden="true"></span>
+						</a>
+					</th>
+					<th>
+						Dátum vytvorenia
+						<a n:href="User:manage registrationDate, asc">
+							<span class="glyphicon glyphicon-chevron-up sort-icon" aria-hidden="true"></span>
+						</a>
+						<a n:href="User:manage registrationDate, desc">
+							<span class="glyphicon glyphicon-chevron-down sort-icon" aria-hidden="true"></span>
+						</a>
+					</th>
+					<th></th>
+					<th></th>
+				</tr>
+			</thread>
+			<tr n:foreach="$users as $item">
+				<td>
+					<a n:href="User:profil $item->id">{$item->surname} {$item->name}</a>
+				</td>
+				<td>
+					{if $item->role}Manažér{else}Predavač{/if}
+				</td>
+				<td>
+					{$item->registrationDate|date: "d.m.Y - H:i:s"}
+				</td>
+				<td class="text-center">
+					<a class="action" n:href="User:edit $item->id">
+						<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+					</a>
+				</td>
+				<td class="text-center">
+					<a class="action btn btn-info btn-xs" n:href="User:changePassword $item->id">
+						Zmeniť heslo
+					</a>
+				</td>
+			</tr>
+		</table>
+
+		<a class="btn btn-primary btn-add" n:href="User:create">Pridať užívateľa</a>
+	</div>
+</div>

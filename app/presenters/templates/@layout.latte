@@ -19,8 +19,11 @@
 <div class="top-panel">
 	<div class="container">
 		<div class="col-sm-7">
-			{if $user->loggedIn}
-				Prihlásený používateľ: <a>{$userEntity->getFullName()} ({$userEntity->email})</a>
+			{if $user->loggedIn }
+				<a n:href="User:profil $userEntity->id">
+					<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+					<b>Profil užívateľa:</b>
+					 {$userEntity->getFullName()}</a>
 			{/if}
 		</div>
 
@@ -32,9 +35,6 @@
 			{else}
 				<a n:href="Sign:in">
 					<span class="glyphicon glyphicon-log-in" aria-hidden="true"></span> Prihlásiť
-				</a>
-				<a n:href="Sign:up">
-					<span class="glyphicon glyphicon-user" aria-hidden="true"></span> Registrovať
 				</a>
 			{/if}
 		</div>
@@ -57,6 +57,7 @@
 			<li><a n:href="Supplier:manage">Správa dodávateľov</a></li>
 			<li><a n:href="StockMedicine:manage">Správa skladových zásob</a></li>
 			<li><a n:href="OrderMedicine:manage">Správa objednávok</a></li>
+			<li><a n:href="User:manage">Správa užívateľov</a></li>
 		</ul>
 	</div>
 
