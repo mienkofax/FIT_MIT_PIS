@@ -136,8 +136,7 @@ class MedicinePresenter extends BasePresenter
 			$this->flashMessage($ex->getMessage());
 		}
 		catch (\Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException $ex) {
-			$this->flashMessage("Liek obsahuje skladové zásoby,
-			pred jeho odstránením zmažte skladové zásoby.", "danger");
+			$this->flashMessage("Pred odstránením lieku je potrebné zmazať závislosti.", "danger");
 		}
 
 		$this->redirect("Medicine:manage");

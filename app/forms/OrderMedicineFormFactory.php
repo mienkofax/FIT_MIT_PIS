@@ -69,7 +69,8 @@ class OrderMedicineFormFactory extends BaseFormFactory
 				$item->addSelect("supplier_id", "Dodávateľ")
 					->setAttribute("class", "form-control")
 					->setItems($this->stockMedicine->getSuppliersAsArray())
-					->setPrompt("Zoznam dodávateľov");
+					->setPrompt("Zoznam dodávateľov")
+					->setRequired();
 
 				$item->addText("price", "Predajná cena lieku")
 					->setDisabled();
@@ -77,7 +78,8 @@ class OrderMedicineFormFactory extends BaseFormFactory
 				$item->addText("in_stock", "Na skade")
 					->setDisabled();
 
-				$item->addText("count", "Počet");
+				$item->addText("count", "Počet")
+					->setRequired();
 
 				$item->addSubmit("remove", "Odstrániť liek z objednávky")
 					->setValidationScope(false)
@@ -115,7 +117,7 @@ class OrderMedicineFormFactory extends BaseFormFactory
 			$button->getForm()->onSuccess[] = function (Form $form) {
 				$tmp = $form->getPresenter();
 				$tmp->flashMessage("Objednávka bola úspešne vytvorená.");
-				$tmp->redirect("this");
+				$tmp->redirect("OrderMedicine:manage");
 			};
 		}
 		catch (UniqueConstraintViolationException $ex) {
