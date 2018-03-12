@@ -49,13 +49,6 @@ class UserFacade extends BaseFacade implements IAuthenticator
 	 */
 	public function registerUser($values)
 	{
-		// kontrola, ci uz niekto nema zaregistrovany dany email
-		$count = $this->entityManager->getRepository(User::class)
-			->countBy(array("email" => $values->email));
-
-		if ($count >= 1)
-			throw new UniqueConstraintViolationException("Zadaný email je už registrovaný.");
-
 		// ulozenie dat do db
 		$user = new User();
 		$user->name = $values->name;
