@@ -35,6 +35,16 @@ class MedicineListQuery extends QueryObject
 		return $qb;
 	}
 
+	public function withSuklId($id)
+	{
+		$this->filters[] = function (QueryBuilder $qb) use ($id) {
+			$qb->andWhere("m.idSukl = :idSukl")
+				->setParameter("idSukl", $id);
+		};
+
+		return $this;
+	}
+
     /**
      * Metoda pre zoradenie na zaklade zadaneho stlpca a sposobu zoradenia.
      * @param string $column nazov stlpca

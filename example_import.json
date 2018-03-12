@@ -1,0 +1,17 @@
+{
+	"currency" : "CZK",
+	"contributions" : [
+		{
+			"sukl_id" : "X1Y",
+			"amount" : 100
+		},
+		{
+			"sukl_id" : "X2Y",
+			"amount" : 50
+		},
+		{
+			"sukl_id" : "X3Y",
+			"amount" : 20
+		}	
+	]
+}
