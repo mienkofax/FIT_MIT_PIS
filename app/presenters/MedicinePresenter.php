@@ -82,7 +82,20 @@ class MedicinePresenter extends BasePresenter
 		$this->template->medicine = $this->searchedMedicine;
 	}
 
-	public function actionEdit($id = NULL)
+	public function renderDetail($id = NULL)
+	{
+		if (is_null($id))
+			return;
+
+		$medicine = $this->medicineFacade->getMedicine($id);
+
+		if (is_null($medicine))
+			return;
+
+		$this->template->medicine = $medicine;
+	}
+
+	public function actionEdit($id = NULL, $fromDetail = NULL)
 	{
 		$this->searchedMedicine = $tmp = $this->medicineFacade->getMedicine($id);
 		if (is_null($tmp))

@@ -1,0 +1,28 @@
+{define title}Detail lieku {$medicine->name}{/define}
+{define description}Detail lieku {$medicine->name}.{/define}
+{block content}
+<ul class="detail nav nav-tabs">
+	<li><a data-toggle="tab" href="#sectionA">Detail lieku {$medicine->name}</a></li>
+</ul>
+
+<div class="tab-content content">
+	<div id="sectionA" class="tab-pane fade in active">
+		<h2>Detail lieku {$medicine->name}</h2>
+		<h4>Základné informácie</h4>
+
+		<p><strong>ŠUKL id:</strong> {$medicine->idSukl}</p>
+		<p><strong>Názov lieku:</strong> {$medicine->name}</p>
+		<p><strong>Popis lieku:</strong> {$medicine->description}</p>
+		<p><strong>Typ lieku:</strong> {if $medicine->type == 0}
+				bez predpisu
+			{else}
+				na predpis
+			{/if}</p>
+		<p><strong>Príspevok na liek:</strong> {$medicine->contribution}</p>
+		<p><strong>Predajná cena lieku:</strong> {$medicine->price} CZK</p>
+
+		<a class="btn btn-primary" n:href="Medicine:edit $medicine->id, true">
+			Upraviť liek
+		</a>
+	</div>
+</div<
