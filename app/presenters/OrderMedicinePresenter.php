@@ -61,6 +61,19 @@ class OrderMedicinePresenter extends BasePresenter
 			$this->orderFacade->getAllAsArray($column, $sort);
 	}
 
+	public function renderDetail($id)
+	{
+		if (is_null($id))
+			return;
+
+		$order = $this->orderFacade->getOrderMedicine($id);
+
+		if (is_null($order))
+			return;
+
+		$this->template->order = $order;
+	}
+
 	/**
 	 * Vytvorenie komponenty a vratenie komponenty pre pridanie objednavky,
 	 * @return Form

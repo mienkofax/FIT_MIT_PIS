@@ -52,7 +52,7 @@
 			</thread>
 			<tr n:foreach="$orders as $item">
 				<td>
-					{$item->createdTime|date: "d.m.Y - H:i:s"}
+					<a n:href="OrderMedicine:detail $item->id">{$item->createdTime|date: "d.m.Y - H:i:s"}</a>
 				</td>
 				<td>
 					{$item->id}
