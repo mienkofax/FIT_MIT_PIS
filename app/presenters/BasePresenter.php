@@ -34,7 +34,6 @@ abstract class BasePresenter extends Presenter
 		else {
 			// ak nie je uzivatel prihalseny vytvorime prazdnu entitu
 			$entity = new UserEntity();
-			$entity->role = UserEntity::ROLE_GUEST;
 			$this->userEntity = $entity;
 		}
 	}
