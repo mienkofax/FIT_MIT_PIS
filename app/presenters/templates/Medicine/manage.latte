@@ -2,12 +2,14 @@
 {define description}Výpis všetkých liekov.{/define}
 {block content}
 <ul class="list nav nav-tabs">
-	<li><a data-toggle="tab" href="#sectionA">Zoznam liekov</a></li>
+	<li><a data-toggle="tab" href="#sectionA">Zoznam všetkých liekov</a></li>
+	<li><a data-toggle="tab" href="#sectionB">Zoznam liekov na predpis</a></li>
+	<li><a data-toggle="tab" href="#sectionC">Zoznam liekov bez predpisu</a></li>
 </ul>
 
 <div class="tab-content content">
 	<div id="sectionA" class="tab-pane fade in active">
-		<h2>Zoznam liekov</h2>
+		<h2>Zoznam všetkých liekov</h2>
 
 		<table class="table table-hover">
 			<thread>
@@ -97,5 +99,151 @@
 		<a class="btn btn-primary" n:href="Medicine:import">Importovať príspevky na lieky</a>
 		<a class="btn btn-primary btn-add" n:href="Medicine:create">Pridať liek</a>
 		{/if}
+	</div>
+
+	<div id="sectionB" class="tab-pane fade in active">
+		<h2>Zoznam liekov na predpis</h2>
+
+		<table class="table table-hover">
+			<thread>
+				<tr>
+					<th>
+						Kód
+						<a n:href="Medicine:manage idSukl, asc">
+							<span class="glyphicon glyphicon-chevron-up sort-icon" aria-hidden="true"></span>
+						</a>
+						<a n:href="Medicine:manage idSukl, desc">
+							<span class="glyphicon glyphicon-chevron-down sort-icon" aria-hidden="true"></span>
+						</a>
+					</th>
+					<th>
+						Názov
+						<a n:href="Medicine:manage name, asc">
+							<span class="glyphicon glyphicon-chevron-up sort-icon" aria-hidden="true"></span>
+						</a>
+						<a n:href="Medicine:manage name, desc">
+							<span class="glyphicon glyphicon-chevron-down sort-icon" aria-hidden="true"></span>
+						</a>
+					</th>
+					<th>
+						Príspevok
+						<a n:href="Medicine:manage contribution, asc">
+							<span class="glyphicon glyphicon-chevron-up sort-icon" aria-hidden="true"></span>
+						</a>
+						<a n:href="Medicine:manage contribution, desc">
+							<span class="glyphicon glyphicon-chevron-down sort-icon" aria-hidden="true"></span>
+						</a>
+					</th>
+					<th>
+						Predajná cena
+						<a n:href="Medicine:manage price, asc">
+							<span class="glyphicon glyphicon-chevron-up sort-icon" aria-hidden="true"></span>
+						</a>
+						<a n:href="Medicine:manage price, desc">
+							<span class="glyphicon glyphicon-chevron-down sort-icon" aria-hidden="true"></span>
+						</a>
+					</th>
+					<th></th>
+				</tr>
+			</thread>
+			<tr n:foreach="$medicinesWithPrescription as $medicine">
+				<td>
+					{$medicine->idSukl}
+				</td>
+				<td>
+					<a n:href="Medicine:detail $medicine->id">{$medicine->name}</a>
+				</td>
+				<td>
+					{$medicine->contribution} CZK
+				</td>
+				<td>
+					{$medicine->price} CZK
+				</td>
+				<td class="text-center">
+					<a class="action" n:href="Medicine:edit $medicine->id">
+						<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+					</a>
+					<a class="action" n:href="removeMedicine! $medicine->id">
+						<span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>
+					</a>
+				</td>
+			</tr>
+		</table>
+
+		<a class="btn btn-primary" n:href="Medicine:import">Importovať príspevky na lieky</a>
+		<a class="btn btn-primary btn-add" n:href="Medicine:create">Pridať liek</a>
+	</div>
+
+	<div id="sectionC" class="tab-pane fade in active">
+		<h2>Zoznam liekov bez predpisu</h2>
+
+		<table class="table table-hover">
+			<thread>
+				<tr>
+					<th>
+						Kód
+						<a n:href="Medicine:manage idSukl, asc">
+							<span class="glyphicon glyphicon-chevron-up sort-icon" aria-hidden="true"></span>
+						</a>
+						<a n:href="Medicine:manage idSukl, desc">
+							<span class="glyphicon glyphicon-chevron-down sort-icon" aria-hidden="true"></span>
+						</a>
+					</th>
+					<th>
+						Názov
+						<a n:href="Medicine:manage name, asc">
+							<span class="glyphicon glyphicon-chevron-up sort-icon" aria-hidden="true"></span>
+						</a>
+						<a n:href="Medicine:manage name, desc">
+							<span class="glyphicon glyphicon-chevron-down sort-icon" aria-hidden="true"></span>
+						</a>
+					</th>
+					<th>
+						Príspevok
+						<a n:href="Medicine:manage contribution, asc">
+							<span class="glyphicon glyphicon-chevron-up sort-icon" aria-hidden="true"></span>
+						</a>
+						<a n:href="Medicine:manage contribution, desc">
+							<span class="glyphicon glyphicon-chevron-down sort-icon" aria-hidden="true"></span>
+						</a>
+					</th>
+					<th>
+						Predajná cena
+						<a n:href="Medicine:manage price, asc">
+							<span class="glyphicon glyphicon-chevron-up sort-icon" aria-hidden="true"></span>
+						</a>
+						<a n:href="Medicine:manage price, desc">
+							<span class="glyphicon glyphicon-chevron-down sort-icon" aria-hidden="true"></span>
+						</a>
+					</th>
+					<th></th>
+				</tr>
+			</thread>
+			<tr n:foreach="$medicinesWithoutPrescription as $medicine">
+				<td>
+					{$medicine->idSukl}
+				</td>
+				<td>
+					<a n:href="Medicine:detail $medicine->id">{$medicine->name}</a>
+				</td>
+				<td>
+					{$medicine->contribution} CZK
+				</td>
+				<td>
+					{$medicine->price} CZK
+				</td>
+				<td class="text-center">
+					<a class="action" n:href="Medicine:edit $medicine->id">
+						<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+					</a>
+					<a class="action" n:href="removeMedicine! $medicine->id">
+						<span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>
+					</a>
+				</td>
+			</tr>
+		</table>
+
+		<a class="btn btn-primary" n:href="Medicine:import">Importovať príspevky na lieky</a>
+		<a class="btn btn-primary btn-add" n:href="Medicine:create">Pridať liek</a>
 	</div>
 </div>
