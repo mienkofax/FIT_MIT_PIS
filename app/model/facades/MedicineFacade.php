@@ -5,6 +5,7 @@ namespace App\Model\Facades;
 use App\Model\Entities\Medicine;
 use App\Model\Queries\MedicineListQuery;
 use Nette;
+use Nette\Utils\Json;
 
 /**
  * Trieda pre pracu s liekmi, umoznuje vytvorit novy liek ale aj vyhladat
@@ -27,6 +28,18 @@ class MedicineFacade extends BaseFacade
 	{
 		if (isset($id))
 			return $this->entityManager->find(Medicine::class, $id);
+
+		return NULL;
+	}
+
+	public function getMedicineByIdSukl($idSukl)
+	{
+		if (isset($idSukl)) {
+			$query = new MedicineListQuery();
+			$query->withSuklId($idSukl);
+
+			return $this->entityManager->fetchOne($query);
+		}
 
 		return NULL;
 	}
@@ -157,5 +170,39 @@ class MedicineFacade extends BaseFacade
 
 		$this->entityManager->remove($medicine);
 		$this->entityManager->flush();
+	}
+
+	public function importContributionsFromJsonString($json)
+	{
+		$json = Json::decode($json);
+
+		if (!isset($json->contributions))
+			throw new \InvalidArgumentException;
+
+		if (!is_array($json->contributions))
+			throw new \InvalidArgumentException;
+
+		foreach ($json->contributions as $contribution) {
+			if (!isset($contribution->sukl_id))
+				continue;
+
+			if (!is_string($contribution->sukl_id))
+				continue;
+
+			if (!isset($contribution->amount))
+				continue;
+
+			if (!is_int($contribution->amount))
+				continue;
+
+			$medicine = $this->getMedicineByIdSukl($contribution->sukl_id);
+
+			if (is_null($medicine))
+				continue;
+
+			$medicine->contribution = $contribution->amount;
+
+			$this->entityManager->flush();
+		}
 	}
 }
