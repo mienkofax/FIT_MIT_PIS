@@ -4,11 +4,13 @@ namespace App\Forms;
 
 use App\Model\Facades\MedicineFacade;
 use App\Model\Facades\UserFacade;
+use Kdyby\Console\InvalidApplicationModeException;
 use Nette\Database\UniqueConstraintViolationException;
 use Nette;
 use Nette\Application\UI\Form;
 use Nette\Security\User;
 use Nette\Utils\ArrayHash;
+use Nette\Utils\FileSystem;
 
 /**
  * Tovaren pre vygenerovanie formulara na pracu s liekmi.
@@ -22,6 +24,8 @@ class MedicineFormFactory extends BaseFormFactory
 		0 => "Liek bez predpisu",
 		1 => "Liek na predpis",
 	);
+
+	const MB = 1000000;
 
 	/** @var MedicineFacade Fasada pre pracu s liekmi */
 	private $medicineFacade;
@@ -101,6 +105,23 @@ class MedicineFormFactory extends BaseFormFactory
 		return $form;
 	}
 
+	public function createImportContributionsForm()
+	{
+		$form = new Form();
+
+		$form->addUpload("file", "Súbor s príspevkami")
+			->setRequired("Musí byť zadaný súbor.")
+			->addRule(Form::MAX_FILE_SIZE, "Maximálna veľkosť súboru je 1 MB", 1 * $this::MB)
+			->setAttribute("class", "form-control");
+
+		$form->addSubmit("import", "Importovať")
+			->setAttribute("class", "btn-primary");
+
+		$form->onSuccess[] = array($this, "importContributionsSubmitted");
+
+		return UtilForm::toBootstrapForm($form);
+	}
+
 	/**
 	 * Operacia, ktora sa zavola po stlaceni tlacidla na vytvorenie
 	 * lieku.
@@ -129,5 +150,30 @@ class MedicineFormFactory extends BaseFormFactory
 		catch (UniqueConstraintViolationException $ex) {
 			$form->addError("Zadaný liek existuje.");
 		}
+	}
+
+	public function importContributionsSubmitted(Form $form, ArrayHash $values)
+	{
+		$file = $values->file;
+		$filePath = "upload/" . $file;
+
+		$file->move($filePath);
+
+		try {
+			$json = FileSystem::read($filePath);
+			FileSystem::delete($filePath);
+
+			$this->medicineFacade->importContributionsFromJsonString($json);
+		}
+		catch (Nette\IOException $ex) {
+			$form->addError("Problém so vstupným súborom.");
+		}
+		catch (Nette\Utils\JsonException $ex) {
+			$form->addError("Vstupný súbor nie je JSON.");
+		}
+		catch (\InvalidArgumentException $ex) {
+			$form->addError("Vstupný súbor má nesprávny formát.");
+		}
+
 	}
 }
