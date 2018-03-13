@@ -75,6 +75,9 @@ class OrderMedicineFormFactory extends BaseFormFactory
 				$item->addText("price", "Predajná cena lieku")
 					->setDisabled();
 
+				$item->addText("type", "Typ lieku")
+					->setDisabled();
+
 				$item->addText("in_stock", "Na skade")
 					->setDisabled();
 
