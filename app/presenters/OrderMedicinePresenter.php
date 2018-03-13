@@ -98,4 +98,9 @@ class OrderMedicinePresenter extends BasePresenter
 
 		$this->redirect("OrderMedicine:manage");
 	}
+
+	public function createComponentExportReportForm()
+	{
+		return $this->formFactory->createExportReportForm();
+	}
 }
