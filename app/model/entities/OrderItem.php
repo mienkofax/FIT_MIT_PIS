@@ -47,6 +47,12 @@ class OrderItem extends BaseEntity
 	protected $order;
 
 	/**
+	 * 1 ak je neplatna objednana polozka.
+	 * @ORM\Column("boolean")
+	 */
+	protected $storno;
+
+	/**
 	 * Dodatocne informacie o lieku, ktore nemusia byt ulozene v tejto casti.
 	 *
 	 * Viacrymi polozkami moze byt odkazovany jeden liek.
@@ -64,4 +70,9 @@ class OrderItem extends BaseEntity
 	 * @ORM\JoinColumn(name="supplier_id", referencedColumnName="id")
 	 */
 	protected $suppliers;
+
+	public function __construct()
+	{
+		$this->storno = false;
+	}
 }
