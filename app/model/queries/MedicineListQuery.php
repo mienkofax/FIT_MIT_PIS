@@ -45,6 +45,16 @@ class MedicineListQuery extends QueryObject
 		return $this;
 	}
 
+	public function withPrescription($bool = true)
+	{
+		$this->filters[] = function (QueryBuilder $qb) use ($bool) {
+			$qb->andWhere("m.type = :type")
+				->setParameter("type", $bool);
+		};
+
+		return $this;
+	}
+
     /**
      * Metoda pre zoradenie na zaklade zadaneho stlpca a sposobu zoradenia.
      * @param string $column nazov stlpca

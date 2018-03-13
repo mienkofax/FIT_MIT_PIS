@@ -96,6 +96,15 @@ class MedicineFacade extends BaseFacade
         return $this->entityManager->fetch($query)->toArray();
     }
 
+	public function getAllWithPrescriptionAsArray($bool, $column, $order)
+	{
+		$query = new MedicineListQuery();
+		$query->withPrescription($bool)
+			->orderBy($column, $order);
+
+		return $this->entityManager->fetch($query)->toArray();
+	}
+
 	/**
 	 * Metoda prevedie skladove zasoby do JSON formatu.
 	 * @return string
