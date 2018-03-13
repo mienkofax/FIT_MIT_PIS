@@ -31,7 +31,7 @@
 						</a>
 					</th>
 					<th>
-						Dátum vytvorenia
+						Posledné prihlásenie
 						<a n:href="User:manage registrationDate, asc">
 							<span class="glyphicon glyphicon-chevron-up sort-icon" aria-hidden="true"></span>
 						</a>
@@ -51,7 +51,7 @@
 					{if $item->role}Manažér{else}Predavač{/if}
 				</td>
 				<td>
-					{$item->registrationDate|date: "d.m.Y - H:i:s"}
+					{$item->lastLogin|date: "d.m.Y - H:i:s"}
 				</td>
 				<td class="text-center">
 					<a class="action" n:href="User:edit $item->id">

@@ -36,7 +36,7 @@ class UserFormFactory extends BaseFormFactory
 			->setItems(self::USER_ROLES)
 			->setPrompt("Užívateľské oprávnenia")
 			->setAttribute("class","form-control")
-			->setRequired();
+			->setRequired("Musí byť nastavené oprávnenie.");
 
 		return $form;
 	}
@@ -105,12 +105,13 @@ class UserFormFactory extends BaseFormFactory
 			->setItems($this->userFacade->getIdsAndName())
 			->setPrompt("Zoznam užívateľov")
 			->setAttribute("class", "form-control")
-			->setRequired();
+			->setRequired("Musí byť vybraný užívateľ.");
 
 		$form->addSelect("deactivation", "Deaktivácia")
 			->setItems(array(0 => "Nie", 1 => "Áno"))
 			->setAttribute("class", "form-control")
-			->setRequired();
+			->setPrompt("Typ deaktivácie")
+			->setRequired("Musí byť vybraný typ deaktivácie.");
 
 		$form->addSubmit("signUp", "Zmeniť")
 			->setAttribute("class", "btn-primary");

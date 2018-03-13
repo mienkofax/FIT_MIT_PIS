@@ -18,8 +18,8 @@
 			{else}
 				na predpis
 			{/if}</p>
-		<p><strong>Príspevok na liek:</strong> {$medicine->contribution}</p>
-		<p><strong>Predajná cena lieku:</strong> {$medicine->price} CZK</p>
+		<p><strong>Príspevok na liek:</strong> {$medicine->contribution} €</p>
+		<p><strong>Predajná cena lieku:</strong> {$medicine->price} €</p>
 
 		{if $manager}
 		<a class="btn btn-primary" n:href="Medicine:edit $medicine->id, true">

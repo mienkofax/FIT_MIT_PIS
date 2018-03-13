@@ -33,7 +33,8 @@ class SignFormFactory extends BaseFormFactory
 		$form->addCheckbox("remember", "Zapamätať si prihlásenie")
 			->setAttribute("class", "checkbox login-remember");
 
-		$form->addSubmit("signIn", "Prihlásiť");
+		$form->addSubmit("signIn", "Prihlásiť")
+			->setAttribute("class", "btn-primary");
 
 		$form->onSuccess[] = array($this, "signInSubmitted");
 

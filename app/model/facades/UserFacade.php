@@ -110,6 +110,9 @@ class UserFacade extends BaseFacade implements IAuthenticator
 			$this->entityManager->flush();
 		}
 
+		$user->lastLogin = new DateTime();
+		$this->entityManager->flush();
+
 		$role = NULL;
 		switch ($user->role) {
 			case USER::ROLE_SELLER:
