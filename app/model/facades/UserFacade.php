@@ -5,7 +5,6 @@ namespace App\Model\Facades;
 use App\Model\Entities\User;
 use App\Model\Queries\UserListQuery;
 use Nette;
-use Nette\Database\UniqueConstraintViolationException;
 use Nette\Security\AuthenticationException;
 use Nette\Security\IAuthenticator;
 use Nette\Security\Identity;

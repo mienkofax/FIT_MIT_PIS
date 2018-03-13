@@ -4,8 +4,7 @@ namespace App\Forms;
 
 use App\Model\Facades\MedicineFacade;
 use App\Model\Facades\UserFacade;
-use Kdyby\Console\InvalidApplicationModeException;
-use Nette\Database\UniqueConstraintViolationException;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Nette;
 use Nette\Application\UI\Form;
 use Nette\Security\User;
