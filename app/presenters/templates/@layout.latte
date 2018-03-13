@@ -154,6 +154,28 @@
 			}
 		});
 	</script>
+
+	<script>
+		$(".custom-form")[0].reset();
+	</script>
+	<script>
+		splitdata = $(location).attr('pathname').split('/')[2];
+		$('.list.nav-tabs li a').click(function() {
+			data = $(this).attr("href");
+			if (typeof(Storage) !== "undefined")
+				localStorage.setItem(splitdata, data);
+		});
+
+		if ($('.list.nav-tabs').length) {
+			console.log("data");
+			data = localStorage.getItem(splitdata);
+			if (!data)
+				data = "#sectionA";
+
+			$('a[href="'+data+'"]').tab('show');}
+		else
+			$('a[href="#sectionA"]').tab('show');
+	</script>
 {/block}
 </body>
 </html>
