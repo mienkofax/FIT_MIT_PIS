@@ -29,6 +29,12 @@ class UserFacade extends BaseFacade implements IAuthenticator
 		return $this->entityManager->fetch($query)->toArray();
 	}
 
+	public function getIdsAndName()
+	{
+		return $this->entityManager->getRepository(User::class)
+			->findPairs([], "email", [], "id");
+	}
+
 	/**
 	 * Vyhladanie uzivatela podla zadaneho ID.
 	 * @return User|NULL vratenie entity s uzivatelom, ak sa nepodari najst
@@ -97,6 +103,9 @@ class UserFacade extends BaseFacade implements IAuthenticator
 		if (!isset($user) || !Passwords::verify($password, $user->password))
 			throw new AuthenticationException("Bolo zadané nesprávne meno alebo heslo.");
 
+		if ($user->deactivation)
+			throw new AuthenticationException("Daný užívatel je zablokovaný.");
+
 		if (Passwords::needsRehash($user->password)) {
 			$user->password = Passwords::has($password);
 			$this->entityManager->flush();
@@ -113,5 +122,11 @@ class UserFacade extends BaseFacade implements IAuthenticator
 		}
 
 		return new Identity($user->id, $role);
+	}
+
+	public function changeDeactivation($values, $user)
+	{
+		$user->deactivation = (bool) $values->deactivation;
+		$this->entityManager->flush();
 	}
 }

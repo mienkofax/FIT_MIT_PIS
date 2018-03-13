@@ -57,7 +57,7 @@ class SignFormFactory extends BaseFormFactory
 				$this->user->setExpiration("20 minutes", TRUE);
 		}
 		catch (AuthenticationException $ex) {
-			$form->addError("Užívateľské meno a heslo sa nezhodujú.");
+			$form->addError($ex->getMessage());
 		}
 	}
 
