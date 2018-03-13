@@ -7,7 +7,7 @@ use App\Model\Facades\OrderMedicineFacade;
 use App\Model\Facades\StockMedicineFacade;
 use App\Model\Facades\UserFacade;
 use Nette\Application\UI\Form;
-use Nette\Database\UniqueConstraintViolationException;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;;
 use Nette\Forms\Container;
 use Nette\Forms\Controls\SubmitButton;
 use Nette\Security\User;
@@ -73,6 +73,9 @@ class OrderMedicineFormFactory extends BaseFormFactory
 					->setRequired();
 
 				$item->addText("price", "Predajná cena lieku")
+					->setDisabled();
+
+				$item->addText("type", "Typ lieku")
 					->setDisabled();
 
 				$item->addText("in_stock", "Na skade")

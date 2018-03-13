@@ -5,7 +5,6 @@ namespace App\Model\Facades;
 use App\Model\Entities\User;
 use App\Model\Queries\UserListQuery;
 use Nette;
-use Nette\Database\UniqueConstraintViolationException;
 use Nette\Security\AuthenticationException;
 use Nette\Security\IAuthenticator;
 use Nette\Security\Identity;
@@ -27,6 +26,12 @@ class UserFacade extends BaseFacade implements IAuthenticator
 		$query->orderBy($column, $sort);
 
 		return $this->entityManager->fetch($query)->toArray();
+	}
+
+	public function getIdsAndName()
+	{
+		return $this->entityManager->getRepository(User::class)
+			->findPairs([], "email", [], "id");
 	}
 
 	/**
@@ -97,10 +102,16 @@ class UserFacade extends BaseFacade implements IAuthenticator
 		if (!isset($user) || !Passwords::verify($password, $user->password))
 			throw new AuthenticationException("Bolo zadané nesprávne meno alebo heslo.");
 
+		if ($user->deactivation)
+			throw new AuthenticationException("Daný užívatel je zablokovaný.");
+
 		if (Passwords::needsRehash($user->password)) {
 			$user->password = Passwords::has($password);
 			$this->entityManager->flush();
 		}
+
+		$user->lastLogin = new DateTime();
+		$this->entityManager->flush();
 
 		$role = NULL;
 		switch ($user->role) {
@@ -113,5 +124,11 @@ class UserFacade extends BaseFacade implements IAuthenticator
 		}
 
 		return new Identity($user->id, $role);
+	}
+
+	public function changeDeactivation($values, $user)
+	{
+		$user->deactivation = (bool) $values->deactivation;
+		$this->entityManager->flush();
 	}
 }

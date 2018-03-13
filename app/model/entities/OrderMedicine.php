@@ -46,6 +46,12 @@ class OrderMedicine extends BaseEntity
 	protected $user;
 
 	/**
+	 * 1 ak je neplatna objednana polozka.
+	 * @ORM\Column("boolean")
+	 */
+	protected $storno;
+
+	/**
 	 * Konstruktor pre inicializaciu pociatocnych hodnot a vztahov medzi
 	 * entitami.
 	 */
@@ -63,5 +69,6 @@ class OrderMedicine extends BaseEntity
 	{
 		$this->orderItems[] = $orderItem;
 		$orderItem->order = $this;
+		$this->storno = false;
 	}
 }

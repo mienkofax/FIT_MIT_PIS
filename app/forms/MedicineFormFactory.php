@@ -4,8 +4,7 @@ namespace App\Forms;
 
 use App\Model\Facades\MedicineFacade;
 use App\Model\Facades\UserFacade;
-use Kdyby\Console\InvalidApplicationModeException;
-use Nette\Database\UniqueConstraintViolationException;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Nette;
 use Nette\Application\UI\Form;
 use Nette\Security\User;
@@ -54,14 +53,14 @@ class MedicineFormFactory extends BaseFormFactory
 			->setRequired("Musí byť zadaný názov lieku.");
 
 		$form->addTextArea("description", "Popis lieku", 50,2)
-			->setAttribute('class', 'form-control')
-			->setRequired("Musí byť zadaný popis lieku");
+			->setAttribute('class', 'form-control');
 
-		$form->addText("price", "Predajná cena lieku")
+		$form->addText("price", "Predajná cena lieku (€)")
 			->addRule(Form::FLOAT, "Cena musí byť číslo.")
 			->setRequired("Musí byť zadaná predajná cena lieku.");
 
 		$form->addSelect("type", "Typ lieku", self::TYPE_MEDICINE)
+			->setPrompt("Typ lieku")
 			->setAttribute('class', 'form-control')
 			->setRequired("Musí byť zadaný typ lieku.");
 
@@ -77,7 +76,7 @@ class MedicineFormFactory extends BaseFormFactory
 		$form = $this->createForm();
 
 		$form->addText("id_sukl", "Kód lieku")
-			->setRequired();
+			->setRequired("Musí byť zadaný kod lieku.");
 
 		$form->addSubmit("create", "Vložiť liek")
 			->setAttribute('class', 'btn-primary');

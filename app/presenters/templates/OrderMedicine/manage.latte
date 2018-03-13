@@ -47,7 +47,16 @@
 							<span class="glyphicon glyphicon-chevron-down sort-icon" aria-hidden="true"></span>
 						</a>
 					</th>
-
+					<th>
+						Stav
+						<a n:href="OrderMedicine:manage storno, asc">
+							<span class="glyphicon glyphicon-chevron-up sort-icon" aria-hidden="true"></span>
+						</a>
+						<a n:href="OrderMedicine:manage storno, desc">
+							<span class="glyphicon glyphicon-chevron-down sort-icon" aria-hidden="true"></span>
+						</a>
+					</th>
+					<th></th>
 				</tr>
 			</thread>
 			<tr n:foreach="$orders as $item">
@@ -61,7 +70,17 @@
 					{$item->user->name}
 				</td>
 				<td>
-					{$item->totalPrice}
+					{$item->totalPrice} €
+				</td>
+				<td>
+					{if $item->storno} Zrušená {else} {/if}
+				</td>
+				<td>
+					{if !$item->storno}
+					<a class="action" n:href="stornoOrder! $item->id">
+						Storno
+					</a>
+					{/if}
 				</td>
 			</tr>
 		</table>

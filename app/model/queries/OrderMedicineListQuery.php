@@ -13,7 +13,7 @@ use Kdyby\Doctrine\QueryObject;
  */
 class OrderMedicineListQuery extends QueryObject
 {
-	const SUPPORTED_COLUMNS = array("id", "user", "totalPrice", "createdTime");
+	const SUPPORTED_COLUMNS = array("id", "user", "totalPrice", "createdTime", "storno");
 
 	/** @var array Pole filtrov, ktore sa nasledne aplikuju na dotaz */
 	private $filters = array();

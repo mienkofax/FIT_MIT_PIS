@@ -5,7 +5,7 @@ namespace App\Forms;
 use App\Model\Facades\MedicineFacade;
 use App\Model\Facades\SupplierFacade;
 use App\Model\Facades\UserFacade;
-use Nette\Database\UniqueConstraintViolationException;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Nette\Application\UI\Form;
 use Nette\Security\User;
 

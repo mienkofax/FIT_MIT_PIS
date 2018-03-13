@@ -83,6 +83,18 @@ class UserPresenter extends BasePresenter
 		return $form;
 	}
 
+	public function createComponentDeactivationUserForm()
+	{
+		$form = $this->formFactory->deactivationUserForm();
+		$form->onSuccess[] = function (Form $form) {
+			$tmp = $form->getPresenter();
+			$tmp->flashMessage("Užívateľovi sa zmenila deaktivácia úspešne.");
+			$tmp->redirect("User:manage");
+		};
+
+		return $form;
+	}
+
 	public function actionEdit($id = NULL)
 	{
 		$this->searchedUser = $tmp = $this->userFacade->getUser($id);

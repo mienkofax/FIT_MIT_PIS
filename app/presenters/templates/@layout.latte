@@ -118,6 +118,11 @@
 
 					$suppliers = json['medicines'][i].suppliers;
 					$('#frm-createOrderForm-items-'+$itemIndex+'-price').val(json['medicines'][i].price);
+
+					if (json['medicines'][i].type === 0)
+						$('#frm-createOrderForm-items-'+$itemIndex+'-type').val("Bez predpisu");
+					else
+						$('#frm-createOrderForm-items-'+$itemIndex+'-type').val("Na predpis");
 				}
 
 				// vymazanie starych options

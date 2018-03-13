@@ -36,7 +36,7 @@ class UserFormFactory extends BaseFormFactory
 			->setItems(self::USER_ROLES)
 			->setPrompt("Užívateľské oprávnenia")
 			->setAttribute("class","form-control")
-			->setRequired();
+			->setRequired("Musí byť nastavené oprávnenie.");
 
 		return $form;
 	}
@@ -97,6 +97,30 @@ class UserFormFactory extends BaseFormFactory
 		return UtilForm::toBootstrapForm($form);
 	}
 
+	public function deactivationUserForm()
+	{
+		$form = new Form;
+
+		$form->addSelect("medicine_id", "Užívateľ")
+			->setItems($this->userFacade->getIdsAndName())
+			->setPrompt("Zoznam užívateľov")
+			->setAttribute("class", "form-control")
+			->setRequired("Musí byť vybraný užívateľ.");
+
+		$form->addSelect("deactivation", "Deaktivácia")
+			->setItems(array(0 => "Nie", 1 => "Áno"))
+			->setAttribute("class", "form-control")
+			->setPrompt("Typ deaktivácie")
+			->setRequired("Musí byť vybraný typ deaktivácie.");
+
+		$form->addSubmit("signUp", "Zmeniť")
+			->setAttribute("class", "btn-primary");
+
+		$form->onSuccess[] = array($this, "deactivationUserSubmitted");
+
+		return UtilForm::toBootstrapForm($form);
+	}
+
 	public function newUserSubmitted($form, $values)
 	{
 		try {
@@ -128,5 +152,14 @@ class UserFormFactory extends BaseFormFactory
 			throw new \InvalidArgumentException("Užívateľ neexistuje.");
 
 		$this->userFacade->changeUserPassword($values, $user);
+	}
+
+	public function deactivationUserSubmitted($form, $values)
+	{
+		$user = $this->userFacade->getUser($values->medicine_id);
+		if (is_null($user))
+			throw new \InvalidArgumentException("Užívateľ neexistuje.");
+
+		$this->userFacade->changeDeactivation($values, $user);
 	}
 }

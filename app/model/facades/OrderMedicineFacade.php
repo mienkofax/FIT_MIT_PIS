@@ -125,4 +125,25 @@ class OrderMedicineFacade extends BaseFacade
 
 		$this->entityManager->flush();
 	}
+
+	public function stornoOrder($id = NULL)
+	{
+		$order = NULL;
+		if (is_null($id) || is_null($order = $this->getOrderMedicine($id)))
+			throw new \InvalidArgumentException("Objednávka neexistuje.");
+
+		$order->storno = true;
+
+		foreach ($order->orderItems as $item) {
+			if (empty($item->medicines->stockMedicines)) {
+				throw new \InvalidArgumentException("Objednávku nie je možné odstrániť 
+				pretože daný liek už nie je ako skladová zásoba.");
+			}
+
+			$item->medicines->stockMedicines[0]->count += $item->count;
+			$item->storno = true;
+
+			$this->entityManager->flush();
+		}
+	}
 }

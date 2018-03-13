@@ -2,7 +2,6 @@
 
 namespace App\Forms;
 
-use Nette\Database\UniqueConstraintViolationException;
 use Nette;
 use Nette\Application\UI\Form;
 use Nette\Security\AuthenticationException;
@@ -34,7 +33,8 @@ class SignFormFactory extends BaseFormFactory
 		$form->addCheckbox("remember", "Zapamätať si prihlásenie")
 			->setAttribute("class", "checkbox login-remember");
 
-		$form->addSubmit("signIn", "Prihlásiť");
+		$form->addSubmit("signIn", "Prihlásiť")
+			->setAttribute("class", "btn-primary");
 
 		$form->onSuccess[] = array($this, "signInSubmitted");
 
@@ -57,7 +57,7 @@ class SignFormFactory extends BaseFormFactory
 				$this->user->setExpiration("20 minutes", TRUE);
 		}
 		catch (AuthenticationException $ex) {
-			$form->addError("Užívateľské meno a heslo sa nezhodujú.");
+			$form->addError($ex->getMessage());
 		}
 	}
 

@@ -85,4 +85,17 @@ class OrderMedicinePresenter extends BasePresenter
 
 		return $form;
 	}
+
+	public function handleStornoOrder($id)
+	{
+		try {
+			$this->orderFacade->stornoOrder($id);
+			$this->flashMessage("Objednávka bola zrušená.");
+		}
+		catch (\InvalidArgumentException $ex) {
+			$this->flashMessage($ex->getMessage(), "danger");
+		}
+
+		$this->redirect("OrderMedicine:manage");
+	}
 }

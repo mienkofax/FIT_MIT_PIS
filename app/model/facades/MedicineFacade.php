@@ -130,7 +130,8 @@ class MedicineFacade extends BaseFacade
 				$data .= '"id":' . $stockItem->supplier->id . ",";
 				$data .= '"name":"' . $stockItem->supplier->name . '",';
 				$data .= '"price":' . $stockItem->price . ",";
-				$data .= '"count":' . $stockItem->count . "";
+				$data .= '"count":' . $stockItem->count . ",";
+				$data .= '"type":' . (int)$stockItem->medicine->type . "";
 
 				$data .= "},";
 			}

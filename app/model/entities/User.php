@@ -73,6 +73,12 @@ class User extends BaseEntity
 	protected $role;
 
 	/**
+	 * Flag s informaciou, ci dany uzivatel je deaktivovany a nemoze sa prihlasit.
+	 * @ORM\Column(type="boolean")
+	 */
+	protected $deactivation;
+
+	/**
 	 * Jeden uzivatel moze vytvorit niekolko objednavok.
 	 * @ORM\OneToMany(targetEntity="OrderMedicine", mappedBy="user")
 	 */
@@ -85,6 +91,7 @@ class User extends BaseEntity
 	public function __construct()
 	{
 		parent::__construct();
+		$this->deactivation = false;
 		$this->orders = new ArrayCollection();
 	}
 
