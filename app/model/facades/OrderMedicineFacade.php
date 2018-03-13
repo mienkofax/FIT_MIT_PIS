@@ -146,4 +146,62 @@ class OrderMedicineFacade extends BaseFacade
 			$this->entityManager->flush();
 		}
 	}
+
+	public function getReportAsJson(DateTime $dateFrom, DateTime $dateToIncluding)
+	{
+
+		$report = array(
+			"date_from" => $dateFrom->format("d.m.Y"),
+			"date_to" => $dateToIncluding->format("d.m.Y"),
+			"orders" => array()
+		);
+
+		$dateToExcluding = $dateToIncluding->modify("+1 day");
+
+		$query = new OrderMedicineListQuery();
+		$query->canceled(false)
+			->fromDate($dateFrom)
+			->toDateExcluding($dateToExcluding);
+
+		$orders = $this->entityManager->fetch($query)->toArray();
+
+		foreach ($orders as $order) {
+			$medicines = array();
+			foreach ($order->orderItems as $orderItem) {
+				if (!$orderItem->medicines->type)
+					continue;
+
+				$found = false;
+				foreach($medicines as &$medicine) {
+					if ($orderItem->medicines->idSukl == $medicine["sukl_id"]) {
+						$found = true;
+
+						$medicine["count"] = $medicine["count"] + $orderItem->count;
+
+						break;
+					}
+				}
+
+				if (!$found) {
+					array_push($medicines, array(
+						"sukl_id" => $orderItem->medicines->idSukl,
+						"name" => $orderItem->medicines->name,
+						"count" => $orderItem->count,
+						"contribution" => $orderItem->contribution
+					));
+				}
+			}
+
+			if (empty($medicines))
+				continue;
+
+			array_push($report["orders"], array(
+				"date" => $order->createdTime->format("d.m.Y"),
+				"time" => $order->createdTime->format("H:i:s"),
+				"medicines" => $medicines
+			));
+		}
+
+		return json_encode($report, JSON_PRETTY_PRINT);
+	}
 }

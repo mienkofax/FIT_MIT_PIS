@@ -6,6 +6,7 @@ use App\Model\Entities\OrderMedicine;
 use Doctrine\ORM\QueryBuilder;
 use Kdyby;
 use Kdyby\Doctrine\QueryObject;
+use Nette\Utils\DateTime;
 
 /**
  * Trieda, ktora tvori DQL dotazy nad objednavkami.
@@ -53,6 +54,36 @@ class OrderMedicineListQuery extends QueryObject
 			function (QueryBuilder $qb) use ($order, $column) {
 				$qb->addOrderBy("om." . $column, $order);
 			};
+
+		return $this;
+	}
+
+	public function canceled($bool)
+	{
+		$this->filters[] = function (QueryBuilder $qb) use ($bool) {
+				$qb->andWhere("om.storno = :storno")
+					->setParameter("storno", $bool);
+			};
+
+		return $this;
+	}
+
+	public function fromDate(Datetime $from)
+	{
+		$this->filters[] = function (QueryBuilder $qb) use ($from) {
+			$qb->andWhere("om.createdTime >= :from")
+				->setParameter("from", $from);
+		};
+
+		return $this;
+	}
+
+	public function toDateExcluding(Datetime $to)
+	{
+		$this->filters[] = function (QueryBuilder $qb) use ($to) {
+			$qb->andWhere("om.createdTime < :to")
+				->setParameter("to", $to);
+		};
 
 		return $this;
 	}

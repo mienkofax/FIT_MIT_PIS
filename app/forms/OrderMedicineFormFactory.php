@@ -6,11 +6,14 @@ use App\Model\Facades\MedicineFacade;
 use App\Model\Facades\OrderMedicineFacade;
 use App\Model\Facades\StockMedicineFacade;
 use App\Model\Facades\UserFacade;
+use Nette\Application\Responses\FileResponse;
 use Nette\Application\UI\Form;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;;
 use Nette\Forms\Container;
 use Nette\Forms\Controls\SubmitButton;
 use Nette\Security\User;
+use Nette\Utils\DateTime;
+use Nette\Utils\FileSystem;
 
 /**
  * Tovaren pre vygenerovanie formulara na pracu s objednavkami.
@@ -105,6 +108,32 @@ class OrderMedicineFormFactory extends BaseFormFactory
 		return UtilForm::toBootstrapForm($form);
 	}
 
+	public function createExportReportForm()
+	{
+		$form = new Form;
+
+		$form->addText("dateFrom", "Dátum od")
+			->setRequired("Datum je povinný údaj!")
+			->setAttribute("class", "dtpicker form-control")
+			->setAttribute("placeholder", "dd.mm.rrrr")
+			->addRule($form::PATTERN, "Datum musí být ve formátu dd.mm.rrrr",
+				"(0[1-9]|[12][0-9]|3[01])\.(0[1-9]|1[012])\.(19|20)\d\d");
+
+		$form->addText("dateTo", "Dátum do")
+			->setRequired("Datum je povinný údaj!")
+			->setAttribute("class", "dtpicker form-control")
+			->setAttribute("placeholder", "dd.mm.rrrr")
+			->addRule($form::PATTERN, "Datum musí být ve formátu dd.mm.rrrr",
+				"(0[1-9]|[12][0-9]|3[01])\.(0[1-9]|1[012])\.(19|20)\d\d");
+
+		$form->addSubmit("export", "Exportovať výkaz")
+			->setAttribute("class", "btn-primary");
+
+		$form->onSuccess[] = array($this, "exportReportSubmitted");
+
+		return UtilForm::toBootstrapForm($form);
+	}
+
 	/**
 	 * Operacia, ktora sa zavola po stlaceni tlacidla na vytvorenie objednacky.
 	 * Nasledne sa ulozi objednavka do db.
@@ -129,5 +158,31 @@ class OrderMedicineFormFactory extends BaseFormFactory
 		catch (\InvalidArgumentException $ex) {
 			$button->getForm()->addError($ex->getMessage());
 		}
+	}
+
+	public function exportReportSubmitted(Form $form, $values)
+	{
+		$dateFrom = Datetime::createFromFormat("d.m.Y", $form->values->dateFrom);
+		$dateToIncluding = Datetime::createFromFormat("d.m.Y", $form->values->dateTo);
+
+		$version = (float) phpversion();
+		if ($version < 7.1) {
+			$dateFrom->setTime(0, 0, 0);
+			$dateToIncluding->setTime(0, 0, 0);
+		}
+		else {
+			$dateFrom->setTime(0, 0, 0, 0);
+			$dateToIncluding->setTime(0, 0, 0, 0);
+		}
+
+		if ($dateFrom > $dateToIncluding) {
+			$form->addError("Dátum od musí byť skorší dátum ako dátum do");
+			return;
+		}
+
+		$report = $this->orderFacade->getReportAsJson($dateFrom, $dateToIncluding);
+
+		FileSystem::write("tmp/report.json", $report);
+		$form->getPresenter()->sendResponse(New FileResponse("tmp/report.json"));
 	}
 }
