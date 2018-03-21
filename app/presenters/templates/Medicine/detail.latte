@@ -21,6 +21,40 @@
 		<p><strong>Príspevok na liek:</strong> {$medicine->contribution} €</p>
 		<p><strong>Predajná cena lieku:</strong> {$medicine->price} €</p>
 
+		<h4>Dosupnosť lieku na sklade</h4>
+		<table class="table table-hover">
+			<thread>
+				<tr>
+					<th>
+						Dodávateľ
+					</th>
+					<th>
+						Predajná cena
+					</th>
+					<th>
+						Nákupná cena
+					</th>
+					<th>
+						Počet ks na sklade
+					</th>
+				</tr>
+			</thread>
+			<tr n:foreach="$medicine->stockMedicines as $item">
+				<td>
+					{$item->supplier->name}
+				</td>
+				<td>
+					{$item->medicine->price} €
+				</td>
+				<td>
+					{$item->price} €
+				</td>
+				<td>
+					{$item->count}
+				</td>
+			</tr>
+		</table>
+
 		{if $manager}
 		<a class="btn btn-primary" n:href="Medicine:edit $medicine->id, true">
 			Upraviť liek
