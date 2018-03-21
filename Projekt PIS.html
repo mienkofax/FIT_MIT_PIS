@@ -46,7 +46,7 @@
 <h2>Postup instalace</h2>
 <p>
 <ul>
-	<li>Skopírovať obsah archívu do adresára a spustit composer pomocot <i>composer update --no-devel</i>.</li>
+	<li>Skopírovať obsah archívu do adresára a spustit composer pomocot <i>composer update --no-dev</i>.</li>
 	<li>Skopírovať obsah archívu do adresára, kde má byť umiestnený web.</li>
 	<li>Nastavenie práv ostatným (chmod -R a+rw tmp log) pre zápis do adresára <strong>temp</strong> a <strong>log</strong>.</li>
 	<li>Nastavenie prihlasovacích údajov pre databázu v súbore app/config/config.local.neon. Príklad:
@@ -63,9 +63,9 @@ doctrine:
 </ul>
 </p>
 
-<!-- vyľadované knihovny třetích stran i s verzemi, které byly pouľity pro testování -->
-<h2>Vyľadované knihovny</h2>
-
-
+<!-- vyžadované knihovny třetích stran i s verzemi, které byly použity pro testování -->
+<h2>Vyžadované knihovny</h2>
+Potrebné knižnice sa stiahnu pomocou <i>composer update --no-dev</i>. Potrebne knižnice a ich verziu sú uložené
+v súbore composer.json.
 
 </body></html>
