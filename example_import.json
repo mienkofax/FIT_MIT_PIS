@@ -2,16 +2,16 @@
 	"currency" : "€",
 	"contributions" : [
 		{
-			"sukl_id" : "X1Y",
-			"amount" : 100
+			"sukl_id" : "9320A",
+			"amount" : 1.03
 		},
 		{
-			"sukl_id" : "X2Y",
-			"amount" : 50
+			"sukl_id" : "26747",
+			"amount" : 3.3
 		},
 		{
-			"sukl_id" : "X3Y",
-			"amount" : 20
+			"sukl_id" : "00676",
+			"amount" : 2.0
 		}	
 	]
 }

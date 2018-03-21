@@ -135,8 +135,10 @@ class MedicinePresenter extends BasePresenter
 	public function actionEdit($id = NULL, $fromDetail = NULL)
 	{
 		$this->searchedMedicine = $tmp = $this->medicineFacade->getMedicine($id);
-		if (is_null($tmp))
-			return;
+		if (is_null($tmp)) {
+			$this->flashMessage("Zadaný liek nie je možné editovať pretože neexistuje.", "danger");
+			$this->redirect("Medicine:manage");
+		}
 
 		$this["editMedicineForm"]->setDefaults(
 			array(

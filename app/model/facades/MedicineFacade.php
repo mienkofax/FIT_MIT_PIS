@@ -202,7 +202,7 @@ class MedicineFacade extends BaseFacade
 			if (!isset($contribution->amount))
 				continue;
 
-			if (!is_int($contribution->amount))
+			if (!is_float($contribution->amount))
 				continue;
 
 			$medicine = $this->getMedicineByIdSukl($contribution->sukl_id);

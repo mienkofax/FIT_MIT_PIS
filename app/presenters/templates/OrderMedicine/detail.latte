@@ -13,7 +13,7 @@
 		{dump $order}
 
 		<p><strong>Číslo objednávky:</strong> {$order->id}</p>
-		<p><strong>Celková cena objednávky:</strong> {$order->totalPrice}</p>
+		<p><strong>Celková cena objednávky:</strong> {$order->totalPrice} €</p>
 		<p><strong>Objednávka vytvorená:</strong> {$order->createdTime|date: "d.m.Y - H:i:s"}</p>
 		{if $order->storno}<p><strong>Objednávka bola zrušená</strong></p>{/if}
 

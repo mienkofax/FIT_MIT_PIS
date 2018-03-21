@@ -41,7 +41,7 @@
 			</thread>
 			<tr n:foreach="$medicine->stockMedicines as $item">
 				<td>
-					{$item->supplier->name}
+					<a n:href="Supplier:detail $item->supplier->id">{$item->supplier->name}</a>
 				</td>
 				<td>
 					{$item->medicine->price} €

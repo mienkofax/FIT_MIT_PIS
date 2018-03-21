@@ -62,7 +62,7 @@ class StockMedicineFormFactory extends BaseFormFactory
 			->setAttribute("class", "form-control")
 			->setRequired("Musí byť zadaný počet liekov.");
 
-		$form->addText("price", "Nákupná cena lieku")
+		$form->addText("price", "Nákupná cena lieku (€)")
 			->addRule(Form::FLOAT, "Cena lieku musí byť číslo")
 			->setAttribute("class", "form-control")
 			->setRequired("Musí byť zadaná cena lieku.");
@@ -91,7 +91,7 @@ class StockMedicineFormFactory extends BaseFormFactory
 	{
 		$form = $this->createForm();
 
-		$form->addText("medicine_price", "Predajná cena lieku")
+		$form->addText("medicine_price", "Predajná cena lieku (€)")
 			->addRule(Form::FLOAT, "Predajná cena lieku musí byť číslo.")
 			->setAttribute("class", "form-control")
 			->setRequired()
@@ -109,7 +109,7 @@ class StockMedicineFormFactory extends BaseFormFactory
 	{
 		$form = $this->createForm();
 
-		$form->addText("medicine_price", "Predajná cena lieku")
+		$form->addText("medicine_price", "Predajná cena lieku (€)")
 			->addRule(Form::FLOAT, "Predajná cena lieku musí byť číslo.")
 			->setAttribute("class", "form-control")
 			->setRequired()
@@ -138,7 +138,7 @@ class StockMedicineFormFactory extends BaseFormFactory
 
 		$form->addSelect("supplier_id", "Dodávateľ")
 			->setAttribute("class", "form-control")
-			->setPrompt("Zoznam liekov");
+			->setPrompt("Zoznam dodávateľov");
 
 		$form->addText("count", "Počet liekov")
 			->addRule(Form::INTEGER, "Počeť liekov musí byť číslo.")

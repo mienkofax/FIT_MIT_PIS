@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!-- saved from url=(0067)https://www.fit.vutbr.cz/study/courses/PIS/private/cviceni/doc.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html">
+
+	<title>Projekt PIS</title>
+	<style type="text/css">
+		table { border-collapse: collapse; }
+		td, th { border: 1px solid black; padding: 0.3em 0.5em; text-align: left; }
+		dt { font-weight: bold; margin-top: 0.5em; }
+	</style>
+<style type="text/css"></style><style></style></head>
+<body>
+
+<!-- Zkontrolujte prosím nastavení kódování v hlavičce dokumentu
+	 podle použitého editoru -->
+
+<!-- Nahraďte prosím názvem tématu -->
+<h1>Lekáreň (34)</h1>
+
+<!-- Editujte jména a maily autorů a jejich činnost -->
+<dl>
+	<dt>Autoři</dt>
+	<dd>
+		<a href="mailto:xhalaj03@stud.fit.vutbr.cz">xhalaj03@stud.fit.vutbr.cz</a> -
+		Databázové entity a dotazy na jednotlivé dáta.
+	</dd>
+	<dd>
+		<a href="mailto:xnecas24@stud.fit.vutbr.cz">xnecas24@stud.fit.vutbr.cz</a> -
+		Operácie nad dátami a prepojenie frontendu a databázových entit.
+	</dd>
+	<dd>
+		<a href="mailto:xtisov00@stud.fit.vutbr.cz">xtisov00@stud.fit.vutbr.cz</a> -
+		Prezentačná vrstva zobrazenie formularov, rozloženie dat a ich výpis.
+	</dd>
+</dl>
+
+<!-- uživatelské účty -->
+<h2>Uživatelé systému pro testování</h2>
+<p>Uveďte prosím existující zástupce <strong>všech rolí uživatelů</strong>.</p>
+<table>
+<tbody><tr><th>Login</th><th>Heslo</th><th>Role</th></tr>
+<tr><td>manager@gmail.com</td><td>manager</td><td>Manaľér (Administrátor)</td></tr>
+<tr><td>predavac@gmail.com</td><td>predavac</td><td>Predavač</td></tr>
+</tbody></table>
+
+<h2>Postup instalace</h2>
+<p>
+<ul>
+	<li>Skopírovať obsah archívu do adresára a spustit composer pomocot <i>composer update --no-devel</i>.</li>
+	<li>Skopírovať obsah archívu do adresára, kde má byť umiestnený web.</li>
+	<li>Nastavenie práv ostatným (chmod -R a+rw tmp log) pre zápis do adresára <strong>temp</strong> a <strong>log</strong>.</li>
+	<li>Nastavenie prihlasovacích údajov pre databázu v súbore app/config/config.local.neon. Príklad:
+<pre>parameters:
+
+doctrine:
+	user: doctrine
+	password: heslo
+	dbname: doctrine_devel
+</pre>
+	</li>
+	<li>Požiadavky na server: PHP 5.6 alebo vyššie (plne kompatibilné s PHP 7.0), MySQL server.</li>
+	<li>Prihlásiť sa do databáze typicky pomocou PHPMyAdmin a importovať obsah súboru doctrine_example.sql.</li>
+</ul>
+</p>
+
+<!-- vyľadované knihovny třetích stran i s verzemi, které byly pouľity pro testování -->
+<h2>Vyľadované knihovny</h2>
+
+
+
+</body></html>
