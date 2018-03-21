@@ -12,7 +12,7 @@
 		<table class="table table-hover">
 			<thread>
 				<tr>
-					<th>
+					<th style="width: 24%;">
 						Liek
 						<a n:href="StockMedicine:manage medicine, asc">
 							<span class="glyphicon glyphicon-chevron-up sort-icon" aria-hidden="true"></span>
@@ -21,7 +21,7 @@
 							<span class="glyphicon glyphicon-chevron-down sort-icon" aria-hidden="true"></span>
 						</a>
 					</th>
-					<th>
+					<th style="width: 23%;">
 						Dodávateľ
 						<a n:href="StockMedicine:manage supplier, asc">
 							<span class="glyphicon glyphicon-chevron-up sort-icon" aria-hidden="true"></span>
@@ -57,10 +57,10 @@
 			<tr n:foreach="$stockItems as $item">
 				{dump $item->medicine}
 				<td>
-					{$item->medicine->name}
+					<a n:href="Medicine:detail $item->medicine->id">{$item->medicine->name}</a>
 				</td>
 				<td>
-					{$item->supplier->name}
+					<a n:href="Supplier:detail $item->supplier->id">{$item->supplier->name}</a>
 				</td>
 				<td>
 					{$item->medicine->price} €

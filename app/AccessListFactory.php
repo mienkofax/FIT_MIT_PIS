@@ -23,11 +23,11 @@ class AccessListFactory extends Permission
 		$this->addResource('User');
 
 		// Zoznam opravneni pre navstevnika
-		$this->allow('guest', 'Homepage', array('logout', 'default'));
+		$this->allow('guest', 'Homepage', array('logout', 'default', 'preview'));
 		$this->allow('guest', 'Sign', array('in'));
 
 		// opravnenia pre predavaca
-		$this->allow('seller', 'Medicine', array('manage', 'detail'));
+		$this->allow('seller', 'Medicine', array('manage', 'detail', 'search', 'searchResult'));
 		$this->allow('seller', 'OrderMedicine', array('manage', 'detail', 'create'));
 		$this->allow('seller', 'StockMedicine', array('manage', 'detail', 'addToStock'));
 		$this->allow('seller', 'Supplier', array('manage', 'detail'));

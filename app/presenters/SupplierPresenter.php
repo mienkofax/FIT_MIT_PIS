@@ -96,8 +96,10 @@ class SupplierPresenter extends BasePresenter
 	public function actionEdit($id = NULL)
 	{
 		$this->searchedSupplier = $tmp = $this->supplierFacade->getSupplier($id);
-		if (is_null($tmp))
-			return;
+		if (is_null($tmp)) {
+			$this->flashMessage("Zadaného dodávateľa nie je možné editovať pretože neexistuje.", "danger");
+			$this->redirect("Supplier:manage");
+		}
 
 		$this["editSupplierForm"]->setDefaults(
 			array(

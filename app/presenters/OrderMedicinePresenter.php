@@ -68,6 +68,12 @@ class OrderMedicinePresenter extends BasePresenter
 
 		$order = $this->orderFacade->getOrderMedicine($id);
 
+		if (is_null($order)) {
+			$this->flashMessage("Detail požadovanej objednávky neexistuje,
+				požadovaná objednávka neexistuje.", "danger");
+			$this->redirect("OrderMedicine:manage");
+		}
+
 		if (is_null($order))
 			return;
 

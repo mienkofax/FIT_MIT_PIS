@@ -23,7 +23,7 @@
 							<span class="glyphicon glyphicon-chevron-down sort-icon" aria-hidden="true"></span>
 						</a>
 					</th>
-					<th>
+					<th style="width: 24%;">
 						Názov
 						<a n:href="Medicine:manage name, asc">
 							<span class="glyphicon glyphicon-chevron-up sort-icon" aria-hidden="true"></span>
@@ -126,8 +126,7 @@
 							<span class="glyphicon glyphicon-chevron-down sort-icon" aria-hidden="true"></span>
 						</a>
 					</th>
-					<th>
-						Názov
+					<th style="width: 24%;">
 						<a n:href="Medicine:manage name, asc">
 							<span class="glyphicon glyphicon-chevron-up sort-icon" aria-hidden="true"></span>
 						</a>
@@ -170,18 +169,22 @@
 					{$medicine->price} €
 				</td>
 				<td class="text-center">
+					{if $manager}
 					<a class="action" n:href="Medicine:edit $medicine->id">
 						<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
 					</a>
 					<a class="action" n:href="removeMedicine! $medicine->id">
 						<span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>
 					</a>
+					{/if}
 				</td>
 			</tr>
 		</table>
 
-		<a class="btn btn-primary" n:href="Medicine:import">Importovať príspevky na lieky</a>
-		<a class="btn btn-primary btn-add" n:href="Medicine:create">Pridať liek</a>
+		{if $manager}
+			<a class="btn btn-primary" n:href="Medicine:import">Importovať príspevky na lieky</a>
+			<a class="btn btn-primary btn-add" n:href="Medicine:create">Pridať liek</a>
+		{/if}
 	</div>
 
 	<div id="sectionC" class="tab-pane fade in active">
@@ -199,7 +202,7 @@
 							<span class="glyphicon glyphicon-chevron-down sort-icon" aria-hidden="true"></span>
 						</a>
 					</th>
-					<th>
+					<th style="width: 24%;">
 						Názov
 						<a n:href="Medicine:manage name, asc">
 							<span class="glyphicon glyphicon-chevron-up sort-icon" aria-hidden="true"></span>
@@ -243,17 +246,21 @@
 					{$medicine->price} €
 				</td>
 				<td class="text-center">
+					{if $manager}
 					<a class="action" n:href="Medicine:edit $medicine->id">
 						<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
 					</a>
 					<a class="action" n:href="removeMedicine! $medicine->id">
 						<span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>
 					</a>
+					{/if}
 				</td>
 			</tr>
 		</table>
 
-		<a class="btn btn-primary" n:href="Medicine:import">Importovať príspevky na lieky</a>
-		<a class="btn btn-primary btn-add" n:href="Medicine:create">Pridať liek</a>
+		{if $manager}
+			<a class="btn btn-primary" n:href="Medicine:import">Importovať príspevky na lieky</a>
+			<a class="btn btn-primary btn-add" n:href="Medicine:create">Pridať liek</a>
+		{/if}
 	</div>
 </div>
