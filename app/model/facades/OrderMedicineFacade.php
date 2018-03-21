@@ -126,6 +126,18 @@ class OrderMedicineFacade extends BaseFacade
 		$this->entityManager->flush();
 	}
 
+	public function getLatestOrderId()
+	{
+		$query = new OrderMedicineListQuery();
+		$query->orderBy("id", "asc");
+
+		$last = NULL;
+		foreach ($this->entityManager->fetch($query)->toArray() as $it)
+			$last = $it->id;
+
+		return $last;
+	}
+
 	public function stornoOrder($id = NULL)
 	{
 		$order = NULL;

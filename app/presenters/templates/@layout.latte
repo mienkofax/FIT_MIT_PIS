@@ -63,6 +63,11 @@
 			<li><a n:href="User:manage">Správa užívateľov</a></li>
 			{/if}
 		</ul>
+
+		<ul class="menu menu-bg">
+			<li><a n:href="OrderMedicine:create">Predať liek</a></li>
+			<li><a n:href="Medicine:search">Vyhľadať liek</a></li>
+		</ul>
 	</div>
 
 	<!-- obsah modulov -->
@@ -90,7 +95,6 @@
 		});
 
 		if ($('.detail.nav-tabs').length) {
-			console.log("data");
 			data = localStorage.getItem(splittedData);
 			if (!data)
 				data = "#sectionA";
@@ -102,6 +106,39 @@
 		}
 
 		var json = jQuery.parseJSON($(".custom-data").text());
+
+		//
+		function setDefaultVal($ind) {
+			var $medicineID = $('#frm-createOrderForm-items-'+$ind+'-medicine_id').val();
+			var $supplierID = $('#frm-createOrderForm-items-'+$ind+'-supplier_id').val()
+
+			for (k = 0; k < json['medicines'].length; k++) {
+				if (json['medicines'][k].id != $medicineID)
+					continue;
+
+				for (i = 0; i < json['medicines'][k].suppliers.length; i++) {
+
+					if (json['medicines'][k].suppliers[i].id != $supplierID)
+						continue;
+
+					console.log(json['medicines'][k].suppliers[i].count);
+					$('#frm-createOrderForm-items-'+$ind+'-in_stock').val(
+						json['medicines'][k].suppliers[i].count);
+
+					$('#frm-createOrderForm-items-'+$ind+'-price').val($supplierID);
+
+					if (json['medicines'][k].type === 0)
+						$('#frm-createOrderForm-items-'+$ind+'-type').val("Bez predpisu");
+					else
+						$('#frm-createOrderForm-items-'+$ind+'-type').val("Na predpis");
+				}
+			}
+		}
+		$('select[id^=frm-createOrderForm-items-][id$=-medicine_id]').each( function () {
+			setDefaultVal($(this).attr("name").match(/\d+/)[0]);
+		});
+		//
+
 		$("select").click(function(e){
 			// index aktualneho selectu, generuje form replicator
 			var $itemIndex = $(this).attr("name").match(/\d+/)[0];
@@ -112,6 +149,10 @@
 			if ($(this).attr("name") == $medicineID) {
 				// vymazanie ceny lieku
 				$('#frm-createOrderForm-items-'+$itemIndex+'-price').val("");
+				// vymazanie typ lieku
+				$('#frm-createOrderForm-items-'+$itemIndex+'-type').val("");
+				// vymazanie typ lieku
+				$('#frm-createOrderForm-items-'+$itemIndex+'-in_stock').val("");
 
 				var $suppliers;
 				for (i = 0; i < json['medicines'].length; i++) {
@@ -125,12 +166,13 @@
 						$('#frm-createOrderForm-items-'+$itemIndex+'-type').val("Bez predpisu");
 					else
 						$('#frm-createOrderForm-items-'+$itemIndex+'-type').val("Na predpis");
+
+					$('#frm-createOrderForm-items-'+$itemIndex+'-in_stock').val(
+						json['medicines'][i].suppliers[0].count);
 				}
 
 				// vymazanie starych options
 				$('#frm-createOrderForm-items-'+$itemIndex+'-supplier_id').find('option:not(:first)').remove();
-				// vymazanie ceny
-				$('#frm-createOrderForm-items-'+$itemIndex+'-in_stock').val("");
 
 				// naplnenie novymi options
 				for (i = 0; i < $suppliers.length; i++) {
@@ -143,16 +185,28 @@
 					// pridanie noveho inputu
 					$('#frm-createOrderForm-items-'+$itemIndex+'-supplier_id').append($opt);
 				}
+
+				$('#frm-createOrderForm-items-'+$itemIndex+'-supplier_id').val("1");
 			}
 
 			if ($(this).attr("name") == $supplierID) {
+
+				if ($(this).val() == "") {
+					// vymazanie ceny lieku
+					$('#frm-createOrderForm-items-'+$itemIndex+'-price').val("");
+					// vymazanie typ lieku
+					$('#frm-createOrderForm-items-'+$itemIndex+'-type').val("");
+					// vymazanie typ lieku
+					$('#frm-createOrderForm-items-'+$itemIndex+'-in_stock').val("");
+				}
+
 				var $medID = $('#frm-createOrderForm-items-'+$itemIndex+'-medicine_id').val();
 
 				for (k = 0; k < json['medicines'].length; k++) {
 					if (json['medicines'][k].id != $medID)
 						continue;
 
-					for (i = 0; i < json['medicines'].length; i++) {
+					for (i = 0; i < json['medicines'][k].suppliers.length; i++) {
 						if (json['medicines'][k].suppliers[i].id == $(this).val())
 							$('#frm-createOrderForm-items-'+$itemIndex+'-in_stock').val(
 								json['medicines'][k].suppliers[i].count);

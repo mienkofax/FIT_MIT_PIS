@@ -64,7 +64,7 @@ class OrderMedicinePresenter extends BasePresenter
 	public function renderDetail($id)
 	{
 		if (is_null($id))
-			return;
+			$id = $this->orderFacade->getLatestOrderId();
 
 		$order = $this->orderFacade->getOrderMedicine($id);
 

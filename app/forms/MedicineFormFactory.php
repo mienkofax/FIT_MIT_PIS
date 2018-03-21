@@ -121,6 +121,22 @@ class MedicineFormFactory extends BaseFormFactory
 		return UtilForm::toBootstrapForm($form);
 	}
 
+	public function createSearchMedicineForm()
+	{
+		$form = new Form();
+
+		$form->addText("name", "Názov hľadaného lieku")
+			->setAttribute("placeholder", "Názov lieku")
+			->setRequired();
+
+		$form->addSubmit("search", "Vyhľadať liek")
+			->setAttribute("class", "btn-primary");
+
+		$form->onSuccess[] = array($this, "searchButtonSubmitted");
+
+		return UtilForm::toBootstrapForm($form);
+	}
+
 	/**
 	 * Operacia, ktora sa zavola po stlaceni tlacidla na vytvorenie
 	 * lieku.
@@ -174,5 +190,15 @@ class MedicineFormFactory extends BaseFormFactory
 			$form->addError("Vstupný súbor má nesprávny formát.");
 		}
 
+	}
+
+	public function searchButtonSubmitted(Form $form, ArrayHash $values)
+	{
+		if (empty($this->medicineFacade->getSearchedMedicine($values->name))) {
+			$form->addError("Daný liek sa nenašiel.");
+			return;
+		}
+
+		$form->getPresenter()->redirect("Medicine:searchResult", $values->name);
 	}
 }

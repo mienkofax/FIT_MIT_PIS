@@ -76,4 +76,14 @@ class MedicineListQuery extends QueryObject
 
         return $this;
     }
+
+	public function findByMedicineName($medicineName)
+	{
+		$this->filters[] =
+			function (QueryBuilder $qb) use ($medicineName) {
+				$qb->addOrderBy("m.name", "DESC")
+					->andWhere("m.name LIKE :medicine")
+					->setParameter("medicine", '%'.$medicineName.'%');
+		};
+	}
 }

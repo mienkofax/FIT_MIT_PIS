@@ -215,4 +215,12 @@ class MedicineFacade extends BaseFacade
 			$this->entityManager->flush();
 		}
 	}
+
+	public function getSearchedMedicine($name)
+	{
+		$query = new MedicineListQuery();
+		$query->findByMedicineName($name);
+
+		return $this->entityManager->fetch($query)->toArray();
+	}
 }

@@ -79,6 +79,17 @@ class MedicinePresenter extends BasePresenter
 		return $form;
 	}
 
+	public function createComponentSearchMedicineForm()
+	{
+		$form = $this->formFactory->createSearchMedicineForm();
+		$form->onSuccess[] = function (Form $form) {
+			$tmp = $form->getPresenter();
+			$tmp->redirect("Medicine:searchResult");
+		};
+
+		return $form;
+	}
+
 	/**
 	 * Nastavenie premennej do sablony.
 	 * @param $column string
@@ -111,6 +122,14 @@ class MedicinePresenter extends BasePresenter
 			return;
 
 		$this->template->medicine = $medicine;
+	}
+
+	public function renderSearchResult($name)
+	{
+		if (is_null($name))
+			return;
+
+		$this->template->medicines = $this->medicineFacade->getSearchedMedicine($name);
 	}
 
 	public function actionEdit($id = NULL, $fromDetail = NULL)
