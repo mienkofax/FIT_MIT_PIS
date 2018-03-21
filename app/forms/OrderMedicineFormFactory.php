@@ -149,7 +149,7 @@ class OrderMedicineFormFactory extends BaseFormFactory
 			$button->getForm()->onSuccess[] = function (Form $form) {
 				$tmp = $form->getPresenter();
 				$tmp->flashMessage("Objednávka bola úspešne vytvorená.");
-				$tmp->redirect("OrderMedicine:manage");
+				$tmp->redirect("OrderMedicine:detail");
 			};
 		}
 		catch (UniqueConstraintViolationException $ex) {
