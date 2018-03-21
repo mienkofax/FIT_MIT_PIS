@@ -1,0 +1,67 @@
+{define title}Výsledky vyhľadania lieku{/define}
+{define description}Výsledky vyhľadania lieku.{/define}
+{block content}
+<ul class="list nav nav-tabs">
+	<li><a data-toggle="tab" href="#sectionA">Výsledky vyhľadania lieku</a></li>
+</ul>
+
+<div class="tab-content content">
+	<div id="sectionA" class="tab-pane fade in active">
+		<h2>Výsledky vyhľadania lieku</h2>
+
+		<table class="table table-hover">
+			<thread>
+				<tr>
+					<th>
+						Kód
+					</th>
+					<th>
+						Názov
+					</th>
+					<th>
+						Typ
+					</th>
+					<th>
+						Príspevok
+					</th>
+					<th>
+						Predajná cena
+					</th>
+					<th></th>
+				</tr>
+			</thread>
+			<tr n:foreach="$medicines as $medicine">
+				<td>
+					{$medicine->idSukl}
+				</td>
+				<td>
+					<a n:href="Medicine:detail $medicine->id">{$medicine->name}</a>
+				</td>
+				<td>
+					{if $medicine->type == 0}
+						bez predpisu
+					{else}
+						na predpis
+					{/if}
+				</td>
+				<td>
+					{$medicine->contribution} €
+				</td>
+				<td>
+					{$medicine->price} €
+				</td>
+				<td class="text-center">
+					{if $manager}
+						<a class="action" n:href="Medicine:edit $medicine->id">
+							<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+						</a>
+						<a class="action" n:href="removeMedicine! $medicine->id">
+							<span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>
+						</a>
+					{/if}
+				</td>
+			</tr>
+		</table>
+
+	</div>
+</div>
