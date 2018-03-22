@@ -153,6 +153,9 @@
 							<span class="glyphicon glyphicon-chevron-down sort-icon" aria-hidden="true"></span>
 						</a>
 					</th>
+					<th>
+						Počet
+					</th>
 					<th></th>
 				</tr>
 			</thread>
@@ -168,6 +171,13 @@
 				</td>
 				<td>
 					{$medicine->price} €
+				</td>
+				<td>
+					{var $count = 0}
+					{foreach $medicine->stockMedicines as $i}
+						{php $count = $count + $i->count}
+					{/foreach}
+					{$count}
 				</td>
 				<td class="text-center">
 					{if $manager}
@@ -230,6 +240,9 @@
 							<span class="glyphicon glyphicon-chevron-down sort-icon" aria-hidden="true"></span>
 						</a>
 					</th>
+					<th>
+						Počet
+					</th>
 					<th></th>
 				</tr>
 			</thread>
@@ -245,6 +258,13 @@
 				</td>
 				<td>
 					{$medicine->price} €
+				</td>
+				<td>
+					{var $count = 0}
+					{foreach $medicine->stockMedicines as $i}
+						{php $count = $count + $i->count}
+					{/foreach}
+					{$count}
 				</td>
 				<td class="text-center">
 					{if $manager}
