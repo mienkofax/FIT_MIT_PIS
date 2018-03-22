@@ -85,7 +85,8 @@ class OrderMedicineFormFactory extends BaseFormFactory
 					->setDisabled();
 
 				$item->addText("count", "Počet")
-					->addRule(Form::NUMERIC, "Počet liekov musí byť číslo.")
+					->addRule(Form::NUMERIC, "Počet liekov musí byť kladné číslo.")
+					->addRule(Form::MIN, "Počet liekov musí byť kladné číslo.", 1)
 					->setRequired();
 
 				$item->addSubmit("remove", "Odstrániť liek z objednávky")
@@ -114,14 +115,14 @@ class OrderMedicineFormFactory extends BaseFormFactory
 		$form = new Form;
 
 		$form->addText("dateFrom", "Dátum od")
-			->setRequired("Datum je povinný údaj!")
+			->setRequired("Dátum je povinný údaj.")
 			->setAttribute("class", "dtpicker form-control")
 			->setAttribute("placeholder", "dd.mm.rrrr")
 			->addRule($form::PATTERN, "Datum musí být ve formátu dd.mm.rrrr",
 				"(0[1-9]|[12][0-9]|3[01])\.(0[1-9]|1[012])\.(19|20)\d\d");
 
 		$form->addText("dateTo", "Dátum do")
-			->setRequired("Datum je povinný údaj!")
+			->setRequired("Dátum je povinný údaj.")
 			->setAttribute("class", "dtpicker form-control")
 			->setAttribute("placeholder", "dd.mm.rrrr")
 			->addRule($form::PATTERN, "Datum musí být ve formátu dd.mm.rrrr",

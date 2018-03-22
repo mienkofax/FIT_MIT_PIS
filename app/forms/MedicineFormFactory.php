@@ -57,12 +57,16 @@ class MedicineFormFactory extends BaseFormFactory
 
 		$form->addText("price", "Predajná cena lieku (€)")
 			->addRule(Form::FLOAT, "Cena musí byť číslo.")
+			->addRule(Form::MIN, "Cena musí kladné číslo.", 0.0)
 			->setRequired("Musí byť zadaná predajná cena lieku.");
 
 		$form->addSelect("type", "Typ lieku", self::TYPE_MEDICINE)
 			->setPrompt("Typ lieku")
 			->setAttribute('class', 'form-control')
 			->setRequired("Musí byť zadaný typ lieku.");
+
+		$form->addText("id_sukl", "Kód lieku")
+			->setRequired("Musí byť zadaný kod lieku.");
 
 		return UtilForm::toBootstrapForm($form);
 	}
@@ -75,9 +79,6 @@ class MedicineFormFactory extends BaseFormFactory
 	{
 		$form = $this->createForm();
 
-		$form->addText("id_sukl", "Kód lieku")
-			->setRequired("Musí byť zadaný kod lieku.");
-
 		$form->addSubmit("create", "Vložiť liek")
 			->setAttribute('class', 'btn-primary');
 
@@ -89,10 +90,6 @@ class MedicineFormFactory extends BaseFormFactory
 	public function createEditMedicineForm()
 	{
 		$form = $this->createForm();
-
-		$form->addText("id_sukl", "Kód lieku")
-			->setDisabled()
-			->setRequired();
 
 		$form->addSubmit("create", "Editovať liek")
 			->setAttribute('class', 'btn-primary');
@@ -127,7 +124,7 @@ class MedicineFormFactory extends BaseFormFactory
 
 		$form->addText("name", "Názov hľadaného lieku")
 			->setAttribute("placeholder", "Názov lieku")
-			->setRequired();
+			->setRequired("Musí byť zadaný názov lieku, ktorý sa má vyhľadať.");
 
 		$form->addSubmit("search", "Vyhľadať liek")
 			->setAttribute("class", "btn-primary");
@@ -184,7 +181,7 @@ class MedicineFormFactory extends BaseFormFactory
 			$form->addError("Problém so vstupným súborom.");
 		}
 		catch (Nette\Utils\JsonException $ex) {
-			$form->addError("Vstupný súbor nie je JSON.");
+			$form->addError("Vstupný súbor nie je v JSON formáte.");
 		}
 		catch (\InvalidArgumentException $ex) {
 			$form->addError("Vstupný súbor má nesprávny formát.");

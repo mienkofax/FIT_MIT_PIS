@@ -168,6 +168,7 @@ class MedicineFacade extends BaseFacade
 		$medicine->description = $data->description;
 		$medicine->type = $data->type;
 		$medicine->price = $data->price;
+		$medicine->idSukl = $data->id_sukl;
 
 		$this->entityManager->flush();
 	}
