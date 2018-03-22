@@ -23,6 +23,11 @@ database:
 		lazy: yes
 
 
+forms:
+	messages:
+		REQUIRED: 'Povinné pole.'
+
+
 services:
 	- App\Model\Facades\MedicineFacade
 	- App\Model\Facades\OrderMedicineFacade

@@ -207,8 +207,17 @@
 						continue;
 
 					for (i = 0; i < json['medicines'][k].suppliers.length; i++) {
-						if (json['medicines'][k].suppliers[i].id == $(this).val())
-							$('#frm-createOrderForm-items-'+$itemIndex+'-in_stock').val(
+						if (json['medicines'][k].suppliers[i].id != $(this).val())
+							continue;
+
+						$('#frm-createOrderForm-items-'+$itemIndex+'-price').val(json['medicines'][k].price);
+
+						if (json['medicines'][k].type === 0)
+							$('#frm-createOrderForm-items-'+$itemIndex+'-type').val("Bez predpisu");
+						else
+							$('#frm-createOrderForm-items-'+$itemIndex+'-type').val("Na predpis");
+
+						$('#frm-createOrderForm-items-'+$itemIndex+'-in_stock').val(
 								json['medicines'][k].suppliers[i].count);
 					}
 				}

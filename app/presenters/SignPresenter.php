@@ -27,7 +27,7 @@ class SignPresenter extends BasePresenter
 		$form = $this->formFactory->createSignIn();
 		$form->onSuccess[] = function (Form $form) {
 			$tmp = $form ->getPresenter();
-			$tmp->flashMessage("Užívateľ bol úspešene prihlásený.");
+			$tmp->flashMessage("Užívateľ bol úspešne prihlásený.");
 			$tmp->redirect("this");
 		};
 

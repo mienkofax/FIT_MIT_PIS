@@ -85,6 +85,7 @@ class OrderMedicineFormFactory extends BaseFormFactory
 					->setDisabled();
 
 				$item->addText("count", "Počet")
+					->addRule(Form::NUMERIC, "Počet liekov musí byť číslo.")
 					->setRequired();
 
 				$item->addSubmit("remove", "Odstrániť liek z objednávky")
@@ -142,6 +143,11 @@ class OrderMedicineFormFactory extends BaseFormFactory
 	 */
 	public function createOrderSubmitted(SubmitButton $button)
 	{
+		if (empty($button->getForm()->getValues(true)['items'])) {
+			$button->getForm()->addError("Objednávka musí obsahovať aspoň jednu položku.");
+			return;
+		}
+
 		try {
 			$user = $this->userFacade->getUser($this->user->id);
 			$this->orderFacade->createOrder($button->getForm()->getValues(true), $user);

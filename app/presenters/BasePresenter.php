@@ -31,7 +31,7 @@ abstract class BasePresenter extends Presenter
 		if (!$this->getUser()->isAllowed($this->getName(), $this->getAction())) {
 			$this->flashMessage('Daná sekcia alebo akcia je dostupná len po prihlásení.
 				Ak ste prihlásený požiadajte administrátora o pridelenie
-				oprávnení pre túto sekciu.');
+				oprávnení pre túto sekciu.', "danger");
 
 			$this->redirect('Homepage:default');
 		}
