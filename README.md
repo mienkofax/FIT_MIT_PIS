@@ -1,5 +1,11 @@
 # PIS project setup
 
+## Authors
+
+ * [Peter Tisovčík](https://github.com/mienkofax)
+ * [Klára Nečasová](https://github.com/klarksonnek)
+ * [Jozef Halaj](https://github.com/jozhalaj)
+
 ## About project
 
  * [Lekáreň (34) - zadanie](https://wis.fit.vutbr.cz/FIT/st/cwk.php?title=AIS:Projects-topics&csid=648413&id=11321#L%C3%A9k%C3%A1rna)
